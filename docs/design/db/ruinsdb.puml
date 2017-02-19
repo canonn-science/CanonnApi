@@ -1,133 +1,161 @@
 @startuml
-object Layout
-Layout : Id = 1,2,3,...
-Layout : Name = Alpha/Beta/Gamma
-Layout : Version = 1/2/3/4/5
-
-object Cluster
-Cluster : Id = 1,2,3...
-Cluster : LayoutId
-Cluster : Name = A,B,C...
-Cluster : ObeliskCount
-
-Cluster "1..n" -- "1" Layout
-
-object Obelisk
-Obelisk : Id = 1,2,3...
-Obelisk : LayoutId
-Obelisk : ClusterId
-Obelisk : Number = 1,2,3...
-Obelisk : Data = DataId
-
-Obelisk "n" -- "1" Layout
-Obelisk "n" -- "1" Cluster
-
-object ActiveObelisk
-ActiveObelisk : ObeliskId
-ActiveObelisk : LayoutId
-ActiveObelisk : DataId
-ActiveObelisk : IsPlusOnly = bool
-ActiveObelisk : UnlockReclictId = (null)
-
-object BrokenObelisk
-BrokenObelisk : LayoutId
-BrokenObelisk : ObeliskId
-
-Layout "1" -- "0..n" BrokenObelisk
-Obelisk "0..n" -- "0..1" BrokenObelisk
-
 object Relict
-Relict : Id = 1,2,3...
-Relict : Name = Orb,Urn,...
+Relict : Id = int, autoinc
+Relict : Name = string (Orb,Urn,...)
 
-ActiveObelisk "0..n" -- "0..1" Relict
 
 object DataCategory
-DataCategory : Id = 1,2,3...
+DataCategory : Id = int, autoinc
 DataCategory : UnlockRelictId
-DataCategory : Name = Biology,Culture,Tech...
+DataCategory : Name = string (Biology,Culture...)
 
-Relict "1" -- "0..1" DataCategory
+DataCategory "0..1" -- "1" Relict
+
 
 object Data
-Data : Id = 1,2,3...
-Data : CategoryId
-Data : Number = 1,2,3...
-Data : Text = "Once upon a time..."
+Data : Id = int, autoinc
+Data : DataCategoryId
+Data : Number = int (1,2...)
+Data : Text = string ("Once upon a time...")
 
-Obelisk "1" -- "0..n" ActiveObelisk
-Layout "1" -- "0..n" ActiveObelisk
-Data "1" -- "1..n" ActiveObelisk
 Data "1..n" -- "1" DataCategory
 
+
+object RuinType
+RuinType : Id = int, autoinc
+RuinType : Name = string (Alpha, Beta..)
+
+
+object RuinLayout
+RuinLayout : Id = int, autoinc
+RuinLayout : RuinTypeId
+RuinLayout : Name = int (1, 2...)
+
+RuinLayout "1..n" -- "1" RuinType
+
+
+object RuinVariant
+RuinVariant : Id = int, autoinc
+RuinVariant : RuinLayoutId
+RuinVariant : Name = string (a,b...)
+
+RuinVariant "1..n" -- "1" RuinLayout
+
+
+object ObeliskGroup
+ObeliskGroup : Id = int, autoinc
+ObeliskGroup : RuinLayoutId
+ObeliskGroup : Name = string (A,B...)
+ObeliskGroup : ObeliskCount = int
+
+ObeliskGroup "1..n" -- "1" RuinLayout
+
+
+object Obelisk
+Obelisk : Id = int, autoinc
+Obelisk : RuinLayoutId
+Obelisk : ObeliskGroupId
+Obelisk : DataId
+Obelisk : UnlockRelictId = (nullable)
+Obelisk : Number = int (1,2...)
+
+
+Obelisk "n" -- "1" RuinLayout
+Obelisk "n" -- "1" ObeliskGroup
+Obelisk "n" -- "1" Data
+Obelisk "0..n" -- "0..1" Relict
+
+
+object ActiveObelisk
+ActiveObelisk : Id = int, autoinc
+ActiveObelisk : ObeliskId
+ActiveObelisk : RuinVariantId
+
+ActiveObelisk "0..n" -- "1" Obelisk
+ActiveObelisk "0..n" -- "1" RuinVariant
+
+
+object BrokenObelisk
+BrokenObelisk : RuinLayoutId
+BrokenObelisk : ObeliskId
+
+BrokenObelisk  "0..n" -- "1" RuinLayout
+BrokenObelisk "0..1" -- "0..n" Obelisk
+
+
 object System
-System : Id = 1,2,3...
-System : Name = Sol
+System : Id = int, autoinc
+System : Name = string (Sol)
 System : EdsmId = id from EDSM
 System : EddbId = id from EDDB
 
+
 object Body
-Body : Id = 1,2,3...
+Body : Id = int, autoinc
 Body : SystemId
-Body : Name = CD1, Earth...
-Body : EdsmId = id from EDSM
-Body : EddbId = id from EEDB
+Body : Name = string (CD1, Earth...)
+Body : EdsmId = int (id from EDSM)
+Body : EddbId = int (id from EEDB)
 
 Body "1..n" -- "1" System
 
+
 object Site
+Site : Id = int, autoinc
 Site : SystemId
 Site : BodyId
-Site : LayoutId
-Site : IsPlus = nullable bool
+Site : RuinvariantId
 Site : Latitude
 Site : Longitude
 
 Site "1..n" -- "1" System
 Site "1..n" -- "1" Body
-Site "1..n" -- "1" Layout
+Site "1..n" -- "1" RuinVariant
 
-object ObeliskPlacement
-ObeliskPlacement : LayoutId
-ObeliskPlacement : ObeliskId
-ObeliskPlacement : positionX = 1.3
-ObeliskPlacement : positionY = 4.5
-ObeliskPlacement : bearing = 180
-
-ObeliskPlacement "1..n" -- "1" Layout
-ObeliskPlacement "1..n" -- "1" Obelisk
-
-object RelictPlacement
-RelictPlacement : LayoutId
-RelictPlacement : RelictId
-RelictPlacement : positionX = 1.3
-RelictPlacement : positionY = 4.5
-
-RelictPlacement "0..n" -- "1" Layout
-RelictPlacement "1..n" -- "1" Relict
 
 object SiteDiscovery
 SiteDiscovery : SiteId
 SiteDiscovery : CommanderName
 SiteDiscovery : Date
 
-Site "1" -- "0..1" SiteDiscovery
+SiteDiscovery "0..1" -- "1" Site
+
 
 object SiteConfirmation
 SiteConfirmation : SiteId
-SiteConfirmation : UserName = Cmdr Name
+SiteConfirmation : UserName = string (Cmdr Arcanonn)
 SiteConfirmation : Date = DateTime
 SiteConfirmation : Confirmed = bool
-SiteConfirmation : PlusConfirmed = bool
 
 SiteConfirmation "0..n" -- "1" Site
 
+
 object ActiveObeliskConfirmation
-ActiveObeliskConfirmation : ObeliskId
-ActiveObeliskConfirmation : UserName = Cmdr Name
+ActiveObeliskConfirmation : ActiveObeliskId
+ActiveObeliskConfirmation : UserName = string (Cmdr Arcanonn)
 ActiveObeliskConfirmation : Date = DateTime
 ActiveObeliskConfirmation : Confirmed = bool
-ActiveObeliskConfirmation : PlusOnlyConfirmed = bool
 
 ActiveObeliskConfirmation "0..n" - "1" ActiveObelisk
+
+
+object ObeliskPlacement
+ObeliskPlacement : RuinLayoutId
+ObeliskPlacement : ObeliskId
+ObeliskPlacement : positionX = 1.3
+ObeliskPlacement : positionY = 4.5
+ObeliskPlacement : bearing = 180
+
+ObeliskPlacement "1..n" -- "1" RuinLayout
+ObeliskPlacement "1..n" -- "1" Obelisk
+
+
+object RelictPlacement
+RelictPlacement : RuinLayoutId
+RelictPlacement : RelictId
+RelictPlacement : positionX = 1.3
+RelictPlacement : positionY = 4.5
+
+RelictPlacement "0..n" -- "1" RuinLayout
+RelictPlacement "1..n" -- "1" Relict
 @enduml
