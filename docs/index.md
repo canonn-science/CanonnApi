@@ -18,6 +18,8 @@ It will have two modes:
 1. Readonly website, presenting public data from the database
 2. Admin-interface after login, to alter data in the system
 
+See [RuinsApp](../RuinsApp/README.md) for details.
+
 ## Auth
 
 Current idea with authorization is to use Google Firebase for login.
