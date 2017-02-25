@@ -1,0 +1,93 @@
+{
+    "configuration": [
+        {
+            "groupsPassthrough": false,
+            "groupsInToken": true,
+            "persistGroups": false,
+            "persistRoles": false,
+            "persistPermissions": false,
+            "permissionsPassthrough": false,
+            "permissionsInToken": true,
+            "rolesInToken": true,
+            "rolesPassthrough": false,
+            "_id": "v1"
+        }
+    ],
+    "roles": [
+        {
+            "_id": "a105f1ee-7794-4e39-b7b0-918feef3af20",
+            "applicationType": "client",
+            "applicationId": "XXX",
+            "description": "Adds data for Canonn",
+            "name": "DataAdder",
+            "permissions": [
+                "5de00b4e-fd4b-4894-b910-c986a6b7a227",
+                "89b6b073-1ae8-406e-9362-fb5fb5980083"
+            ],
+            "users": []
+        },
+        {
+            "_id": "e74d4917-cc15-47a5-a180-37af40673ea0",
+            "applicationType": "client",
+            "applicationId": "XXX",
+            "description": "Verifies data for Canonn",
+            "name": "DataVerifier",
+            "permissions": [
+                "52b1cf16-44e1-4554-8a68-25a5ff7888e7",
+                "17292eb8-061b-4917-8473-b5fa1679dae3"
+            ],
+            "users": []
+        }
+    ],
+    "permissions": [
+        {
+            "applicationType": "client",
+            "applicationId": "XXX",
+            "description": "May add Guardians CODEX data",
+            "name": "add:codex",
+            "_id": "5de00b4e-fd4b-4894-b910-c986a6b7a227"
+        },
+        {
+            "applicationType": "client",
+            "applicationId": "XXX",
+            "description": "May add obelisk data",
+            "name": "add:obelisks",
+            "_id": "89b6b073-1ae8-406e-9362-fb5fb5980083"
+        },
+        {
+            "applicationType": "client",
+            "applicationId": "XXX",
+            "description": "May verify obelisk data",
+            "name": "verify:obelisk",
+            "_id": "52b1cf16-44e1-4554-8a68-25a5ff7888e7"
+        },
+        {
+            "applicationType": "client",
+            "applicationId": "XXX",
+            "description": "May verify Guardians CODEX data",
+            "name": "verify:codex",
+            "_id": "17292eb8-061b-4917-8473-b5fa1679dae3"
+        }
+    ],
+    "groups": [
+        {
+            "_id": "9008db50-6a7d-4ee5-a73b-c2e45f0223fb",
+            "name": "CanonnAdmins",
+            "description": "Administrators of Canonn",
+            "members": [],
+            "roles": [
+                "a105f1ee-7794-4e39-b7b0-918feef3af20",
+                "e74d4917-cc15-47a5-a180-37af40673ea0"
+            ]
+        },
+        {
+            "_id": "945a2530-5723-4ca1-ba40-92ce235d4b86",
+            "name": "CanonnVerifiers",
+            "description": "Verify data for Canonn",
+            "roles": [
+                "e74d4917-cc15-47a5-a180-37af40673ea0"
+            ],
+            "members": []
+        }
+    ]
+}

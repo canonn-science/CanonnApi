@@ -14,6 +14,7 @@ namespace RuinsApi
 				 .UseIISIntegration()
 				 .UseStartup<Startup>()
 				 .UseApplicationInsights()
+				 .UseUrls("http://localhost:52685")
 				 .Build();
 
 			host.Run();

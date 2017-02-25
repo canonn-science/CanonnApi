@@ -1,6 +1,6 @@
 <h1>
   {{title}}
 </h1>
-<button class="btn btn-primary btn-margin" (click)="auth.login()" *ngIf="!auth.authenticated()">Log In</button>
-<button class="btn btn-primary btn-margin" (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>
+<button class="btn btn-primary btn-margin" (click)="auth.login()" *ngIf="auth.isReady() && !auth.authenticated()">Log In</button>
+<button class="btn btn-primary btn-margin" (click)="auth.logout()" *ngIf="auth.isReady() && auth.authenticated()">Log Out</button>
 <router-outlet></router-outlet>
