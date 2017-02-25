@@ -5,7 +5,7 @@ import {Http, HttpModule, RequestOptions} from '@angular/http';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
-import {Logger, Options} from 'angular2-logger/core';
+import {Logger, Options as LoggerOptions} from 'angular2-logger/app/core/logger';
 import {environment} from '../environments/environment';
 
 // currently angular2-jwt AUTH_PROVIDERS don't work, so use this workaround:
@@ -32,7 +32,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 			useFactory: authHttpServiceFactory,
 			deps: [ Http, RequestOptions ]
 		},
-		{ provide: Options, useValue: { level: environment.initialLogLevel } },
+		{ provide: LoggerOptions, useValue: { level: environment.initialLogLevel } },
 		Logger,
 	],
 	bootstrap: [AppComponent]
