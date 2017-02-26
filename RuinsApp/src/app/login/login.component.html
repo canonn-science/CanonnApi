@@ -5,7 +5,7 @@
 		<button class="btn btn-primary btn-margin" (click)="auth.login()">Log In</button>
 	</div>
 	<div *ngIf="auth.authenticated()">
-		Currently logged in.
+		Currently logged in. {{auth.userInformation?.name}}
 		<button class="btn btn-primary btn-margin" (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>
 	</div>
 </div>
