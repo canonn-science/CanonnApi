@@ -1,24 +1,28 @@
 @startuml
-object Relict
-Relict : Id = int, autoinc
-Relict : Name = string (Orb,Urn,...)
+object relict
+relict : id = INT, NOT NULL, AUTO_INCREMENT
+relict : name = TINYTEXT, NOT NULL
+relict : created = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP
+relict : updated = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP, ON UPDATE CURRENT_TIMESTAMP
 
+object codex_category
+codex_category : id = INT, NOT NULL, AUTO_INCREMENT
+codex_category : primary_relict = INT, NOT NULL, FK on relict.id
+codex_category : name = VARCHAR 50, NOT NULL
+codex_category : created = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP
+codex_category : updated = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP, ON UPDATE CURRENT_TIMESTAMP
 
-object DataCategory
-DataCategory : Id = int, autoinc
-DataCategory : UnlockRelictId
-DataCategory : Name = string (Biology,Culture...)
+codex_category "0..1" -- "1" relict
 
-DataCategory "0..1" -- "1" Relict
+object codex_data
+codex_data : id = INT, NOT NULL, AUTO_INCREMENT
+codex_data : category_id, INT, NOT NULL, FK on codex_category
+codex_data : entry_number = INT, NOT NULL
+codex_data : text = TEXT, NOT NULL
+codex_data : created = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP
+codex_data : updated = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP, ON UPDATE CURRENT_TIMESTAMP
 
-
-object Data
-Data : Id = int, autoinc
-Data : DataCategoryId
-Data : Number = int (1,2...)
-Data : Text = string ("Once upon a time...")
-
-Data "1..n" -- "1" DataCategory
+codex_data "1..n" -- "1" codex_category
 
 
 object RuinType
@@ -63,7 +67,7 @@ Obelisk : Number = int (1,2...)
 Obelisk "n" -- "1" RuinLayout
 Obelisk "n" -- "1" ObeliskGroup
 Obelisk "n" -- "1" Data
-Obelisk "0..n" -- "0..1" Relict
+Obelisk "0..n" -- "0..1" relict
 
 
 object ActiveObelisk
@@ -157,5 +161,5 @@ RelictPlacement : positionX = 1.3
 RelictPlacement : positionY = 4.5
 
 RelictPlacement "0..n" -- "1" RuinLayout
-RelictPlacement "1..n" -- "1" Relict
+RelictPlacement "1..n" -- "1" relict
 @enduml

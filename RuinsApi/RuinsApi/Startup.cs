@@ -4,11 +4,13 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RuinsApi.Authorization;
+using RuinsApi.DatabaseModels;
 using RuinsApi.Models;
 using RuinsApi.Services;
 using Serilog;
@@ -28,6 +30,7 @@ namespace RuinsApi
 				 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
 				 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
 				 .AddJsonFile("appsettings.Secrets.json", optional: true)
+				 .AddJsonFile("appsettings.Secrets.prod.json", optional: true) // for the servers, so that copying the dev secrets does not destroy prod config ;-)
 				 .AddEnvironmentVariables();
 
 			Configuration = builder.Build();
@@ -55,6 +58,11 @@ namespace RuinsApi
 			services.AddLogging();
 			services.AddMemoryCache();
 			services.AddAuthorization(authorizationOptions => AddPolicies(authorizationOptions));
+			services.AddDbContext<RuinsContext>(ruinsDbOptions =>
+			{
+				var connectionString = Configuration.GetSection("connectionStrings:ruinsDb").Value;
+				ruinsDbOptions.UseMySql(connectionString);
+			});
 
 			services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 			services.Configure<SecretConfiguration>(Configuration.GetSection("clientSecrets"));
