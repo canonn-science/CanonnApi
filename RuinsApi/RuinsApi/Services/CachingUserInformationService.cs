@@ -27,7 +27,7 @@ namespace RuinsApi.Services
 			{
 				userInformation = await base.GetFullUserInformation(idToken);
 
-				var tokenExpiry = await IdTokenProvider.GetTokenExpiry();
+				var tokenExpiry = IdTokenProvider.GetTokenExpiry(idToken);
 				var options = new MemoryCacheEntryOptions()
 					.SetAbsoluteExpiration(tokenExpiry);
 

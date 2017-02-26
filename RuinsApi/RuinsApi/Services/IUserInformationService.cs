@@ -7,6 +7,6 @@ namespace RuinsApi.Services
 	public interface IUserInformationService
 	{
 		Task<UserInformationDto> GetFullUserInformation();
-		Task<IEnumerable<string>> GetUserPermission();
+		Task<IEnumerable<string>> GetUserPermissions();
 	}
 }

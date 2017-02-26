@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RuinsApi.Controllers
@@ -27,6 +28,7 @@ namespace RuinsApi.Controllers
 		}
 
 		// PUT api/values/5
+		[Authorize(Policy = "add:obelisk")]
 		[HttpPut("{id}")]
 		public void Put(int id, [FromBody]string value)
 		{

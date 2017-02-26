@@ -28,7 +28,7 @@ namespace RuinsApi.Services
 
 		public virtual async Task<UserInformationDto> GetFullUserInformation()
 		{
-			string idToken = await IdTokenProvider.GetIdToken();
+			string idToken = IdTokenProvider.GetIdToken();
 			return await GetFullUserInformation(idToken);
 		}
 
@@ -42,7 +42,7 @@ namespace RuinsApi.Services
 			}
 		}
 
-		public async Task<IEnumerable<string>> GetUserPermission()
+		public async Task<IEnumerable<string>> GetUserPermissions()
 		{
 			var fullInfo = await GetFullUserInformation();
 			return fullInfo.Permissions;

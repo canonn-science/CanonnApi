@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RuinsApi.Authorization;
 using RuinsApi.Services;
 
 namespace RuinsApi.Controllers
@@ -29,7 +30,7 @@ namespace RuinsApi.Controllers
 		[HttpGet("permissions")]
 		public async Task<JsonResult> GetPermissions()
 		{
-			return Json(await _userInformationService.GetUserPermission());
+			return Json(await _userInformationService.GetUserPermissions());
 		}
 	}
 }

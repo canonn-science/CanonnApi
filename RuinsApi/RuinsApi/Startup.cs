@@ -1,12 +1,14 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RuinsApi.Authorization;
 using RuinsApi.Models;
 using RuinsApi.Services;
 using Serilog;
@@ -52,7 +54,9 @@ namespace RuinsApi
 			services.AddMvc();
 			services.AddLogging();
 			services.AddMemoryCache();
+			services.AddAuthorization(authorizationOptions => AddPolicies(authorizationOptions));
 
+			services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 			services.Configure<SecretConfiguration>(Configuration.GetSection("clientSecrets"));
 
 			var builder = new ContainerBuilder();
@@ -67,6 +71,23 @@ namespace RuinsApi
 
 			// Create the IServiceProvider based on the container
 			return new AutofacServiceProvider(ApplicationContainer);
+		}
+
+		private void AddPolicies(AuthorizationOptions authorizationOptions)
+		{
+			var permissions = new[]
+			{
+				"add:obelisk",
+				"verify:obelisk",
+
+				"add:codex",
+				"verify:codex",
+			};
+
+			foreach (var permission in permissions)
+			{
+				authorizationOptions.AddPolicy(permission, policyBuilder => policyBuilder.AddRequirements(new HasPermissionRequirement(permission)));
+			}
 		}
 
 		private void RegisterAutofacDependencies(ContainerBuilder builder)
@@ -88,7 +109,7 @@ namespace RuinsApi
 			}
 
 			SecretConfiguration secretConfiguration = settings.Value;
-			app.UseJwtBearerAuthentication(new JwtBearerOptions
+			app.UseJwtBearerAuthentication(new JwtBearerOptions()
 			{
 				Audience = secretConfiguration.ClientId,
 				Authority = $"https://{secretConfiguration.ClientDomain}/",

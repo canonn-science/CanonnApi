@@ -1,7 +1,6 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace RuinsApi.Services
@@ -18,25 +17,46 @@ namespace RuinsApi.Services
 			_contextAccessor = contextAccessor;
 		}
 
-		public Task<string> GetIdToken()
+		public string GetIdToken()
 		{
-			return Task.Run(() => _contextAccessor.HttpContext.Request
+			// TODO: make this a bit more safe. When no auth header is there, this fails hard
+			return _contextAccessor.HttpContext.Request
 				.Headers["Authorization"].First()
-				.Replace("Bearer ", String.Empty)
-			);
+				.Replace("Bearer ", String.Empty);
 		}
 
-		public async Task<JwtSecurityToken> GetParsedToken()
+		public JwtSecurityToken GetParsedToken()
 		{
-			// parse token to know how long we may cache this information
-			var token = await GetIdToken();
-			return new JwtSecurityToken(token);
+			return GetParsedToken(GetIdToken());
 		}
 
-		public async Task<DateTime> GetTokenExpiry()
+		public JwtSecurityToken GetParsedToken(string idToken)
 		{
-			var token = await GetParsedToken();
-			return token.ValidTo;
+			if (String.IsNullOrEmpty(idToken))
+				throw new ArgumentNullException(nameof(idToken));
+
+			return new JwtSecurityToken(idToken);
+		}
+
+		public DateTime GetTokenExpiry()
+		{
+			return GetTokenExpiry(GetIdToken());
+		}
+
+		public DateTime GetTokenExpiry(string idToken)
+		{
+			if (String.IsNullOrEmpty(idToken))
+				throw new ArgumentNullException(nameof(idToken));
+
+			return GetTokenExpiry(GetParsedToken(idToken));
+		}
+
+		public DateTime GetTokenExpiry(JwtSecurityToken idToken)
+		{
+			if (idToken == null)
+				throw new ArgumentNullException(nameof(idToken));
+
+			return idToken.ValidTo;
 		}
 	}
 }
