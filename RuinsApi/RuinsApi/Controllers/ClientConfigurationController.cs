@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RuinsApi.Models;
 using System;
@@ -11,17 +10,11 @@ namespace RuinsApi.Controllers
 	public class ClientConfigurationController : Controller
 	{
 		private readonly SecretConfiguration _settings;
-		private ILogger<ClientConfigurationController> _logger;
-
-		public ClientConfigurationController(ILogger<ClientConfigurationController> logger, IOptions<SecretConfiguration> settings)
+		public ClientConfigurationController(IOptions<SecretConfiguration> settings)
 		{
 			if (settings == null)
 				throw new ArgumentNullException(nameof(settings));
 
-			if (settings.Value == null)
-				throw new ArgumentNullException(nameof(settings.Value));
-
-			_logger = logger;
 			_settings = settings.Value;
 		}
 
