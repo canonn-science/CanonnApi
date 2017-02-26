@@ -1,0 +1,14 @@
+<h2>Login</h2>
+<div *ngIf="auth.isReady()">
+	<div *ngIf="!auth.authenticated()">
+		Currently not logged in.
+		<button class="btn btn-primary btn-margin" (click)="auth.login()">Log In</button>
+	</div>
+	<div *ngIf="auth.authenticated()">
+		Currently logged in.
+		<button class="btn btn-primary btn-margin" (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>
+	</div>
+</div>
+<div *ngIf="!auth.isReady()">
+Login currently not availabe.
+</div>

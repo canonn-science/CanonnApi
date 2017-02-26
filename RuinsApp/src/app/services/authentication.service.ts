@@ -4,7 +4,7 @@ import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
-import {environment} from '../environments/environment';
+import {environment} from 'environments/environment';
 import {Logger} from 'angular2-logger/core';
 import {IClientConfiguration} from '../models/clientConfiguration';
 
@@ -56,7 +56,11 @@ export class AuthenticationService {
 				const obj = res.json();
 				this._logger.debug('[authenticationService] Received client configuration', obj);
 				return <IClientConfiguration>(obj);
-			});
+			})
+			.retryWhen(err => err
+				.do(val => this._logger.warn(`Could not fetch client configuration. Error: ${val}.`))
+				.delayWhen(val => Observable.timer(15000)) // retry after 15 seconds
+			);
 	}
 
 	private createLockInstance(config: IClientConfiguration) {

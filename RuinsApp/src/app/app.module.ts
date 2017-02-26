@@ -7,6 +7,8 @@ import {AppComponent} from './app.component';
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
 import {Logger, Options as LoggerOptions} from 'angular2-logger/app/core/logger';
 import {environment} from '../environments/environment';
+import { LoginComponent } from './login/login.component';
+import { MainmenuComponent } from './mainmenu/mainmenu.component';
 
 // currently angular2-jwt AUTH_PROVIDERS don't work, so use this workaround:
 // https://github.com/auth0/angular2-jwt/issues/258
@@ -18,7 +20,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
 @NgModule({
 	declarations: [
-		AppComponent
+		AppComponent,
+		LoginComponent,
+		MainmenuComponent
 	],
 	imports: [
 		BrowserModule,
