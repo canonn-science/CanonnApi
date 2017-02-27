@@ -9,6 +9,11 @@ import {Logger, Options as LoggerOptions} from 'angular2-logger/app/core/logger'
 import {environment} from '../environments/environment';
 import { LoginComponent } from './login/login.component';
 import { MainmenuComponent } from './mainmenu/mainmenu.component';
+import { RelictsComponent } from './relicts/relicts.component';
+import {RelictsApiService} from './services/api/relictsApi.service';
+import { CodexCategoryComponent } from './codex/codexCategory.component';
+import {CodexDataComponent} from './codex/codexData.component';
+import {CodexApiService} from './services/api/codexApi.service';
 
 // currently angular2-jwt AUTH_PROVIDERS don't work, so use this workaround:
 // https://github.com/auth0/angular2-jwt/issues/258
@@ -22,7 +27,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 	declarations: [
 		AppComponent,
 		LoginComponent,
-		MainmenuComponent
+		MainmenuComponent,
+		RelictsComponent,
+		CodexCategoryComponent,
+		CodexDataComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -38,6 +46,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		},
 		{ provide: LoggerOptions, useValue: { level: environment.initialLogLevel } },
 		Logger,
+		RelictsApiService,
+		CodexApiService,
 	],
 	bootstrap: [AppComponent]
 })

@@ -1,28 +1,35 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {AuthHttp, tokenNotExpired} from 'angular2-jwt';
-import {Logger} from 'angular2-logger/core';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
-import {environment} from 'environments/environment';
-import {IClientConfiguration} from '../models/clientConfiguration';
-import {IUserInformation} from '../models/IUserInformation';
+import {IClientConfiguration} from '../../models/clientConfiguration';
+import {IUserInformation} from '../../models/IUserInformation';
+import {ApiBaseService} from './apiBase.service';
+import {Http} from '@angular/http';
+import {Logger} from 'angular2-logger/core';
+import {Router} from '@angular/router';
 
 @Injectable()
-export class AuthenticationService {
+export class AuthenticationService extends ApiBaseService {
 
 	private _lock: any = null;
 	private _userInfoObservable: Observable<IUserInformation> = null;
 	private _options = {
 		auth: {
+			redirectUrl: window.location.origin,
 			responseType: 'id_token token',
+			params: {
+				state: '',
+			}
 		}
 	};
 
 	public userInformation: IUserInformation = null;
 
-	constructor(private _logger: Logger, private _http: Http, private _authHttp: AuthHttp) {
+	constructor(logger: Logger, http: Http, authHttp: AuthHttp, private _router: Router) {
+		super(logger, http, authHttp);
+
 		this._logger.log('[authenticationService] Instanciating & loading client configuration...');
 		this.getClientConfiguration()
 			.subscribe(
@@ -32,6 +39,7 @@ export class AuthenticationService {
 	}
 
 	public login() {
+		this._options.auth.params.state = this._router.url;
 		this._lock.show(this._options);
 	}
 
@@ -59,7 +67,7 @@ export class AuthenticationService {
 	}
 
 	private getClientConfiguration(): Observable<IClientConfiguration> {
-		const url = `${environment.apiBaseUri}/v1/clientconfiguration`;
+		const url = `${this._apiBaseUrl}/v1/clientconfiguration`;
 		this._logger.debug('[authenticationService] trying to load client configuration from url', url);
 
 		return this._http.get(url)
@@ -78,8 +86,9 @@ export class AuthenticationService {
 		const lock = new Auth0Lock(config.clientId, config.domain, this._options);
 
 		lock.on('authenticated', (authResult) => {
-			this._logger.debug('[authenticationService] Received id_token', authResult.idToken);
+			this._logger.debug('[authenticationService] Received authentication result', authResult);
 			localStorage.setItem('id_token', authResult.idToken);
+			localStorage.setItem('redirectUrl', authResult.state);
 			this.fetchUserInformation();
 		});
 
@@ -97,10 +106,18 @@ export class AuthenticationService {
 		}
 
 		if (this._userInfoObservable === null) {
-			const url = `${environment.apiBaseUri}/v1/userinformation`;
+			const url = `${this._apiBaseUrl}/v1/userinformation`;
 
 			this._userInfoObservable = this._authHttp.get(url)
-				.map(res => <IUserInformation>(res.json()));
+				.map(res => <IUserInformation>(res.json()))
+				.do(() => {
+					const redirectUrl = localStorage.getItem('redirectUrl');
+					if (redirectUrl) {
+						localStorage.removeItem('redirectUrl');
+						this._logger.debug('[authenticationService] Redirecting to previous route', redirectUrl);
+						this._router.navigate([redirectUrl]);
+					}
+				});
 
 			this._userInfoObservable.subscribe(
 				userInfo => {
@@ -111,6 +128,8 @@ export class AuthenticationService {
 				},
 				err => this._logger.error(`[authenticationService] Error fetching user information: ${err}.`)
 			);
+
+			return this._userInfoObservable;
 		}
 	}
 }

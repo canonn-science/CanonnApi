@@ -1,0 +1,23 @@
+<h2>Codex Data</h2>
+<table>
+	<thead>
+	<tr>
+		<th>Id</th>
+		<th>Category Id</th>
+		<th>Category Name (fetched)</th>
+		<th>Entry No.</th>
+		<th>Text</th>
+	</tr>
+	</thead>
+	<tbody>
+
+	<tr *ngFor="let data of codexData">
+		<td>{{data.id}}</td>
+		<td>{{data.categoryId}}</td>
+		<td>{{getCategoryName(data.categoryId)}}</td>
+		<td>{{data.entryNumber}}</td>
+		<td>{{data.text}}</td>
+	</tr>
+
+	</tbody>
+</table>

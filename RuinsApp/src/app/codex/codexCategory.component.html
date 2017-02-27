@@ -1,0 +1,21 @@
+<h2>Codex Category</h2>
+<table>
+	<thead>
+	<tr>
+		<th>Id</th>
+		<th>Name</th>
+		<th>Primary relict id</th>
+		<th>Primary relict name (fetched)</th>
+	</tr>
+	</thead>
+	<tbody>
+
+	<tr *ngFor="let category of codexCategories">
+		<td>{{category.id}}</td>
+		<td>{{category.name}}</td>
+		<td>{{category.primaryRelict}}</td>
+		<td>{{getRelictName(category.primaryRelict)}}</td>
+	</tr>
+
+	</tbody>
+</table>
