@@ -7,7 +7,7 @@ import {IClientConfiguration} from '../../models/clientConfiguration';
 import {IUserInformation} from '../../models/IUserInformation';
 import {ApiBaseService} from './apiBase.service';
 import {Http} from '@angular/http';
-import {Logger} from 'angular2-logger/core';
+import {Logger} from 'angular2-logger/app/core/logger';
 import {Router} from '@angular/router';
 
 @Injectable()

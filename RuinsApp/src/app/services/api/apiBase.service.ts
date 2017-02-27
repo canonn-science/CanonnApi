@@ -1,6 +1,6 @@
 import {AuthHttp} from 'angular2-jwt';
 import {Http} from '@angular/http';
-import {Logger} from 'angular2-logger/core';
+import {Logger} from 'angular2-logger/app/core/logger';
 import {environment} from '../../../environments/environment';
 
 export class ApiBaseService {
