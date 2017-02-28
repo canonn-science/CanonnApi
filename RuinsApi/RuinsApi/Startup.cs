@@ -15,6 +15,7 @@ using RuinsApi.Authorization;
 using RuinsApi.DatabaseModels;
 using RuinsApi.Models;
 using RuinsApi.Services;
+using RuinsApi.Services.DataAccess;
 using Serilog;
 
 namespace RuinsApi
@@ -102,6 +103,7 @@ namespace RuinsApi
 		{
 			builder.RegisterType<CachingUserInformationService>().AsImplementedInterfaces();
 			builder.RegisterType<IdTokenProvider>().AsImplementedInterfaces();
+			builder.RegisterType<RelictRepository>().AsImplementedInterfaces();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
