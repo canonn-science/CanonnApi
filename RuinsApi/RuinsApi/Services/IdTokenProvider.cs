@@ -19,10 +19,13 @@ namespace RuinsApi.Services
 
 		public string GetIdToken()
 		{
-			// TODO: make this a bit more safe. When no auth header is there, this fails hard
-			return _contextAccessor.HttpContext.Request
-				.Headers["Authorization"].First()
-				.Replace("Bearer ", String.Empty);
+			var authHeader = _contextAccessor.HttpContext.Request
+				.Headers["Authorization"].FirstOrDefault();
+
+			if (!String.IsNullOrWhiteSpace(authHeader))
+				return authHeader.Replace("Bearer ", String.Empty);
+
+			throw new UnauthorizedAccessException("No authorization bearer token was provided.");
 		}
 
 		public JwtSecurityToken GetParsedToken()

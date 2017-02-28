@@ -22,14 +22,17 @@ namespace RuinsApi.Authorization
 			AuthorizationHandlerContext context,
 			HasPermissionRequirement requirement)
 		{
-			var currentUserPermissions = _userInformationService.GetUserPermissions().Result;
+			if (context.User.Identity.IsAuthenticated)
+			{
+				var currentUserPermissions = _userInformationService.GetUserPermissions().Result;
 
-			// check if current user has all required permissions
-			var hasAllRequiredPermissions = requirement.RequiredPermissions
-				.All(perm => currentUserPermissions.Contains(perm));
+				// check if current user has all required permissions
+				var hasAllRequiredPermissions = requirement.RequiredPermissions
+					.All(perm => currentUserPermissions.Contains(perm));
 
-			if (hasAllRequiredPermissions)
-				context.Succeed(requirement);
+				if (hasAllRequiredPermissions)
+					context.Succeed(requirement);
+			}
 
 			return Task.CompletedTask;
 		}
