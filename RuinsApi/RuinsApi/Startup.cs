@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -83,18 +85,16 @@ namespace RuinsApi
 
 		private void AddPolicies(AuthorizationOptions authorizationOptions)
 		{
-			var permissions = new[]
-			{
-				"add:obelisk",
-				"verify:obelisk",
-
-				"add:codex",
-				"verify:codex",
-			};
-
+			// currently we rely on policies - one for each permission. More dynamically would be cool,
+			// but that's quite some magic or tons of effort required, so that'll do for now...
+			var permissions = GetPermissions();
 			foreach (var permission in permissions)
 			{
-				authorizationOptions.AddPolicy(permission, policyBuilder => policyBuilder.AddRequirements(new HasPermissionRequirement(permission)));
+				authorizationOptions.AddPolicy(permission, policyBuilder =>
+				{
+					policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+					policyBuilder.AddRequirements(new HasPermissionRequirement(permission));
+				});
 			}
 		}
 
@@ -130,5 +130,24 @@ namespace RuinsApi
 			// Ensure container and dependencies are cleaned up accordingly
 			appLifetime.ApplicationStopped.Register(ApplicationContainer.Dispose);
 		}
+
+		private IEnumerable<string> GetPermissions()
+		{
+			return new[]
+			{
+				"add:relict",
+				"edit:relict",
+				"delete:relict",
+
+				"add:codexcategory",
+				"edit:codexcategory",
+				"delete:codexcategory",
+
+				"add:codexdata",
+				"edit:codexdata",
+				"delete:codexdata",
+			};
+		}
+
 	}
 }

@@ -17,56 +17,101 @@
         {
             "_id": "a105f1ee-7794-4e39-b7b0-918feef3af20",
             "applicationType": "client",
-            "applicationId": "XXX",
-            "description": "Adds data for Canonn",
-            "name": "DataAdder",
+            "applicationId": "3IxdIJLwICVMs5dxkspFRGz17LMHFuxp",
+            "description": "May add and edit data for Canonn",
+            "name": "Data maintainer",
             "permissions": [
-                "5de00b4e-fd4b-4894-b910-c986a6b7a227",
-                "89b6b073-1ae8-406e-9362-fb5fb5980083"
+                "10e5dd99-4aba-4e06-bf5e-b65d861956df",
+                "409021d4-ce2e-494c-830e-937cc96e3f24",
+                "cbb76060-9cb7-4a78-a291-bf6f89a5c25c",
+                "e49b0562-5312-48d1-9e05-3881133ad9cc",
+                "5b59bf13-fc6d-4e37-98e5-c674a49f38cb",
+                "85dfb2ae-fa49-4f6e-bcb8-d89fd717131d"
             ],
             "users": []
         },
         {
-            "_id": "e74d4917-cc15-47a5-a180-37af40673ea0",
             "applicationType": "client",
-            "applicationId": "XXX",
-            "description": "Verifies data for Canonn",
-            "name": "DataVerifier",
+            "applicationId": "3IxdIJLwICVMs5dxkspFRGz17LMHFuxp",
+            "description": "Admin for Canonn API - Full permissions",
+            "name": "Administrator",
             "permissions": [
-                "52b1cf16-44e1-4554-8a68-25a5ff7888e7",
-                "17292eb8-061b-4917-8473-b5fa1679dae3"
+                "10e5dd99-4aba-4e06-bf5e-b65d861956df",
+                "409021d4-ce2e-494c-830e-937cc96e3f24",
+                "0d03adef-700a-42c9-b60b-f01167402672",
+                "cbb76060-9cb7-4a78-a291-bf6f89a5c25c",
+                "5b59bf13-fc6d-4e37-98e5-c674a49f38cb",
+                "0777eed9-2024-4837-a70a-5ae1181d9386",
+                "e49b0562-5312-48d1-9e05-3881133ad9cc",
+                "85dfb2ae-fa49-4f6e-bcb8-d89fd717131d",
+                "7acd48c0-0c03-486d-9dda-adadf2e12291"
             ],
-            "users": []
+            "_id": "1441182d-54e0-40e3-9206-8c0398b7873d"
         }
     ],
     "permissions": [
         {
             "applicationType": "client",
-            "applicationId": "XXX",
-            "description": "May add Guardians CODEX data",
-            "name": "add:codex",
-            "_id": "5de00b4e-fd4b-4894-b910-c986a6b7a227"
+            "applicationId": "3IxdIJLwICVMs5dxkspFRGz17LMHFuxp",
+            "description": "May add relicts",
+            "name": "add:relict",
+            "_id": "10e5dd99-4aba-4e06-bf5e-b65d861956df"
         },
         {
             "applicationType": "client",
-            "applicationId": "XXX",
-            "description": "May add obelisk data",
-            "name": "add:obelisks",
-            "_id": "89b6b073-1ae8-406e-9362-fb5fb5980083"
+            "applicationId": "3IxdIJLwICVMs5dxkspFRGz17LMHFuxp",
+            "description": "May edit relicts",
+            "name": "edit:relict",
+            "_id": "409021d4-ce2e-494c-830e-937cc96e3f24"
         },
         {
             "applicationType": "client",
-            "applicationId": "XXX",
-            "description": "May verify obelisk data",
-            "name": "verify:obelisk",
-            "_id": "52b1cf16-44e1-4554-8a68-25a5ff7888e7"
+            "applicationId": "3IxdIJLwICVMs5dxkspFRGz17LMHFuxp",
+            "description": "May delete relicts",
+            "name": "delete:relict",
+            "_id": "0d03adef-700a-42c9-b60b-f01167402672"
         },
         {
             "applicationType": "client",
-            "applicationId": "XXX",
-            "description": "May verify Guardians CODEX data",
-            "name": "verify:codex",
-            "_id": "17292eb8-061b-4917-8473-b5fa1679dae3"
+            "applicationId": "3IxdIJLwICVMs5dxkspFRGz17LMHFuxp",
+            "description": "May add codex categories",
+            "name": "add:codexcategory",
+            "_id": "cbb76060-9cb7-4a78-a291-bf6f89a5c25c"
+        },
+        {
+            "applicationType": "client",
+            "applicationId": "3IxdIJLwICVMs5dxkspFRGz17LMHFuxp",
+            "description": "May edit codex categories",
+            "name": "edit:codexcategory",
+            "_id": "e49b0562-5312-48d1-9e05-3881133ad9cc"
+        },
+        {
+            "applicationType": "client",
+            "applicationId": "3IxdIJLwICVMs5dxkspFRGz17LMHFuxp",
+            "description": "May delete codex categories",
+            "name": "delete:codexcategory",
+            "_id": "0777eed9-2024-4837-a70a-5ae1181d9386"
+        },
+        {
+            "applicationType": "client",
+            "applicationId": "3IxdIJLwICVMs5dxkspFRGz17LMHFuxp",
+            "description": "May add codex data",
+            "name": "add:codexdata",
+            "_id": "5b59bf13-fc6d-4e37-98e5-c674a49f38cb"
+        },
+        {
+            "applicationType": "client",
+            "applicationId": "3IxdIJLwICVMs5dxkspFRGz17LMHFuxp",
+            "description": "May edit codex data",
+            "name": "edit:codexdata",
+            "_id": "85dfb2ae-fa49-4f6e-bcb8-d89fd717131d"
+        },
+        {
+            "applicationType": "client",
+            "applicationId": "3IxdIJLwICVMs5dxkspFRGz17LMHFuxp",
+            "description": "May delete codex data",
+            "name": "delete:codexdata",
+            "_id": "7acd48c0-0c03-486d-9dda-adadf2e12291"
         }
     ],
     "groups": [
@@ -74,20 +119,21 @@
             "_id": "9008db50-6a7d-4ee5-a73b-c2e45f0223fb",
             "name": "CanonnAdmins",
             "description": "Administrators of Canonn",
-            "members": [],
+            "members": [
+                "auth0|58b0cea1bfd38107bc46ff72"
+            ],
             "roles": [
                 "a105f1ee-7794-4e39-b7b0-918feef3af20",
-                "e74d4917-cc15-47a5-a180-37af40673ea0"
+                "1441182d-54e0-40e3-9206-8c0398b7873d"
             ]
         },
         {
-            "_id": "945a2530-5723-4ca1-ba40-92ce235d4b86",
-            "name": "CanonnVerifiers",
-            "description": "Verify data for Canonn",
+            "_id": "94cd2bac-405b-4b12-86b0-1ed8f8897230",
+            "name": "CanonnMaintainers",
+            "description": "Maintain data for Canonn",
             "roles": [
-                "e74d4917-cc15-47a5-a180-37af40673ea0"
-            ],
-            "members": []
+                "a105f1ee-7794-4e39-b7b0-918feef3af20"
+            ]
         }
     ]
 }
