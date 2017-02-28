@@ -22,7 +22,15 @@ export class AuthenticationService extends ApiBaseService {
 			params: {
 				state: '',
 			}
-		}
+		},
+		theme: {
+			logo: 'https://canonn-api.sonargaming.com/canonn.png',
+		},
+		socialButtonStyle: <'big' | 'small'>('small'), // huh? Strange workaround around typings in TypeScript .oO
+		languageDictionary: {
+			emailInputPlaceholder: 'arcanonn@canonn.science',
+			title: 'Canonn Science',
+		},
 	};
 
 	public userInformation: IUserInformation = null;
