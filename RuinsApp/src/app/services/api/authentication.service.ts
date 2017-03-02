@@ -3,19 +3,20 @@ import {Observable} from 'rxjs/Rx';
 import {AuthHttp, tokenNotExpired} from 'angular2-jwt';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/find';
 import {IClientConfiguration} from '../../models/clientConfiguration';
 import {IUserInformation} from '../../models/IUserInformation';
 import {ApiBaseService} from './apiBase.service';
 import {Http} from '@angular/http';
 import {Logger} from 'angular2-logger/app/core/logger';
 import {Router} from '@angular/router';
+import {LinqService} from 'ng2-linq';
 
 @Injectable()
 export class AuthenticationService extends ApiBaseService {
 
 	private _lock: any = null;
-	private _userInfoObservable: Observable<IUserInformation> = null;
-	private _options = {
+	private _lockOptions = {
 		auth: {
 			redirectUrl: window.location.origin,
 			responseType: 'id_token token',
@@ -34,8 +35,9 @@ export class AuthenticationService extends ApiBaseService {
 	};
 
 	public userInformation: IUserInformation = null;
+	private userInformation$: Observable<IUserInformation> = null;
 
-	constructor(logger: Logger, http: Http, authHttp: AuthHttp, private _router: Router) {
+	constructor(logger: Logger, http: Http, authHttp: AuthHttp, private _router: Router, private _linq: LinqService) {
 		super(logger, http, authHttp);
 
 		this._logger.log('[authenticationService] Instanciating & loading client configuration...');
@@ -47,24 +49,36 @@ export class AuthenticationService extends ApiBaseService {
 	}
 
 	public login() {
-		this._options.auth.params.state = this._router.url;
-		this._lock.show(this._options);
+		this._lockOptions.auth.params.state = this._router.url;
+		this._lock.show(this._lockOptions);
 	}
 
 	public logout() {
+		this.userInformation = null;
 		localStorage.removeItem('id_token');
-		localStorage.removeItem('user_information');
 	}
 
 	public isReady() {
 		return (this._lock !== null);
 	}
 
+	public hasPermission(permission: string): boolean {
+		if (this.userInformation !== null) {
+			for (let i = 0; i < this.userInformation.permissions.length; i++) {
+				if (this.userInformation.permissions[i] === permission) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public authenticated() {
 		try {
 			const result = tokenNotExpired();
 
-			if (result) {
+			if ((result) && this.userInformation === null) {
 				this.fetchUserInformation();
 			}
 
@@ -91,7 +105,7 @@ export class AuthenticationService extends ApiBaseService {
 	}
 
 	private createLockInstance(config: IClientConfiguration) {
-		const lock = new Auth0Lock(config.clientId, config.domain, this._options);
+		const lock = new Auth0Lock(config.clientId, config.domain, this._lockOptions);
 
 		lock.on('authenticated', (authResult) => {
 			this._logger.debug('[authenticationService] Received authentication result', authResult);
@@ -104,40 +118,30 @@ export class AuthenticationService extends ApiBaseService {
 	}
 
 	private fetchUserInformation() {
-		if (this.userInformation !== null) {
-			return;
-		}
+		const url = `${this._apiBaseUrl}/v1/userinformation`;
 
-		const cachedValue = localStorage.getItem('user_information');
-		if ((cachedValue !== null) && (cachedValue !== '')) {
-			this.userInformation = JSON.parse(cachedValue);
-		}
-
-		if (this._userInfoObservable === null) {
-			const url = `${this._apiBaseUrl}/v1/userinformation`;
-
-			this._userInfoObservable = this._authHttp.get(url)
+		if (this.userInformation$ === null) {
+			this.userInformation$ = this._authHttp.get(url)
 				.map(res => <IUserInformation>(res.json()))
-				.do(() => {
-					const redirectUrl = localStorage.getItem('redirectUrl');
-					if (redirectUrl) {
-						localStorage.removeItem('redirectUrl');
-						this._logger.debug('[authenticationService] Redirecting to previous route', redirectUrl);
-						this._router.navigate([redirectUrl]);
-					}
-				});
+				.do(() => this.redirectIfRequired());
 
-			this._userInfoObservable.subscribe(
+			this.userInformation$.subscribe(
 				userInfo => {
 					this._logger.debug(`[authenticationService] Received user information`, userInfo);
-					localStorage.setItem('user_information', JSON.stringify(userInfo));
 					this.userInformation = userInfo;
-					this._userInfoObservable = null;
+					this.userInformation$ = null;
 				},
 				err => this._logger.error(`[authenticationService] Error fetching user information: ${err}.`)
 			);
+		}
+	}
 
-			return this._userInfoObservable;
+	private redirectIfRequired() {
+		const redirectUrl = localStorage.getItem('redirectUrl');
+		if (redirectUrl) {
+			localStorage.removeItem('redirectUrl');
+			this._logger.debug('[authenticationService] Redirecting to previous route', redirectUrl);
+			this._router.navigate([redirectUrl]);
 		}
 	}
 }

@@ -24,6 +24,7 @@
     "angular2-jwt": "^0.1.28",
     "angular2-logger": "^0.5.1",
     "core-js": "^2.4.1",
+    "ng2-linq": "1.0.0",
     "rxjs": "^5.1.0",
     "zone.js": "^0.7.6"
   },

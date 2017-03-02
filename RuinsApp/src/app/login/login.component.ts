@@ -5,7 +5,6 @@ import {AuthenticationService} from '../services/api/authentication.service';
 	selector: 'app-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.less'],
-	providers: [AuthenticationService]
 })
 export class LoginComponent {
 

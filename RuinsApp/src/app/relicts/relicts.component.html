@@ -4,6 +4,8 @@
 		<tr>
 			<th>Id</th>
 			<th>Name</th>
+			<th *ngIf="auth.hasPermission('edit:relict')">Edit</th>
+			<th *ngIf="auth.hasPermission('delete:relict')">Delete</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -11,7 +13,17 @@
 		<tr *ngFor="let relict of relicts">
 			<td>{{relict.id}}</td>
 			<td>{{relict.name}}</td>
+			<td *ngIf="auth.hasPermission('edit:relict')"><button [disabled]="editingRelict !== null" (click)="edit(relict.id)">Edit</button></td>
+			<td *ngIf="auth.hasPermission('delete:relict')"><button [disabled]="editingRelict !== null" (click)="delete(relict.id)">Delete</button></td>
 		</tr>
 
 	</tbody>
 </table>
+
+
+<button *ngIf="auth.hasPermission('add:relict')" [disabled]="editingRelict !== null" (click)="createNew()">Create new</button>
+<div *ngIf="editingRelict !== null">
+	<h3>Edit relict:</h3>
+	Name: <input type="text" [(ngModel)]="editingRelict.name">
+	<button (click)="discard()">Discard</button> <button (click)="save()">Save</button>
+</div>
