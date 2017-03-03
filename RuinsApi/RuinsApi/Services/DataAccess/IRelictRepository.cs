@@ -8,9 +8,9 @@ namespace RuinsApi.Services.DataAccess
 	{
 		Task<List<Relict>> GetAllRelicts();
 		Task<Relict> GetRelictById(int id);
-		Task<Relict> CreateRelict(Relict relictData);
+		Task<Relict> CreateRelict(Relict value);
 		Task<bool> DeleteRelictById(int id);
-		Task<Relict> CreateOrUpdateRelictById(int id, Relict relictData);
-		Task<Relict> UpdateRelict(int id, Relict relictData);
+		Task<Relict> CreateOrUpdateRelictById(int id, Relict value);
+		Task<Relict> UpdateRelict(int id, Relict value);
 	}
 }

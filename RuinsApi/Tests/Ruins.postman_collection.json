@@ -1,0 +1,263 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Ruins",
+		"_postman_id": "c3b6977d-33b0-f981-0f73-14c1c304d115",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Relicts",
+			"description": "",
+			"item": [
+				{
+					"name": "Get all relicts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"got all relicts\"] = jsonData.length >= 6;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/relicts",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get relict 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Id matches\"] = jsonData.id === 1;",
+									"tests[\"Name is correct\"] = jsonData.name === \"Casket\";",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/relicts/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new relict",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var relict = JSON.parse(responseBody);",
+									"tests[\"Has correct name\"] = relict.name === \"Test\";",
+									"",
+									"postman.setEnvironmentVariable(\"new_relict_id\", relict.id);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/relicts/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Test\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update new relict with PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var relict = JSON.parse(responseBody);",
+									"tests[\"Has correct name\"] = relict.name === \"Brmpft\";",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/relicts/{{new_relict_id}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Brmpft\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Change mew relict with PATCH",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var relict = JSON.parse(responseBody);",
+									"tests[\"Has correct name\"] = relict.name === \"Test2\";",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/relicts/{{new_relict_id}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Test2\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get new relict",
+					"request": {
+						"url": "http://localhost:52685/v1/relicts/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete new relict",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/relicts/{{new_relict_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete new relict is not okay a second time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 404;",
+									"",
+									"postman.setEnvironmentVariable(\"new_relict_id\", null);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/relicts/{{new_relict_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

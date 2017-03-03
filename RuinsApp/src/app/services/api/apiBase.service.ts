@@ -7,6 +7,5 @@ export class ApiBaseService {
 	protected _apiBaseUrl: string = environment.apiBaseUri;
 
 	constructor(protected _logger: Logger, protected _http: Http, protected _authHttp: AuthHttp) {
-
 	}
 }

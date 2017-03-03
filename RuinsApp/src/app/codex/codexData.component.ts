@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CodexCategoryModel} from '../models/codexCategory';
 import {CodexDataModel} from '../models/codexDataModel';
-import {CodexApiService} from '../services/api/codexApi.service';
+import {CodexDataApiService} from '../services/api/codexDataApi.service';
+import {CodexCategoryApiService} from '../services/api/codexCategoryApi.service';
 
 @Component({
 	selector: 'app-codex',
@@ -13,7 +14,7 @@ export class CodexDataComponent implements OnInit {
 	public codexData: CodexDataModel[] = null;
 	private _codexCategories: CodexCategoryModel[] = null;
 
-	constructor(private _codexApi: CodexApiService) {
+	constructor(private _codexDataApi: CodexDataApiService, private _codexCategoryApi: CodexCategoryApiService) {
 	}
 
 	ngOnInit() {
@@ -21,14 +22,14 @@ export class CodexDataComponent implements OnInit {
 		this.loadCodexData();
 	}
 
-	private loadCodexCategories() {
-		this._codexApi.getCodexCategoryBaseData()
-			.subscribe(codexCategories => this._codexCategories = codexCategories);
+	private loadCodexData() {
+		this._codexDataApi.getAll()
+			.subscribe(codexData => this.codexData = codexData);
 	}
 
-	private loadCodexData() {
-		this._codexApi.getCodexDataBaseData()
-			.subscribe(codexData => this.codexData = codexData);
+	private loadCodexCategories() {
+		this._codexCategoryApi.getAll()
+			.subscribe(codexCategories => this._codexCategories = codexCategories);
 	}
 
 	public getCategoryName(id: number) {

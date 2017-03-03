@@ -29,47 +29,56 @@ namespace RuinsApi.Services.DataAccess
 			return await _ruinsContext.Relict.FirstOrDefaultAsync(r => r.Id == id);
 		}
 
-		public async Task<Relict> CreateRelict(Relict relictData)
+		public async Task<Relict> CreateOrUpdateRelictById(int id, Relict value)
 		{
-			// create new entry
-			var relict = new Relict()
+			if (_ruinsContext.Relict.Any(r => r.Id == id))
 			{
-				Name = relictData.Name,
-			};
-
-			_ruinsContext.Relict.Add(relict);
-			await _ruinsContext.SaveChangesAsync();
-
-			return relict;
+				return await UpdateRelict(id, value);
+			}
+			else
+			{
+				return await CreateRelictWithId(id, value);
+			}
 		}
 
-		private async Task<Relict> CreateRelictWithId(int id, Relict relictData)
+		public async Task<Relict> CreateRelict(Relict value)
 		{
-			// create new entry
-			var relict = new Relict()
+			var entry = new Relict()
 			{
-				Id = id,
-				Name = relictData.Name,
+				Name = value.Name,
 			};
 
-			_ruinsContext.Relict.Add(relict);
+			_ruinsContext.Relict.Add(entry);
 			await _ruinsContext.SaveChangesAsync();
 
-			return relict;
+			return entry;
 		}
 
-		public async Task<Relict> UpdateRelict(int id, Relict relictData)
+		private async Task<Relict> CreateRelictWithId(int id, Relict value)
 		{
-			// Update existing entry
-			var relict = new Relict()
+			var entry = new Relict()
 			{
 				Id = id,
-				Name = relictData.Name,
+				Name = value.Name,
 			};
 
-			_ruinsContext.Relict.Update(relict);
+			_ruinsContext.Relict.Add(entry);
 			await _ruinsContext.SaveChangesAsync();
-			return relict;
+
+			return entry;
+		}
+
+		public async Task<Relict> UpdateRelict(int id, Relict value)
+		{
+			var entry = new Relict()
+			{
+				Id = id,
+				Name = value.Name,
+			};
+
+			_ruinsContext.Relict.Update(entry);
+			await _ruinsContext.SaveChangesAsync();
+			return entry;
 		}
 
 		public async Task<bool> DeleteRelictById(int id)
@@ -86,20 +95,6 @@ namespace RuinsApi.Services.DataAccess
 			}
 
 			return true;
-		}
-
-		public async Task<Relict> CreateOrUpdateRelictById(int id, Relict relictData)
-		{
-			if (_ruinsContext.Relict.Any(r => r.Id == id))
-			{
-				// update
-				return await UpdateRelict(id, relictData);
-			}
-			else
-			{
-				// add
-				return await CreateRelictWithId(id,relictData);
-			}
 		}
 	}
 }

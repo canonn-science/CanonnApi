@@ -13,9 +13,10 @@ import {RelictsComponent} from './relicts/relicts.component';
 import {RelictsApiService} from './services/api/relictsApi.service';
 import {CodexCategoryComponent} from './codex/codexCategory.component';
 import {CodexDataComponent} from './codex/codexData.component';
-import {CodexApiService} from './services/api/codexApi.service';
+import {CodexDataApiService} from './services/api/codexDataApi.service';
 import {AuthenticationService} from './services/api/authentication.service';
 import {LinqService} from 'ng2-linq';
+import {CodexCategoryApiService} from './services/api/codexCategoryApi.service';
 
 // currently angular2-jwt AUTH_PROVIDERS don't work, so use this workaround:
 // https://github.com/auth0/angular2-jwt/issues/258
@@ -48,10 +49,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		},
 		{provide: LoggerOptions, useValue: {level: environment.initialLogLevel}},
 		Logger,
-		RelictsApiService,
-		CodexApiService,
 		AuthenticationService,
 		LinqService,
+		// Apis
+		RelictsApiService,
+		CodexDataApiService,
+		CodexCategoryApiService,
 	],
 	bootstrap: [AppComponent]
 })

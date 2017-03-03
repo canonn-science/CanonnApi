@@ -3,7 +3,7 @@ import {RelictsApiService} from '../services/api/relictsApi.service';
 import {RelictsModel} from '../models/relictsModel';
 import { LinqService } from 'ng2-linq';
 import {AuthenticationService} from '../services/api/authentication.service';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
 	selector: 'app-relicts',
@@ -23,7 +23,7 @@ export class RelictsComponent implements OnInit {
 	}
 
 	private loadRelicts() {
-		this._relictsApi.getRelicsBaseData()
+		this._relictsApi.getAll()
 			.subscribe(relicts => this.relicts = relicts);
 	}
 

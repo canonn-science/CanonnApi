@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RuinsApi.DatabaseModels;
+using RuinsApi.Middlewares;
 using RuinsApi.Services.DataAccess;
 
 namespace RuinsApi.Controllers
@@ -33,48 +35,48 @@ namespace RuinsApi.Controllers
 		}
 
 		[HttpGet("{id}")]
-		public async Task<ActionResult> Get(int id)
+		public async Task<Relict> Get(int id)
 		{
 			var relict = await _repository.GetRelictById(id);
-			if (relict != null)
-				return Json(relict);
+			if (relict == null)
+				throw new HttpNotFoundException();
 
-			return NotFound();
+			return relict;
 		}
 
 		[HttpPost()]
 		[Authorize(Policy = "add:relict")]
-		public async Task<ActionResult> Create([FromBody] Relict relictData)
+		public async Task<Relict> Create([FromBody] Relict data)
 		{
-			return Json(await _repository.CreateRelict(relictData));
+			return await _repository.CreateRelict(data);
 		}
 
 		[HttpPut("{id}")]
 		[Authorize(Policy = "add:relict")]
 		[Authorize(Policy = "edit:relict")]
-		public async Task<ActionResult> CreateOrUpdate([FromBody] Relict relictData, int id)
+		public async Task<Relict> CreateOrUpdate([FromBody] Relict data, int id)
 		{
 			try
 			{
-				return Json(await _repository.CreateOrUpdateRelictById(id, relictData));
+				return await _repository.CreateOrUpdateRelictById(id, data);
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				return new StatusCodeResult(409); // conflict
+				throw new HttpException(HttpStatusCode.Conflict, "Conflict", e);
 			}
 		}
 
 		[HttpPatch("{id}")]
 		[Authorize(Policy = "edit:relict")]
-		public async Task<ActionResult> Update([FromBody] Relict relictData, int id)
+		public async Task<Relict> Update([FromBody] Relict data, int id)
 		{
 			try
 			{
-				return Json(await _repository.UpdateRelict(id, relictData));
+				return await _repository.UpdateRelict(id, data);
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				return new StatusCodeResult(409); // conflict
+				throw new HttpException(HttpStatusCode.Conflict, "Conflict", e);
 			}
 		}
 

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CodexApiService} from '../services/api/codexApi.service';
+import {CodexCategoryApiService} from '../services/api/codexCategoryApi.service';
 import {RelictsApiService} from '../services/api/relictsApi.service';
 import {RelictsModel} from '../models/relictsModel';
 import {CodexCategoryModel} from '../models/codexCategory';
@@ -14,7 +14,7 @@ export class CodexCategoryComponent implements OnInit {
 	private _relicts: RelictsModel[] = null;
 	public codexCategories: CodexCategoryModel[] = null;
 
-	constructor(private _codexApi: CodexApiService, private _relictsApi: RelictsApiService) {
+	constructor(private _codexCategoryApi: CodexCategoryApiService, private _relictsApi: RelictsApiService) {
 	}
 
 	ngOnInit() {
@@ -23,12 +23,12 @@ export class CodexCategoryComponent implements OnInit {
 	}
 
 	private loadRelicts() {
-		this._relictsApi.getRelicsBaseData()
+		this._relictsApi.getAll()
 			.subscribe(relicts => this._relicts = relicts);
 	}
 
 	private loadCodexCategories() {
-		this._codexApi.getCodexCategoryBaseData()
+		this._codexCategoryApi.getAll()
 			.subscribe(codexCategories => this.codexCategories = codexCategories);
 	}
 

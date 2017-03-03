@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RuinsApi.Authorization;
 using RuinsApi.DatabaseModels;
+using RuinsApi.Middlewares;
 using RuinsApi.Models;
 using RuinsApi.Services;
 using RuinsApi.Services.DataAccess;
@@ -101,9 +102,11 @@ namespace RuinsApi
 
 		private void RegisterAutofacDependencies(ContainerBuilder builder)
 		{
-			builder.RegisterType<CachingUserInformationService>().AsImplementedInterfaces();
 			builder.RegisterType<IdTokenProvider>().AsImplementedInterfaces();
+			builder.RegisterType<CachingUserInformationService>().AsImplementedInterfaces();
+
 			builder.RegisterType<RelictRepository>().AsImplementedInterfaces();
+			builder.RegisterType<CodexRepository>().AsImplementedInterfaces();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -125,6 +128,7 @@ namespace RuinsApi
 				Authority = $"https://{secretConfiguration.ClientDomain}/",
 			});
 
+			app.UseMiddleware<HttpErrorHandleMiddleware>();
 			app.UseMvc();
 
 			// Ensure any buffered events are sent at shutdown
