@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +30,9 @@ namespace RuinsApi.Controllers
 		}
 
 		[HttpGet]
-		public async Task<List<CodexData>> Get()
+		public async Task<List<CodexData>> Get(bool withCategoryName = false)
 		{
-			return await _repository.GetAllData();
+			return await _repository.GetAllData(withCategoryName);
 		}
 
 		[HttpGet("{id}")]

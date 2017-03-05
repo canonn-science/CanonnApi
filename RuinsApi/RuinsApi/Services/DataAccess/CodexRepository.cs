@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RuinsApi.DatabaseModels;
+using RuinsApi.Models;
 
 namespace RuinsApi.Services.DataAccess
 {
@@ -21,17 +22,36 @@ namespace RuinsApi.Services.DataAccess
 
 		public async Task<List<CodexData>> GetAllData()
 		{
-			return await _ruinsContext.CodexData.ToListAsync();
+			return await GetAllData(false);
+		}
+
+		public async Task<List<CodexData>> GetAllData(bool withCategoryName)
+		{
+			IQueryable<CodexData> query = _ruinsContext.CodexData.AsNoTracking();
+
+			if (withCategoryName)
+			{
+				query = query.Include(data => data.Category);
+			}
+
+			var resultList = await query.ToListAsync();
+
+			if (withCategoryName)
+			{
+				resultList = new List<CodexData>(resultList.Select(data => new CodexDataDto(data)));
+			}
+
+			return resultList;
 		}
 
 		public async Task<CodexData> GetDataById(int id)
 		{
-			return await _ruinsContext.CodexData.FirstOrDefaultAsync(r => r.Id == id);
+			return await _ruinsContext.CodexData.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id);
 		}
 
 		public async Task<CodexData> CreateOrUpdateData(int id, CodexData value)
 		{
-			if (_ruinsContext.Relict.Any(r => r.Id == id))
+			if (_ruinsContext.Relict.AsNoTracking().Any(r => r.Id == id))
 			{
 				return await UpdateData(id, value);
 			}
@@ -105,17 +125,17 @@ namespace RuinsApi.Services.DataAccess
 
 		public async Task<List<CodexCategory>> GetAllCategories()
 		{
-			return await _ruinsContext.CodexCategory.ToListAsync();
+			return await _ruinsContext.CodexCategory.AsNoTracking().ToListAsync();
 		}
 
 		public async Task<CodexCategory> GetCategoryById(int id)
 		{
-			return await _ruinsContext.CodexCategory.FirstOrDefaultAsync(r => r.Id == id);
+			return await _ruinsContext.CodexCategory.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id);
 		}
 
 		public async Task<CodexCategory> CreateOrUpdateCategory(int id, CodexCategory value)
 		{
-			if (_ruinsContext.Relict.Any(r => r.Id == id))
+			if (_ruinsContext.Relict.AsNoTracking().Any(r => r.Id == id))
 			{
 				return await UpdateCategory(id, value);
 			}

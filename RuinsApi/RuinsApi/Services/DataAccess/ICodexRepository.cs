@@ -7,6 +7,7 @@ namespace RuinsApi.Services.DataAccess
 	public interface ICodexRepository
 	{
 		Task<List<CodexData>> GetAllData();
+		Task<List<CodexData>> GetAllData(bool withCategoryName);
 		Task<CodexData> GetDataById(int id);
 		Task<CodexData> CreateOrUpdateData(int id, CodexData value);
 		Task<CodexData> CreateData(CodexData value);

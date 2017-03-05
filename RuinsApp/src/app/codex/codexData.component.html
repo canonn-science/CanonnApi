@@ -11,10 +11,10 @@
 	</thead>
 	<tbody>
 
-	<tr *ngFor="let data of codexData">
+	<tr *ngFor="let data of (codexData$ | async)">
 		<td>{{data.id}}</td>
 		<td>{{data.categoryId}}</td>
-		<td>{{getCategoryName(data.categoryId)}}</td>
+		<td>{{data.categoryName}}</td>
 		<td>{{data.entryNumber}}</td>
 		<td>{{data.text}}</td>
 	</tr>

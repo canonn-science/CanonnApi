@@ -15,8 +15,8 @@ export class ApiBasedataService<TDto extends IDto> extends ApiBaseService {
 		this.baseUrl = `${this._apiBaseUrl}/${apiVersion}/${controllerName}/`;
 	}
 
-	public getAll(): Observable<TDto[]> {
-		return this._http.get(this.baseUrl)
+	public getAll(withName: boolean = false): Observable<TDto[]> {
+		return this._http.get(`${this.baseUrl}?withCategoryName=${withName}`)
 			.map(res => <TDto[]>res.json());
 	}
 

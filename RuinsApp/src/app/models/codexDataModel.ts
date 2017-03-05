@@ -8,4 +8,6 @@ export class CodexDataModel {
 	public category: CodexCategoryModel;
 	public created: string;
 	public updated: string;
+
+	public categoryName: string;
 }
