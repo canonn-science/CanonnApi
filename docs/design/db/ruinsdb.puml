@@ -1,90 +1,112 @@
 @startuml
+
 object relict
-relict : id = INT, NOT NULL, AUTO_INCREMENT
-relict : name = TINYTEXT, NOT NULL
-relict : created = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP
-relict : updated = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP, ON UPDATE CURRENT_TIMESTAMP
+relict : id = INT
+relict : name = TINYTEXT
+relict : created = DATETIME
+relict : updated = DATETIME
 
 object codex_category
-codex_category : id = INT, NOT NULL, AUTO_INCREMENT
-codex_category : primary_relict = INT, NOT NULL, FK on relict.id
-codex_category : name = VARCHAR 50, NOT NULL
-codex_category : created = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP
-codex_category : updated = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP, ON UPDATE CURRENT_TIMESTAMP
+codex_category : id = INT
+codex_category : primary_relict = INT, FK on relict.id
+codex_category : name = VARCHAR 50
+codex_category : created = DATETIME
+codex_category : updated = DATETIME
 
 codex_category "0..1" -- "1" relict
 
 object codex_data
-codex_data : id = INT, NOT NULL, AUTO_INCREMENT
-codex_data : category_id, INT, NOT NULL, FK on codex_category
-codex_data : entry_number = INT, NOT NULL
-codex_data : text = TEXT, NOT NULL
-codex_data : created = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP
-codex_data : updated = DATETIME, NOT NULL, DEFAULT CURRENT_TIMESTAMP, ON UPDATE CURRENT_TIMESTAMP
+codex_data : id = INT
+codex_data : category_id, INT, FK on codex_category
+codex_data : entry_number = INT
+codex_data : text = TEXT
+codex_data : created = DATETIME
+codex_data : updated = DATETIME
 
 codex_data "1..n" -- "1" codex_category
 
 
-object RuinType
-RuinType : Id = int, autoinc
-RuinType : Name = string (Alpha, Beta..)
+object ruin_type
+ruin_type : id = INT
+ruin_type : name = TEXT
+ruin_type : created = DATETIME
+ruin_type : updated = DATETIME
 
 
-object RuinLayout
-RuinLayout : Id = int, autoinc
-RuinLayout : RuinTypeId
-RuinLayout : Name = int (1, 2...)
+object obelisk_group
+obelisk_group : id = INT
+obelisk_group : type_id = INT
+obelisk_group : name = TEXT
+obelisk_group : amount = INT
+obelisk_group : created = DATETIME
+obelisk_group : updated = DATETIME
 
-RuinLayout "1..n" -- "1" RuinType
-
-
-object RuinVariant
-RuinVariant : Id = int, autoinc
-RuinVariant : RuinLayoutId
-RuinVariant : Name = string (a,b...)
-
-RuinVariant "1..n" -- "1" RuinLayout
+obelisk_group "1..n" -- "1" ruin_type
 
 
-object ObeliskGroup
-ObeliskGroup : Id = int, autoinc
-ObeliskGroup : RuinLayoutId
-ObeliskGroup : Name = string (A,B...)
-ObeliskGroup : ObeliskCount = int
+object obelisk
+obelisk : id = INT
+obelisk : group_id = INT
+obelisk : number = INT
+obelisk : relict_id = INT
+obelisk : data_id = INT
+obelisk : created = DATETIME
+obelisk : updated = DATETIME
 
-ObeliskGroup "1..n" -- "1" RuinLayout
-
-
-object Obelisk
-Obelisk : Id = int, autoinc
-Obelisk : RuinLayoutId
-Obelisk : ObeliskGroupId
-Obelisk : DataId
-Obelisk : UnlockRelictId = (nullable)
-Obelisk : Number = int (1,2...)
+obelisk "1..n" -- "1" obelisk_group
+obelisk "0..n" -- "0..1" relict
+obelisk "0..1" -- "0..1" codex_data
 
 
-Obelisk "n" -- "1" RuinLayout
-Obelisk "n" -- "1" ObeliskGroup
-Obelisk "n" -- "1" Data
-Obelisk "0..n" -- "0..1" relict
+object ruin_layout
+ruin_layout : id = INT
+ruin_layout : type_id = INT
+ruin_layout : name = TEXT
+ruin_layout : created = DATETIME
+ruin_layout : updated = DATETIME
+
+ruin_layout "1..n" -- "1" ruin_type
 
 
-object ActiveObelisk
-ActiveObelisk : Id = int, autoinc
-ActiveObelisk : ObeliskId
-ActiveObelisk : RuinVariantId
+object ruinlayout_obeliskgroups
+ruinlayout_obeliskgroups : id = INT
+ruinlayout_obeliskgroups : layout_id = INT
+ruinlayout_obeliskgroups : group_id = INT
+ruinlayout_obeliskgroups : created = DATETIME
+ruinlayout_obeliskgroups : updated = DATETIME
 
-ActiveObelisk "0..n" -- "1" Obelisk
-ActiveObelisk "0..n" -- "1" RuinVariant
+ruinlayout_obeliskgroups "1" -- "0..n" ruin_layout
+ruinlayout_obeliskgroups "1" -- "0..n" obelisk_group
+
+
+object layout_variant
+layout_variant : id = INT
+layout_variant : layout_id = INT
+layout_variant : name = TEXT
+layout_variant : created = DATETIME
+layout_variant : updated = DATETIME
+
+layout_variant "1..n" -- "1" ruin_layout
+
+
+object active_obelisk
+active_obelisk : id = INT
+active_obelisk : obelisk_id = INT
+active_obelisk : variant_id = INT
+active_obelisk : created = DATETIME
+active_obelisk : updated = DATETIME
+
+active_obelisk "0..1" -- "0..n" obelisk
+active_obelisk "0..1" -- "0..n" layout_variant
+
 
 
 object BrokenObelisk
 BrokenObelisk : RuinLayoutId
 BrokenObelisk : ObeliskId
 
-BrokenObelisk  "0..n" -- "1" RuinLayout
-BrokenObelisk "0..1" -- "0..n" Obelisk
+BrokenObelisk  "0..n" -- "1" layout_variant
+BrokenObelisk "0..1" -- "0..n" obelisk
 
 
 object System
@@ -114,7 +136,7 @@ Site : Longitude
 
 Site "1..n" -- "1" System
 Site "1..n" -- "1" Body
-Site "1..n" -- "1" RuinVariant
+Site "1..n" -- "1" layout_variant
 
 
 object SiteDiscovery
@@ -134,14 +156,6 @@ SiteConfirmation : Confirmed = bool
 SiteConfirmation "0..n" -- "1" Site
 
 
-object ActiveObeliskConfirmation
-ActiveObeliskConfirmation : ActiveObeliskId
-ActiveObeliskConfirmation : UserName = string (Cmdr Arcanonn)
-ActiveObeliskConfirmation : Date = DateTime
-ActiveObeliskConfirmation : Confirmed = bool
-
-ActiveObeliskConfirmation "0..n" - "1" ActiveObelisk
-
 
 object ObeliskPlacement
 ObeliskPlacement : RuinLayoutId
@@ -150,8 +164,7 @@ ObeliskPlacement : positionX = 1.3
 ObeliskPlacement : positionY = 4.5
 ObeliskPlacement : bearing = 180
 
-ObeliskPlacement "1..n" -- "1" RuinLayout
-ObeliskPlacement "1..n" -- "1" Obelisk
+ObeliskPlacement "1" -- "1" obelisk
 
 
 object RelictPlacement
@@ -160,6 +173,7 @@ RelictPlacement : RelictId
 RelictPlacement : positionX = 1.3
 RelictPlacement : positionY = 4.5
 
-RelictPlacement "0..n" -- "1" RuinLayout
+RelictPlacement "0..n" -- "1" ruin_layout
 RelictPlacement "1..n" -- "1" relict
+
 @enduml
