@@ -10,8 +10,8 @@ _Hint: When updating the PUML file, change this link to include a new version pa
 
 # Model generation
 
-Using the NuGet packages `Pomelo.EntityFrameworkCore.MySql` and `Pomelo.EntityFrameworkCore.MySql.Design` you can generate the model using this command:
+Using the NuGet packages `Pomelo.EntityFrameworkCore.MySql` and `Pomelo.EntityFrameworkCore.MySql.Design` you can generate / update the model using this command:
 
 ```
-Scaffold-DbContext "server=DB-HOST;database=DB-NAME;userid=DB-USER;password=DB-PASSWORD" Pomelo.EntityFrameworkCore.MySql -OutputDir DatabaseModels
+Scaffold-DbContext "server=DB-HOST;database=DB-NAME;userid=DB-USER;password=DB-PASSWORD" Pomelo.EntityFrameworkCore.MySql -Context RuinsContext -OutputDir DatabaseModels -Force
 ```
