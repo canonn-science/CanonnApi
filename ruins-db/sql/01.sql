@@ -18,7 +18,7 @@ CREATE TABLE `relict` (
 	PRIMARY KEY (`id`)
 )
 COMMENT='holds the actual relicts'
-COLLATE='latin7_general_ci'
+COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
 
@@ -29,11 +29,11 @@ CREATE TABLE `codex_category` (
 	`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
-	INDEX `fk_relict` (`primary_relict`),
-	CONSTRAINT `fk_relict` FOREIGN KEY (`primary_relict`) REFERENCES `relict` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+	INDEX `FK_codexcategory_relict` (`primary_relict`),
+	CONSTRAINT `FK_codexcategory_relic` FOREIGN KEY (`primary_relict`) REFERENCES `relict` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 )
 COMMENT='Holds the categories for the codes data'
-COLLATE='latin7_general_ci'
+COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
 
@@ -45,17 +45,13 @@ CREATE TABLE `codex_data` (
 	`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
-	INDEX `fk_category` (`category_id`),
-	CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `codex_category` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+	INDEX `FK_codexdata_codexcategory` (`category_id`),
+	CONSTRAINT `FK_codexdata_codexcategory` FOREIGN KEY (`category_id`) REFERENCES `codex_category` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 )
 COMMENT='holds the data for all the codex entries'
-COLLATE='latin7_general_ci'
+COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
-
-ALTER TABLE relict CONVERT TO CHARACTER SET utf8;
-ALTER TABLE codex_category CONVERT TO CHARACTER SET utf8;
-ALTER TABLE codex_data CONVERT TO CHARACTER SET utf8;
 
 INSERT INTO `relict` (`id`, `name`) VALUES
 	(1, 'Casket'),
