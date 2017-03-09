@@ -1,4 +1,4 @@
-import {RelictsModel} from '../../models/relictsModel';
+import {RelictModel} from '../../models/relictModel';
 import {Logger} from 'angular2-logger/app/core/logger';
 import {Http} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
@@ -6,7 +6,7 @@ import {ApiBasedataService} from './apiBasedata.service';
 import {Injectable} from '@angular/core';
 
 @Injectable()
-export class RelictsApiService extends ApiBasedataService<RelictsModel> {
+export class RelictApiService extends ApiBasedataService<RelictModel> {
 
 	private _baseUrl = null;
 

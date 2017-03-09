@@ -3,9 +3,9 @@ import {Http} from '@angular/http';
 import {Logger} from 'angular2-logger/app/core/logger';
 import {ApiBaseService} from './apiBase.service';
 import {Observable} from 'rxjs/Rx';
-import {IDto} from '../../models/IDto';
+import {BaseDataDto} from '../../models/baseDataDto';
 
-export class ApiBasedataService<TDto extends IDto> extends ApiBaseService {
+export class ApiBasedataService<TDto extends BaseDataDto> extends ApiBaseService {
 
 	public baseUrl: string = null;
 

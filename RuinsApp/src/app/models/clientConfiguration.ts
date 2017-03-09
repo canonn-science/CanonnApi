@@ -1,4 +1,4 @@
-export interface IClientConfiguration {
+export interface ClientConfiguration {
 	clientId: string;
 	domain: string;
 }

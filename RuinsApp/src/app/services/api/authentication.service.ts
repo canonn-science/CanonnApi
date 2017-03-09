@@ -4,8 +4,8 @@ import {AuthHttp, tokenNotExpired} from 'angular2-jwt';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/find';
-import {IClientConfiguration} from '../../models/clientConfiguration';
-import {IUserInformation} from '../../models/IUserInformation';
+import {ClientConfiguration} from '../../models/clientConfiguration';
+import {UserInformation} from '../../models/userInformation';
 import {ApiBaseService} from './apiBase.service';
 import {Http} from '@angular/http';
 import {Logger} from 'angular2-logger/app/core/logger';
@@ -34,8 +34,8 @@ export class AuthenticationService extends ApiBaseService {
 		},
 	};
 
-	public userInformation: IUserInformation = null;
-	private userInformation$: Observable<IUserInformation> = null;
+	public userInformation: UserInformation = null;
+	private userInformation$: Observable<UserInformation> = null;
 
 	constructor(logger: Logger, http: Http, authHttp: AuthHttp, private _router: Router, private _linq: LinqService) {
 		super(logger, http, authHttp);
@@ -88,7 +88,7 @@ export class AuthenticationService extends ApiBaseService {
 		}
 	}
 
-	private getClientConfiguration(): Observable<IClientConfiguration> {
+	private getClientConfiguration(): Observable<ClientConfiguration> {
 		const url = `${this._apiBaseUrl}/v1/clientconfiguration`;
 		this._logger.debug('[authenticationService] trying to load client configuration from url', url);
 
@@ -96,7 +96,7 @@ export class AuthenticationService extends ApiBaseService {
 			.map((res) => {
 				const obj = res.json();
 				this._logger.debug('[authenticationService] Received client configuration', obj);
-				return <IClientConfiguration>(obj);
+				return <ClientConfiguration>(obj);
 			})
 			.retryWhen(err => err
 				.do(val => this._logger.warn(`[authenticationService] Could not fetch client configuration. Error: ${val}.`))
@@ -104,7 +104,7 @@ export class AuthenticationService extends ApiBaseService {
 			);
 	}
 
-	private createLockInstance(config: IClientConfiguration) {
+	private createLockInstance(config: ClientConfiguration) {
 		const lock = new Auth0Lock(config.clientId, config.domain, this._lockOptions);
 
 		lock.on('authenticated', (authResult) => {
@@ -122,7 +122,7 @@ export class AuthenticationService extends ApiBaseService {
 
 		if (this.userInformation$ === null) {
 			this.userInformation$ = this._authHttp.get(url)
-				.map(res => <IUserInformation>(res.json()))
+				.map(res => <UserInformation>(res.json()))
 				.do(() => this.redirectIfRequired());
 
 			this.userInformation$.subscribe(

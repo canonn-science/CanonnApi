@@ -1,6 +1,6 @@
-import {IIdentity} from './IIdentity';
+import {Identity} from './identity';
 
-export interface IUserInformation {
+export interface UserInformation {
 	email: string;
 	name: string;
 	given_name: string;
@@ -14,6 +14,6 @@ export interface IUserInformation {
 	permissions: string[];
 	email_verified: boolean;
 	updated_at: string;
-	identities: IIdentity[];
+	identities: Identity[];
 	created_at: string;
 }

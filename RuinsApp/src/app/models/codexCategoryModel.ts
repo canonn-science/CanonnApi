@@ -7,4 +7,8 @@ export class CodexCategoryModel {
 	public created: string;
 	public updated: string;
 	public codexData: CodexDataModel[];
+
+	constructor(id?: number) {
+		this.id = id;
+	}
 }

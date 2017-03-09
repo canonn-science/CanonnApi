@@ -1,8 +1,9 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {RelictsComponent} from './relicts/relicts.component';
-import {CodexCategoryComponent} from './codex/codexCategory.component';
-import {CodexDataComponent} from './codex/codexData.component';
+import {RelictsComponent} from './components/baseData/relicts.component';
+import {CodexCategoryComponent} from './components/baseData/codexCategory.component';
+import {CodexDataComponent} from './components/baseData/codexData.component';
+import {environment} from '../environments/environment';
 
 const routes: Routes = [
 	{
@@ -21,7 +22,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes)],
+	imports: [RouterModule.forRoot(routes, { enableTracing: !environment.production })],
 	exports: [RouterModule],
 	providers: []
 })

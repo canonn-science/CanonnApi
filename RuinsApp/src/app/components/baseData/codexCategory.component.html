@@ -14,7 +14,7 @@
 		<td>{{category.id}}</td>
 		<td>{{category.name}}</td>
 		<td>{{category.primaryRelict}}</td>
-		<td>{{getRelictName(category.primaryRelict)}}</td>
+		<td>{{baseData.relictLookup[category.primaryRelict]?.name || 'n/a'}}</td>
 	</tr>
 
 	</tbody>
