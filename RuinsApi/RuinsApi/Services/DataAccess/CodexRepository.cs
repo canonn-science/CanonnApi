@@ -51,7 +51,7 @@ namespace RuinsApi.Services.DataAccess
 
 		public async Task<CodexData> CreateOrUpdateData(int id, CodexData value)
 		{
-			if (_ruinsContext.Relict.AsNoTracking().Any(r => r.Id == id))
+			if (_ruinsContext.CodexData.AsNoTracking().Any(r => r.Id == id))
 			{
 				return await UpdateData(id, value);
 			}

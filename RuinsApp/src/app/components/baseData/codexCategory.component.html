@@ -4,8 +4,9 @@
 	<tr>
 		<th>Id</th>
 		<th>Name</th>
-		<th>Primary relict id</th>
-		<th>Primary relict name (fetched)</th>
+		<th>Primary relict</th>
+		<th *ngIf="auth.hasPermission('edit:codexcategory')">Edit</th>
+		<th *ngIf="auth.hasPermission('delete:codexcategory')">Delete</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -13,9 +14,24 @@
 	<tr *ngFor="let category of codexCategories">
 		<td>{{category.id}}</td>
 		<td>{{category.name}}</td>
-		<td>{{category.primaryRelict}}</td>
 		<td>{{baseData.relictLookup[category.primaryRelict]?.name || 'n/a'}}</td>
+		<td *ngIf="auth.hasPermission('edit:codexcategory')"><button [disabled]="editingData" (click)="edit(category)">Edit</button></td>
+		<td *ngIf="auth.hasPermission('delete:codexcategory')"><button [disabled]="editingData" (click)="delete(category)">Delete</button></td>
 	</tr>
 
 	</tbody>
 </table>
+
+<button *ngIf="auth.hasPermission('add:codexcategory')" [disabled]="editingData" (click)="createNew()">Create new</button>
+<div *ngIf="editingData">
+	<h3>Edit codex category:</h3>
+	<label for="name">Name:</label>
+	<input name="name" type="text" [(ngModel)]="editingData.name">
+
+	<label for="primaryrelict">Primary relict:</label>
+	<select name="primaryrelict" placeholder="Select primary relict" [(ngModel)]="editingData.primaryRelict">
+		<option *ngFor="let relict of baseData.relictData" [ngValue]="relict.id">{{relict.name}}</option>
+	</select>
+
+	<button (click)="discard()">Discard</button> <button (click)="save()">Save</button>
+</div>

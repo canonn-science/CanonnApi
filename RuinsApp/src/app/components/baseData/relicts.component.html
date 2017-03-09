@@ -23,6 +23,6 @@
 <button *ngIf="auth.hasPermission('add:relict')" [disabled]="editingRelict" (click)="createNew()">Create new</button>
 <div *ngIf="editingRelict">
 	<h3>Edit relict:</h3>
-	Name: <input type="text" [(ngModel)]="editingRelict.name">
+	<label for="name">Name:</label> <input name="name" type="text" [(ngModel)]="editingRelict.name">
 	<button (click)="discard()">Discard</button> <button (click)="save()">Save</button>
 </div>

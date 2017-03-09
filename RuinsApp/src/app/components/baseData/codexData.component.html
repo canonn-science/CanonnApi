@@ -3,21 +3,41 @@
 	<thead>
 	<tr>
 		<th>Id</th>
-		<th>Category Id</th>
-		<th>Category Name (fetched)</th>
+		<th>Category</th>
 		<th>Entry No.</th>
 		<th>Text</th>
+		<th *ngIf="auth.hasPermission('edit:codexdata')">Edit</th>
+		<th *ngIf="auth.hasPermission('delete:codexdata')">Delete</th>
 	</tr>
 	</thead>
 	<tbody>
 
 	<tr *ngFor="let data of (codexData)">
 		<td>{{data.id}}</td>
-		<td>{{data.categoryId}}</td>
-		<td>{{baseDataLookupService.codexCategoryLookup[data.categoryId]?.name || 'n/a'}}</td>
+		<td>{{baseData.codexCategoryLookup[data.categoryId]?.name || 'n/a'}}</td>
 		<td>{{data.entryNumber}}</td>
 		<td>{{data.text}}</td>
+		<td *ngIf="auth.hasPermission('edit:codexdata')"><button [disabled]="editing" (click)="edit(data)">Edit</button></td>
+		<td *ngIf="auth.hasPermission('delete:codexdata')"><button [disabled]="editing" (click)="delete(data)">Delete</button></td>
 	</tr>
 
 	</tbody>
 </table>
+
+<button *ngIf="auth.hasPermission('add:codexdata')" [disabled]="editing" (click)="createNew()">Create new</button>
+<div *ngIf="editing">
+	<h3>Edit codex entry:</h3>
+
+	<label for="category">Category:</label>
+	<select name="category" placeholder="Select category" [(ngModel)]="editing.categoryId">
+		<option *ngFor="let category of baseData.codexCategoryData" [ngValue]="category.id">{{category.name}}</option>
+	</select>
+
+	<label for="entryno">Entry number:</label>
+	<input type="number" name="entryno" [(ngModel)]="editing.entryNumber" />
+
+	<label for="text">Text:</label>
+	<input name="text" type="text" [(ngModel)]="editing.text">
+
+	<button (click)="discard()">Discard</button> <button (click)="save()">Save</button>
+</div>
