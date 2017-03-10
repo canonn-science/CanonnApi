@@ -135,7 +135,7 @@ namespace RuinsApi.Services.DataAccess
 
 		public async Task<CodexCategory> CreateOrUpdateCategory(int id, CodexCategory value)
 		{
-			if (_ruinsContext.Relict.AsNoTracking().Any(r => r.Id == id))
+			if (_ruinsContext.CodexCategory.AsNoTracking().Any(r => r.Id == id))
 			{
 				return await UpdateCategory(id, value);
 			}

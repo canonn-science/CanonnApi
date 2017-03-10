@@ -6,6 +6,7 @@
 import {Level as LoggerLevel} from 'angular2-logger/app/core/level';
 
 export const environment = {
+	version: '1.0.0-beta1',
 	production: false,
 	apiBaseUri: 'http://localhost:52685',
 	initialLogLevel: LoggerLevel.LOG,

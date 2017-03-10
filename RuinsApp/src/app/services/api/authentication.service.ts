@@ -10,12 +10,11 @@ import {ApiBaseService} from './apiBase.service';
 import {Http} from '@angular/http';
 import {Logger} from 'angular2-logger/app/core/logger';
 import {Router} from '@angular/router';
-import {LinqService} from 'ng2-linq';
 
 @Injectable()
 export class AuthenticationService extends ApiBaseService {
 
-	private _lock: any = null;
+	private _lock: any;
 	private _lockOptions = {
 		auth: {
 			redirectUrl: window.location.origin,
@@ -25,7 +24,7 @@ export class AuthenticationService extends ApiBaseService {
 			}
 		},
 		theme: {
-			logo: 'https://canonn-api.sonargaming.com/canonn.png',
+			logo: '/assets/canonn.png',
 		},
 		socialButtonStyle: <'big' | 'small'>('small'), // huh? Strange workaround around typings in TypeScript .oO
 		languageDictionary: {
@@ -34,10 +33,10 @@ export class AuthenticationService extends ApiBaseService {
 		},
 	};
 
-	public userInformation: UserInformation = null;
-	private userInformation$: Observable<UserInformation> = null;
+	public userInformation: UserInformation;
+	private userInformation$: Observable<UserInformation>;
 
-	constructor(logger: Logger, http: Http, authHttp: AuthHttp, private _router: Router, private _linq: LinqService) {
+	constructor(logger: Logger, http: Http, authHttp: AuthHttp, private _router: Router) {
 		super(logger, http, authHttp);
 
 		this._logger.log('[authenticationService] Instanciating & loading client configuration...');
@@ -51,24 +50,22 @@ export class AuthenticationService extends ApiBaseService {
 	public login() {
 		this._lockOptions.auth.params.state = this._router.url;
 		this._lock.show(this._lockOptions);
+		return false;
 	}
 
 	public logout() {
-		this.userInformation = null;
+		this.userInformation = void 0;
 		localStorage.removeItem('id_token');
+		return false;
 	}
 
 	public isReady() {
-		return (this._lock !== null);
+		return (this._lock);
 	}
 
 	public hasPermission(permission: string): boolean {
-		if (this.userInformation !== null) {
-			for (let i = 0; i < this.userInformation.permissions.length; i++) {
-				if (this.userInformation.permissions[i] === permission) {
-					return true;
-				}
-			}
+		if (this.userInformation) {
+			return (this.userInformation.permissions.includes(permission));
 		}
 
 		return false;
@@ -78,7 +75,7 @@ export class AuthenticationService extends ApiBaseService {
 		try {
 			const result = tokenNotExpired();
 
-			if ((result) && this.userInformation === null) {
+			if (result && !this.userInformation) {
 				this.fetchUserInformation();
 			}
 
@@ -120,7 +117,7 @@ export class AuthenticationService extends ApiBaseService {
 	private fetchUserInformation() {
 		const url = `${this._apiBaseUrl}/v1/userinformation`;
 
-		if (this.userInformation$ === null) {
+		if (!this.userInformation$) {
 			this.userInformation$ = this._authHttp.get(url)
 				.map(res => <UserInformation>(res.json()))
 				.do(() => this.redirectIfRequired());
@@ -129,7 +126,7 @@ export class AuthenticationService extends ApiBaseService {
 				userInfo => {
 					this._logger.debug(`[authenticationService] Received user information`, userInfo);
 					this.userInformation = userInfo;
-					this.userInformation$ = null;
+					this.userInformation$ = void 0;
 				},
 				err => this._logger.error(`[authenticationService] Error fetching user information: ${err}.`)
 			);

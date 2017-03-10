@@ -1,43 +1,116 @@
-<h2>Codex Data</h2>
-<table>
-	<thead>
-	<tr>
-		<th>Id</th>
-		<th>Category</th>
-		<th>Entry No.</th>
-		<th>Text</th>
-		<th *ngIf="auth.hasPermission('edit:codexdata')">Edit</th>
-		<th *ngIf="auth.hasPermission('delete:codexdata')">Delete</th>
-	</tr>
-	</thead>
-	<tbody>
+<section class="content-header">
+	<h1>Base data: Codex data
+		<small>Data entries from the Guardians' obelisk network</small>
+	</h1>
+</section>
+<section class="content">
+	<div class="row">
 
-	<tr *ngFor="let data of (codexData)">
-		<td>{{data.id}}</td>
-		<td>{{baseData.codexCategoryLookup[data.categoryId]?.name || 'n/a'}}</td>
-		<td>{{data.entryNumber}}</td>
-		<td>{{data.text}}</td>
-		<td *ngIf="auth.hasPermission('edit:codexdata')"><button [disabled]="editing" (click)="edit(data)">Edit</button></td>
-		<td *ngIf="auth.hasPermission('delete:codexdata')"><button [disabled]="editing" (click)="delete(data)">Delete</button></td>
-	</tr>
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Codex data</h3>
+				</div>
+				<div class="box-body">
 
-	</tbody>
-</table>
+					<table class="table table-striped">
 
-<button *ngIf="auth.hasPermission('add:codexdata')" [disabled]="editing" (click)="createNew()">Create new</button>
-<div *ngIf="editing">
-	<h3>Edit codex entry:</h3>
+						<thead>
+						<tr>
+							<th class="column-shrink">#</th>
+							<th>Category</th>
+							<th>Entry No.</th>
+							<th class="column-expand">Text</th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexdata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexdata')"></th>
+						</tr>
 
-	<label for="category">Category:</label>
-	<select name="category" placeholder="Select category" [(ngModel)]="editing.categoryId">
-		<option *ngFor="let category of baseData.codexCategoryData" [ngValue]="category.id">{{category.name}}</option>
-	</select>
+						</thead>
+						<tbody>
 
-	<label for="entryno">Entry number:</label>
-	<input type="number" name="entryno" [(ngModel)]="editing.entryNumber" />
+						<tr role="row" *ngFor="let entry of data">
+							<td>{{entry.id}}</td>
+							<td>{{baseData.codexCategoryLookup[entry.categoryId]?.name || 'n/a'}}</td>
+							<td>{{entry.entryNumber}}</td>
+							<td>{{entry.text}}</td>
+							<td *ngIf="auth.hasPermission('edit:codexdata')">
+								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(entry)" title="Edit"><i class="fa fa-edit"></i></button>
+							</td>
+							<td *ngIf="auth.hasPermission('delete:codexdata')">
+								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(entry)" title="Delete"><i class="fa fa-trash-o"></i></button>
+							</td>
+						</tr>
 
-	<label for="text">Text:</label>
-	<input name="text" type="text" [(ngModel)]="editing.text">
+						</tbody>
+					</table>
+				</div>
 
-	<button (click)="discard()">Discard</button> <button (click)="save()">Save</button>
-</div>
+				<div class="box-footer" *ngIf="auth.hasPermission('add:codexdata')">
+					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add codex data"><i class="fa fa-plus"></i> Add new codex data</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row" *ngIf="editingData">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">{{ editingData.id == 0 ? 'Add new' : 'Edit existing' }} codex data</h3>
+				</div>
+				<div class="box-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+
+							<label *ngIf="(editingData.id !== 0)" class="col-sm-3 control-label" for="dataid">#</label>
+							<div *ngIf="(editingData.id !== 0)" class="col-sm-9">
+								<input class="form-control" id="dataid" name="id" type="text" [(ngModel)]="editingData.id" disabled>
+							</div>
+
+							<label class="col-sm-3 control-label" for="entrycategory">Category:</label>
+							<div class="col-sm-9">
+								<select class="form-control" id="entrycategory" name="entrycategory" placeholder="Select category" [(ngModel)]="editingData.categoryId">
+									<option *ngFor="let category of baseData.codexCategoryData" [ngValue]="category.id">{{category.name}}</option>
+								</select>
+							</div>
+
+							<label class="col-sm-3 control-label" for="entryno">Entry number:</label>
+							<div class="col-sm-9">
+								<input class="form-control" id="entryno" type="number" name="entryno" [(ngModel)]="editingData.entryNumber" />
+							</div>
+
+							<label class="col-sm-3 control-label" for="text">Text:</label>
+							<div class="col-sm-9">
+								<input class="form-control" id="text" name="text" type="text" [(ngModel)]="editingData.text">
+							</div>
+
+						</div>
+					</form>
+				</div>
+				<div class="box-footer">
+					<div class="col-sm-3"></div>
+					<div class="col-sm-9">
+						<button class="btn btn-primary" (click)="save()">Save</button>
+						<button class="btn" (click)="discard()">Discard</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Public API description</h3>
+				</div>
+				<div class="box-body">
+					<p><code><span class="label label-success">HTTP GET</span> /api/v1/codex/data</code><p>
+					<p>Returns:</p>
+					<pre>{{format(data)}}</pre>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

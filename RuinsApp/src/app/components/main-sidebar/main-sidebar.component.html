@@ -1,0 +1,31 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+
+	<section class="sidebar">
+
+		<!-- sidebar: style can be found in sidebar.less -->
+		<div class="sidebar" id="scrollspy">
+
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="nav sidebar-menu">
+
+				<!-- base data -->
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-folder"></i>
+						<span>Base data</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li><a [routerLink]="['/basedata/relicts']"><i class="fa fa-circle-o"></i>Relicts</a></li>
+						<li><a [routerLink]="['/basedata/codexcategories']"><i class="fa fa-circle-o"></i>Codex categories</a></li>
+						<li><a [routerLink]="['/basedata/codexdata']"><i class="fa fa-circle-o"></i>Codex data</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</section>
+	<!-- /.sidebar -->
+</aside>

@@ -4,8 +4,13 @@ import {RelictsComponent} from './components/baseData/relicts.component';
 import {CodexCategoryComponent} from './components/baseData/codexCategory.component';
 import {CodexDataComponent} from './components/baseData/codexData.component';
 import {environment} from '../environments/environment';
+import {IntroComponent} from './components/intro/intro.component';
 
 const routes: Routes = [
+	{
+		path: '',
+		component: IntroComponent,
+	},
 	{
 		path: 'basedata',
 		children: [{

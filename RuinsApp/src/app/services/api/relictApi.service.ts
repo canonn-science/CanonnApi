@@ -7,12 +7,7 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class RelictApiService extends ApiBasedataService<RelictModel> {
-
-	private _baseUrl = null;
-
 	constructor(logger: Logger, http: Http, authHttp: AuthHttp) {
 		super('relicts', logger, http, authHttp);
-
-		this._baseUrl = `${this._apiBaseUrl}/v1/relicts/`;
 	}
 }

@@ -12,15 +12,15 @@ export class BaseDataLookupService {
 	private timer: Subscription;
 	private request$: Observable<any>;
 
-	public relictData: RelictModel[];
+	public relictData: RelictModel[] = [];
 	public relictLookup: {
 		[key: number]: RelictModel,
-	};
+	} = {};
 
-	public codexCategoryData: CodexCategoryModel[];
+	public codexCategoryData: CodexCategoryModel[] = [];
 	public codexCategoryLookup: {
 		[key: number]: CodexCategoryModel,
-	};
+	} = {};
 
 	constructor(private _relictsApi: RelictApiService, private _codexCategoryApi: CodexCategoryApiService) {
 		const relicts = this._relictsApi.getAll();

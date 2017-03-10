@@ -1,37 +1,108 @@
-<h2>Codex Category</h2>
-<table>
-	<thead>
-	<tr>
-		<th>Id</th>
-		<th>Name</th>
-		<th>Primary relict</th>
-		<th *ngIf="auth.hasPermission('edit:codexcategory')">Edit</th>
-		<th *ngIf="auth.hasPermission('delete:codexcategory')">Delete</th>
-	</tr>
-	</thead>
-	<tbody>
+<section class="content-header">
+	<h1>Base data: Codex categories
+		<small>Categories of data from the Guardians' obelisk network</small>
+	</h1>
+</section>
+<section class="content">
+	<div class="row">
 
-	<tr *ngFor="let category of codexCategories">
-		<td>{{category.id}}</td>
-		<td>{{category.name}}</td>
-		<td>{{baseData.relictLookup[category.primaryRelict]?.name || 'n/a'}}</td>
-		<td *ngIf="auth.hasPermission('edit:codexcategory')"><button [disabled]="editingData" (click)="edit(category)">Edit</button></td>
-		<td *ngIf="auth.hasPermission('delete:codexcategory')"><button [disabled]="editingData" (click)="delete(category)">Delete</button></td>
-	</tr>
+		<div class="col-xs-6">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Codex categories</h3>
+				</div>
+				<div class="box-body">
 
-	</tbody>
-</table>
+					<table class="table table-striped">
 
-<button *ngIf="auth.hasPermission('add:codexcategory')" [disabled]="editingData" (click)="createNew()">Create new</button>
-<div *ngIf="editingData">
-	<h3>Edit codex category:</h3>
-	<label for="name">Name:</label>
-	<input name="name" type="text" [(ngModel)]="editingData.name">
+						<thead>
+						<tr>
+							<th class="column-shrink">#</th>
+							<th>Category name</th>
+							<th>Primary relict</th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexcategory')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexcategory')"></th>
+						</tr>
 
-	<label for="primaryrelict">Primary relict:</label>
-	<select name="primaryrelict" placeholder="Select primary relict" [(ngModel)]="editingData.primaryRelict">
-		<option *ngFor="let relict of baseData.relictData" [ngValue]="relict.id">{{relict.name}}</option>
-	</select>
+						</thead>
+						<tbody>
 
-	<button (click)="discard()">Discard</button> <button (click)="save()">Save</button>
-</div>
+						<tr role="row" *ngFor="let category of data">
+							<td>{{category.id}}</td>
+							<td>{{category.name}}</td>
+							<td>{{baseData.relictLookup[category.primaryRelict]?.name || 'n/a'}}</td>
+							<td *ngIf="auth.hasPermission('edit:codexcategory')">
+								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(category)" title="Edit"><i class="fa fa-edit"></i></button>
+							</td>
+							<td *ngIf="auth.hasPermission('delete:codexcategory')">
+								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(category)" title="Delete"><i class="fa fa-trash-o"></i></button>
+							</td>
+						</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+				<div class="box-footer" *ngIf="auth.hasPermission('add:codexcategory')">
+					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add codex category"><i class="fa fa-plus"></i> Add new codex category</button>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-xs-6" *ngIf="editingData">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">{{ editingData.id == 0 ? 'Add new' : 'Edit existing' }} codex category</h3>
+				</div>
+				<div class="box-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+
+							<label *ngIf="(editingData.id !== 0)" class="col-sm-3 control-label" for="dataid">#</label>
+							<div *ngIf="(editingData.id !== 0)" class="col-sm-9">
+								<input class="form-control" id="dataid" name="id" type="text" [(ngModel)]="editingData.id" disabled>
+							</div>
+
+							<label class="col-sm-3 control-label" for="dataname">Name:</label>
+							<div class="col-sm-9">
+								<input class="form-control" id="dataname" name="name" type="text" [(ngModel)]="editingData.name">
+							</div>
+
+							<label class="col-sm-3 control-label" for="primaryrelict">Primary relict:</label>
+							<div class="col-sm-9">
+							<select class="form-control" id="primaryrelict" name="primaryrelict" placeholder="Select primary relict" [(ngModel)]="editingData.primaryRelict">
+								<option *ngFor="let relict of baseData.relictData" [ngValue]="relict.id">{{relict.name}}</option>
+							</select>
+							</div>
+
+						</div>
+					</form>
+				</div>
+				<div class="box-footer">
+					<div class="col-sm-3"></div>
+					<div class="col-sm-9">
+						<button class="btn btn-primary" (click)="save()">Save</button>
+						<button class="btn" (click)="discard()">Discard</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Public API description</h3>
+				</div>
+				<div class="box-body">
+					<p><code><span class="label label-success">HTTP GET</span> /api/v1/codex/category</code><p>
+					<p>Returns:</p>
+					<pre>{{format(data)}}</pre>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
