@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RuinsApi.Authorization;
 using RuinsApi.DatabaseModels;
+using RuinsApi.Json.Serialization;
 using RuinsApi.Middlewares;
 using RuinsApi.Models;
 using RuinsApi.Services;
@@ -58,7 +59,9 @@ namespace RuinsApi
 				corsPolicyBuilder.AllowAnyMethod();
 			}));
 
-			services.AddMvc();
+			services.AddMvc()
+				.AddJsonOptions(mvcJsonOptions => mvcJsonOptions.SerializerSettings.ContractResolver = new IgnoreEmptyEnumerablesResolver());
+
 			services.AddLogging();
 			services.AddMemoryCache();
 			services.AddAuthorization(authorizationOptions => AddPolicies(authorizationOptions));

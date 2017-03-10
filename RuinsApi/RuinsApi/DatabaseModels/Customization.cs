@@ -8,9 +8,4 @@ namespace RuinsApi.DatabaseModels
 			:base(options)
 		{ }
 	}
-
-	public partial class Relict
-	{
-		public string Name { get; set; }
-	}
 }
