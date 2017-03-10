@@ -110,6 +110,7 @@ namespace RuinsApi
 
 			builder.RegisterType<RelictRepository>().AsImplementedInterfaces();
 			builder.RegisterType<CodexRepository>().AsImplementedInterfaces();
+			builder.RegisterType<RuinRepository>().AsImplementedInterfaces();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -155,8 +156,11 @@ namespace RuinsApi
 				"add:codexdata",
 				"edit:codexdata",
 				"delete:codexdata",
+
+				"add:ruintype",
+				"edit:ruintype",
+				"delete:ruintype",
 			};
 		}
-
 	}
 }
