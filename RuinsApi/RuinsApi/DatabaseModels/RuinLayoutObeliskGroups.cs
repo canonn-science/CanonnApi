@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RuinsApi.DatabaseModels
 {
-    public partial class RuinlayoutObeilskgroups
+    public partial class RuinLayoutObeliskGroups
     {
         public int Id { get; set; }
         public DateTime Created { get; set; }

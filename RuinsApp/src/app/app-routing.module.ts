@@ -6,6 +6,7 @@ import {CodexCategoryComponent} from './components/baseData/codexCategory.compon
 import {CodexDataComponent} from './components/baseData/codexData.component';
 import {IntroComponent} from './components/intro/intro.component';
 import {RuinTypeComponent} from './components/baseData/ruintype.component';
+import {ObeliskGroupComponent} from 'app/components/baseData/obeliskGroup.component';
 
 const routes: Routes = [
 	{
@@ -29,6 +30,10 @@ const routes: Routes = [
 		{
 			path: 'ruinstypes',
 			component: RuinTypeComponent,
+		},
+		{
+			path: 'obeliskgroups',
+			component: ObeliskGroupComponent,
 		}]
 	}
 ];

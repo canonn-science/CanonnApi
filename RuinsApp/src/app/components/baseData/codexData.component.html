@@ -60,30 +60,31 @@
 				</div>
 				<div class="box-body">
 					<form class="form-horizontal">
-						<div class="form-group">
-
-							<label *ngIf="(editingData.id !== 0)" class="col-sm-3 control-label" for="dataid">#</label>
-							<div *ngIf="(editingData.id !== 0)" class="col-sm-9">
+						<div class="form-group" *ngIf="(editingData.id !== 0)">
+							<label class="col-sm-3 control-label" for="dataid">#</label>
+							<div class="col-sm-9">
 								<input class="form-control" id="dataid" name="id" type="text" [(ngModel)]="editingData.id" disabled>
 							</div>
-
+						</div>
+						<div class="form-group">
 							<label class="col-sm-3 control-label" for="entrycategory">Category:</label>
 							<div class="col-sm-9">
 								<select class="form-control" id="entrycategory" name="entrycategory" placeholder="Select category" [(ngModel)]="editingData.categoryId">
 									<option *ngFor="let category of baseData.codexCategoryData" [ngValue]="category.id">{{category.name}}</option>
 								</select>
 							</div>
-
+						</div>
+						<div class="form-group">
 							<label class="col-sm-3 control-label" for="entryno">Entry number:</label>
 							<div class="col-sm-9">
 								<input class="form-control" id="entryno" type="number" name="entryno" [(ngModel)]="editingData.entryNumber" />
 							</div>
-
+						</div>
+						<div class="form-group">
 							<label class="col-sm-3 control-label" for="text">Text:</label>
 							<div class="col-sm-9">
 								<input class="form-control" id="text" name="text" type="text" [(ngModel)]="editingData.text">
 							</div>
-
 						</div>
 					</form>
 				</div>

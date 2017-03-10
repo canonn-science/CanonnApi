@@ -57,25 +57,25 @@
 				</div>
 				<div class="box-body">
 					<form class="form-horizontal">
-						<div class="form-group">
-
-							<label *ngIf="(editingData.id !== 0)" class="col-sm-3 control-label" for="dataid">#</label>
-							<div *ngIf="(editingData.id !== 0)" class="col-sm-9">
+						<div class="form-group" *ngIf="(editingData.id !== 0)">
+							<label class="col-sm-3 control-label" for="dataid">#</label>
+							<div class="col-sm-9">
 								<input class="form-control" id="dataid" name="id" type="text" [(ngModel)]="editingData.id" disabled>
 							</div>
-
+						</div>
+						<div class="form-group">
 							<label class="col-sm-3 control-label" for="dataname">Name:</label>
 							<div class="col-sm-9">
 								<input class="form-control" id="dataname" name="name" type="text" [(ngModel)]="editingData.name">
 							</div>
-
+						</div>
+						<div class="form-group">
 							<label class="col-sm-3 control-label" for="primaryrelict">Primary relict:</label>
 							<div class="col-sm-9">
 							<select class="form-control" id="primaryrelict" name="primaryrelict" placeholder="Select primary relict" [(ngModel)]="editingData.primaryRelict">
 								<option *ngFor="let relict of baseData.relictData" [ngValue]="relict.id">{{relict.name}}</option>
 							</select>
 							</div>
-
 						</div>
 					</form>
 				</div>

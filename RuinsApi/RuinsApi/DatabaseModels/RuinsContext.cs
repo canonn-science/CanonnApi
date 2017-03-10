@@ -15,7 +15,7 @@ namespace RuinsApi.DatabaseModels
         public virtual DbSet<Relict> Relict { get; set; }
         public virtual DbSet<RuinLayout> RuinLayout { get; set; }
         public virtual DbSet<RuinType> RuinType { get; set; }
-        public virtual DbSet<RuinlayoutObeilskgroups> RuinlayoutObeilskgroups { get; set; }
+        public virtual DbSet<RuinLayoutObeliskGroups> RuinlayoutObeilskgroups { get; set; }
 
 /*
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -365,7 +365,7 @@ namespace RuinsApi.DatabaseModels
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 
-            modelBuilder.Entity<RuinlayoutObeilskgroups>(entity =>
+            modelBuilder.Entity<RuinLayoutObeliskGroups>(entity =>
             {
                 entity.ToTable("ruinlayout_obeilskgroups");
 
@@ -399,7 +399,7 @@ namespace RuinsApi.DatabaseModels
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.HasOne(d => d.Group)
-                    .WithMany(p => p.RuinlayoutObeilskgroups)
+                    .WithMany(p => p.RuinLayoutObeliskGroups)
                     .HasForeignKey(d => d.GroupId)
                     .HasConstraintName("FK_ruinlayoutobeliskgroups_obeliskgroup");
 

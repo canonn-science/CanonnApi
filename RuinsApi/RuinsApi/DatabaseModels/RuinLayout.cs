@@ -8,7 +8,7 @@ namespace RuinsApi.DatabaseModels
         public RuinLayout()
         {
             LayoutVariant = new HashSet<LayoutVariant>();
-            RuinlayoutObeilskgroups = new HashSet<RuinlayoutObeilskgroups>();
+            RuinlayoutObeilskgroups = new HashSet<RuinLayoutObeliskGroups>();
         }
 
         public int Id { get; set; }
@@ -18,7 +18,7 @@ namespace RuinsApi.DatabaseModels
         public DateTime Updated { get; set; }
 
         public virtual ICollection<LayoutVariant> LayoutVariant { get; set; }
-        public virtual ICollection<RuinlayoutObeilskgroups> RuinlayoutObeilskgroups { get; set; }
+        public virtual ICollection<RuinLayoutObeliskGroups> RuinlayoutObeilskgroups { get; set; }
         public virtual RuinType Type { get; set; }
     }
 }

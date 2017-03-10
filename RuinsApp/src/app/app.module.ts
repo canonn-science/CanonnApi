@@ -22,6 +22,8 @@ import {AlertModule} from 'ng2-bootstrap';
 import {IntroComponent} from './components/intro/intro.component';
 import {RuinTypeApiService} from './services/api/ruinTypeApi.service';
 import {RuinTypeComponent} from 'app/components/baseData/ruintype.component';
+import {ObeliskGroupComponent} from 'app/components/baseData/obeliskGroup.component';
+import {ObeliskGroupApiService} from 'app/services/api/obeliskGroupApi.service';
 
 // currently angular2-jwt AUTH_PROVIDERS don't work, so use this workaround:
 // https://github.com/auth0/angular2-jwt/issues/258
@@ -42,6 +44,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		AppHeaderComponent,
 		IntroComponent,
 		RuinTypeComponent,
+		ObeliskGroupComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -65,6 +68,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		CodexDataApiService,
 		CodexCategoryApiService,
 		RuinTypeApiService,
+		ObeliskGroupApiService,
 	],
 	bootstrap: [AppComponent]
 })
