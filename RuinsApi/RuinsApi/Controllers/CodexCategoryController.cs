@@ -15,9 +15,9 @@ namespace RuinsApi.Controllers
 	public class CodexCategoryController : Controller
 	{
 		private readonly ILogger _logger;
-		private readonly ICodexRepository _repository;
+		private readonly ICodexCategoryRepository _repository;
 
-		public CodexCategoryController(ILogger<CodexDataController> logger, ICodexRepository repository)
+		public CodexCategoryController(ILogger<CodexDataController> logger, ICodexCategoryRepository repository)
 		{
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
@@ -31,13 +31,13 @@ namespace RuinsApi.Controllers
 		[HttpGet]
 		public async Task<List<CodexCategory>> Get()
 		{
-			return await _repository.GetAllCategories();
+			return await _repository.GetAll();
 		}
 
 		[HttpGet("{id}")]
 		public async Task<CodexCategory> Get(int id)
 		{
-			var relict = await _repository.GetCategoryById(id);
+			var relict = await _repository.GetById(id);
 			if (relict == null)
 				throw new HttpNotFoundException();
 
@@ -48,7 +48,7 @@ namespace RuinsApi.Controllers
 		[Authorize(Policy = "add:codexcategory")]
 		public async Task<CodexCategory> Create([FromBody] CodexCategory data)
 		{
-			return await _repository.CreateCategory(data);
+			return await _repository.Create(data);
 		}
 
 		[HttpPut("{id}")]
@@ -58,7 +58,7 @@ namespace RuinsApi.Controllers
 		{
 			try
 			{
-				return await _repository.CreateOrUpdateCategory(id, data);
+				return await _repository.CreateOrUpdateById(id, data);
 			}
 			catch (Exception e)
 			{
@@ -72,7 +72,7 @@ namespace RuinsApi.Controllers
 		{
 			try
 			{
-				return await _repository.UpdateCategory(id, data);
+				return await _repository.Update(id, data);
 			}
 			catch (Exception e)
 			{
@@ -84,7 +84,7 @@ namespace RuinsApi.Controllers
 		[Authorize(Policy = "delete:codexcategory")]
 		public async Task<ActionResult> Delete(int id)
 		{
-			return (await _repository.DeleteCategoryById(id))
+			return (await _repository.DeleteById(id))
 				? (ActionResult)Ok()
 				: NotFound();
 		}

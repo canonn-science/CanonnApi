@@ -15,9 +15,9 @@ namespace RuinsApi.Controllers
 	public class CodexDataController : Controller
 	{
 		private readonly ILogger _logger;
-		private readonly ICodexRepository _repository;
+		private readonly ICodexDataRepository _repository;
 
-		public CodexDataController(ILogger<CodexDataController> logger, ICodexRepository repository)
+		public CodexDataController(ILogger<CodexDataController> logger, ICodexDataRepository repository)
 		{
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
@@ -29,15 +29,15 @@ namespace RuinsApi.Controllers
 		}
 
 		[HttpGet]
-		public async Task<List<CodexData>> Get(bool withCategoryName = false)
+		public async Task<List<CodexData>> Get()
 		{
-			return await _repository.GetAllData(withCategoryName);
+			return await _repository.GetAll();
 		}
 
 		[HttpGet("{id}")]
 		public async Task<CodexData> Get(int id)
 		{
-			var relict = await _repository.GetDataById(id);
+			var relict = await _repository.GetById(id);
 			if (relict == null)
 				throw new HttpNotFoundException();
 
@@ -48,7 +48,7 @@ namespace RuinsApi.Controllers
 		[Authorize(Policy = "add:codexdata")]
 		public async Task<CodexData> Create([FromBody] CodexData data)
 		{
-			return await _repository.CreateData(data);
+			return await _repository.Create(data);
 		}
 
 		[HttpPut("{id}")]
@@ -58,7 +58,7 @@ namespace RuinsApi.Controllers
 		{
 			try
 			{
-				return await _repository.CreateOrUpdateData(id, data);
+				return await _repository.CreateOrUpdateById(id, data);
 			}
 			catch (Exception e)
 			{
@@ -72,7 +72,7 @@ namespace RuinsApi.Controllers
 		{
 			try
 			{
-				return await _repository.UpdateData(id, data);
+				return await _repository.Update(id, data);
 			}
 			catch (Exception e)
 			{
@@ -84,7 +84,7 @@ namespace RuinsApi.Controllers
 		[Authorize(Policy = "delete:codexdata")]
 		public async Task<ActionResult> Delete(int id)
 		{
-			return (await _repository.DeleteDataById(id))
+			return (await _repository.DeleteById(id))
 				? (ActionResult)Ok()
 				: NotFound();
 		}

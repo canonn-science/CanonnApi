@@ -31,13 +31,13 @@ namespace RuinsApi.Controllers
 		[HttpGet]
 		public async Task<List<Relict>> Get()
 		{
-			return await _repository.GetAllRelicts();
+			return await _repository.GetAll();
 		}
 
 		[HttpGet("{id}")]
 		public async Task<Relict> Get(int id)
 		{
-			var relict = await _repository.GetRelictById(id);
+			var relict = await _repository.GetById(id);
 			if (relict == null)
 				throw new HttpNotFoundException();
 
@@ -48,7 +48,7 @@ namespace RuinsApi.Controllers
 		[Authorize(Policy = "add:relict")]
 		public async Task<Relict> Create([FromBody] Relict data)
 		{
-			return await _repository.CreateRelict(data);
+			return await _repository.Create(data);
 		}
 
 		[HttpPut("{id}")]
@@ -58,7 +58,7 @@ namespace RuinsApi.Controllers
 		{
 			try
 			{
-				return await _repository.CreateOrUpdateRelictById(id, data);
+				return await _repository.CreateOrUpdateById(id, data);
 			}
 			catch (Exception e)
 			{
@@ -72,7 +72,7 @@ namespace RuinsApi.Controllers
 		{
 			try
 			{
-				return await _repository.UpdateRelict(id, data);
+				return await _repository.Update(id, data);
 			}
 			catch (Exception e)
 			{
@@ -84,7 +84,7 @@ namespace RuinsApi.Controllers
 		[Authorize(Policy = "delete:relict")]
 		public async Task<ActionResult> Delete(int id)
 		{
-			return (await _repository.DeleteRelictById(id))
+			return (await _repository.DeleteById(id))
 				? (ActionResult)Ok()
 				: NotFound();
 		}

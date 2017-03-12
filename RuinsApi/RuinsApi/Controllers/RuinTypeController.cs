@@ -15,9 +15,9 @@ namespace RuinsApi.Controllers
 	public class RuinsController : Controller
 	{
 		private readonly ILogger _logger;
-		private readonly IRuinRepository _repository;
+		private readonly IRuinTypeRepository _repository;
 
-		public RuinsController(ILogger<RelictsController> logger, IRuinRepository ruinRepository)
+		public RuinsController(ILogger<RelictsController> logger, IRuinTypeRepository ruinRepository)
 		{
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
@@ -31,13 +31,13 @@ namespace RuinsApi.Controllers
 		[HttpGet]
 		public async Task<List<RuinType>> Get()
 		{
-			return await _repository.GetAllRuinTypes();
+			return await _repository.GetAll();
 		}
 
 		[HttpGet("{id}")]
 		public async Task<RuinType> Get(int id)
 		{
-			var relict = await _repository.GetRuinTypeById(id);
+			var relict = await _repository.GetById(id);
 			if (relict == null)
 				throw new HttpNotFoundException();
 
@@ -48,7 +48,7 @@ namespace RuinsApi.Controllers
 		[Authorize(Policy = "add:ruintype")]
 		public async Task<RuinType> Create([FromBody] RuinType data)
 		{
-			return await _repository.CreateRuinType(data);
+			return await _repository.Create(data);
 		}
 
 		[HttpPut("{id}")]
@@ -58,7 +58,7 @@ namespace RuinsApi.Controllers
 		{
 			try
 			{
-				return await _repository.CreateOrUpdateRuinTypeById(id, data);
+				return await _repository.CreateOrUpdateById(id, data);
 			}
 			catch (Exception e)
 			{
@@ -72,7 +72,7 @@ namespace RuinsApi.Controllers
 		{
 			try
 			{
-				return await _repository.UpdateRuinType(id, data);
+				return await _repository.Update(id, data);
 			}
 			catch (Exception e)
 			{
@@ -84,7 +84,7 @@ namespace RuinsApi.Controllers
 		[Authorize(Policy = "delete:ruintype")]
 		public async Task<ActionResult> Delete(int id)
 		{
-			return (await _repository.DeleteRuinTypeById(id))
+			return (await _repository.DeleteById(id))
 				? (ActionResult)Ok()
 				: NotFound();
 		}

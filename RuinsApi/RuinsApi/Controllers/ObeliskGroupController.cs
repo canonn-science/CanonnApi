@@ -15,9 +15,9 @@ namespace RuinsApi.Controllers
 	public class ObeliskGroupController : Controller
 	{
 		private readonly ILogger _logger;
-		private readonly IObeliskRepository _repository;
+		private readonly IObeliskGroupRepository _repository;
 
-		public ObeliskGroupController(ILogger<RelictsController> logger, IObeliskRepository repository)
+		public ObeliskGroupController(ILogger<RelictsController> logger, IObeliskGroupRepository repository)
 		{
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
@@ -31,13 +31,13 @@ namespace RuinsApi.Controllers
 		[HttpGet]
 		public async Task<List<ObeliskGroup>> Get()
 		{
-			return await _repository.GetAllObeliskGroups();
+			return await _repository.GetAll();
 		}
 
 		[HttpGet("{id}")]
 		public async Task<ObeliskGroup> Get(int id)
 		{
-			var relict = await _repository.GetObeliskGroupById(id);
+			var relict = await _repository.GetById(id);
 			if (relict == null)
 				throw new HttpNotFoundException();
 
@@ -48,7 +48,7 @@ namespace RuinsApi.Controllers
 		[Authorize(Policy = "add:obeliskgroup")]
 		public async Task<ObeliskGroup> Create([FromBody] ObeliskGroup data)
 		{
-			return await _repository.CreateObeliskGroup(data);
+			return await _repository.Create(data);
 		}
 
 		[HttpPut("{id}")]
@@ -58,7 +58,7 @@ namespace RuinsApi.Controllers
 		{
 			try
 			{
-				return await _repository.CreateOrUpdateObeliskGroupById(id, data);
+				return await _repository.CreateOrUpdateById(id, data);
 			}
 			catch (Exception e)
 			{
@@ -72,7 +72,7 @@ namespace RuinsApi.Controllers
 		{
 			try
 			{
-				return await _repository.UpdateObeliskGroup(id, data);
+				return await _repository.Update(id, data);
 			}
 			catch (Exception e)
 			{
@@ -84,7 +84,7 @@ namespace RuinsApi.Controllers
 		[Authorize(Policy = "delete:obeliskgroup")]
 		public async Task<ActionResult> Delete(int id)
 		{
-			return (await _repository.DeleteObeliskGroupById(id))
+			return (await _repository.DeleteById(id))
 				? (ActionResult)Ok()
 				: NotFound();
 		}

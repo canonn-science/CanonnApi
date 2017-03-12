@@ -8,4 +8,10 @@ namespace RuinsApi.DatabaseModels
 			:base(options)
 		{ }
 	}
+
+	public partial class Relict: IEntity { }
+	public partial class CodexCategory: IEntity { }
+	public partial class CodexData: IEntity { }
+	public partial class ObeliskGroup: IEntity { }
+	public partial class RuinType: IEntity { }
 }
