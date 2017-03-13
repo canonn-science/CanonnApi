@@ -404,7 +404,7 @@ namespace RuinsApi.DatabaseModels
                     .HasConstraintName("FK_ruinlayoutobeliskgroups_obeliskgroup");
 
                 entity.HasOne(d => d.Layout)
-                    .WithMany(p => p.RuinlayoutObeilskgroups)
+                    .WithMany(p => p.RuinlayoutObeliskgroups)
                     .HasForeignKey(d => d.LayoutId)
                     .HasConstraintName("FK_ruinlayoutobeliskgroups_ruinlayout");
             });

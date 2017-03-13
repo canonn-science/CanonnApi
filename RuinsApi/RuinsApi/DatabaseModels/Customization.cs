@@ -14,5 +14,6 @@ namespace RuinsApi.DatabaseModels
 	public partial class LayoutVariant : IEntity { }
 	public partial class ObeliskGroup: IEntity { }
 	public partial class Relict : IEntity { }
+	public partial class RuinLayout: IEntity { }
 	public partial class RuinType: IEntity { }
 }

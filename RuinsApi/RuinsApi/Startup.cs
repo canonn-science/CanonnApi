@@ -113,6 +113,7 @@ namespace RuinsApi
 			builder.RegisterType<ObeliskGroupRepository>().AsImplementedInterfaces();
 			builder.RegisterType<LayoutVariantRepository>().AsImplementedInterfaces();
 			builder.RegisterType<RelictRepository>().AsImplementedInterfaces();
+			builder.RegisterType<RuinLayoutRepository>().AsImplementedInterfaces();
 			builder.RegisterType<RuinTypeRepository>().AsImplementedInterfaces();
 		}
 
@@ -167,6 +168,10 @@ namespace RuinsApi
 				"add:relict",
 				"edit:relict",
 				"delete:relict",
+
+				"add:ruinlayout",
+				"edit:ruinlayout",
+				"delete:ruinlayout",
 
 				"add:ruintype",
 				"edit:ruintype",

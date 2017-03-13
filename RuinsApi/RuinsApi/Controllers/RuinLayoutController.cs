@@ -7,31 +7,31 @@ using RuinsApi.Services.DataAccess;
 
 namespace RuinsApi.Controllers
 {
-	[Route("v1/codex/data")]
-	public class CodexDataController : BaseDataController<CodexData>
+	[Route("v1/ruins/layouts")]
+	public class RuinLayoutController : BaseDataController<RuinLayout>
 	{
-		public CodexDataController(ILogger<CodexDataController> logger, ICodexDataRepository repository)
+		public RuinLayoutController(ILogger<RelictsController> logger, IRuinLayoutRepository repository)
 			: base(logger, repository)
 		{
 		}
 
 		[HttpPut("{id}")]
-		[Authorize(Policy = "add:codexdata")]
-		[Authorize(Policy = "edit:codexdata")]
-		public override async Task<CodexData> CreateOrUpdate([FromBody] CodexData data, int id)
+		[Authorize(Policy = "add:ruinlayout")]
+		[Authorize(Policy = "edit:ruinlayout")]
+		public override async Task<RuinLayout> CreateOrUpdate([FromBody] RuinLayout data, int id)
 		{
 			return await base.CreateOrUpdate(data, id);
 		}
 
 		[HttpPatch("{id}")]
-		[Authorize(Policy = "edit:codexdata")]
-		public override async Task<CodexData> Update([FromBody] CodexData data, int id)
+		[Authorize(Policy = "edit:ruinlayout")]
+		public override async Task<RuinLayout> Update([FromBody] RuinLayout data, int id)
 		{
 			return await base.Update(data, id);
 		}
 
 		[HttpDelete("{id}")]
-		[Authorize(Policy = "delete:codexdata")]
+		[Authorize(Policy = "delete:ruinlayout")]
 		public override async Task<ActionResult> Delete(int id)
 		{
 			return await base.Delete(id);

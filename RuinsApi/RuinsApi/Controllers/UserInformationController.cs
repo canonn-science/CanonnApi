@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RuinsApi.Authorization;
 using RuinsApi.Services;
 
 namespace RuinsApi.Controllers
@@ -15,10 +14,7 @@ namespace RuinsApi.Controllers
 
 		public UserInformationController(IUserInformationService userInformationService)
 		{
-			if (userInformationService == null)
-				throw new ArgumentNullException(nameof(userInformationService));
-
-			_userInformationService = userInformationService;
+			_userInformationService = userInformationService ?? throw new ArgumentNullException(nameof(userInformationService));
 		}
 
 		[HttpGet]
