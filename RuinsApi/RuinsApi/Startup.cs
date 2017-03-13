@@ -111,9 +111,9 @@ namespace RuinsApi
 			builder.RegisterType<CodexCategoryRepositoy>().AsImplementedInterfaces();
 			builder.RegisterType<CodexDataRepository>().AsImplementedInterfaces();
 			builder.RegisterType<ObeliskGroupRepository>().AsImplementedInterfaces();
+			builder.RegisterType<LayoutVariantRepository>().AsImplementedInterfaces();
 			builder.RegisterType<RelictRepository>().AsImplementedInterfaces();
 			builder.RegisterType<RuinTypeRepository>().AsImplementedInterfaces();
-			
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -148,10 +148,6 @@ namespace RuinsApi
 		{
 			return new[]
 			{
-				"add:relict",
-				"edit:relict",
-				"delete:relict",
-
 				"add:codexcategory",
 				"edit:codexcategory",
 				"delete:codexcategory",
@@ -160,13 +156,21 @@ namespace RuinsApi
 				"edit:codexdata",
 				"delete:codexdata",
 
-				"add:ruintype",
-				"edit:ruintype",
-				"delete:ruintype",
+				"add:layoutvariant",
+				"edit:layoutvariant",
+				"delete:layoutvariant",
 
 				"add:obeliskgroup",
 				"edit:obeliskgroup",
 				"delete:obeliskgroup",
+
+				"add:relict",
+				"edit:relict",
+				"delete:relict",
+
+				"add:ruintype",
+				"edit:ruintype",
+				"delete:ruintype",
 			};
 		}
 	}
