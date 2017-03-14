@@ -1,6 +1,6 @@
 import {CodexCategoryModel} from './codexCategoryModel';
 
-export class RelictModel {
+export class ArtifactModel {
 	public id: number;
 	public name: string;
 	public created: string;

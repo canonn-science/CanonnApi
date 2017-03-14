@@ -10,7 +10,7 @@ namespace RuinsApi.Controllers
 	[Route("v1/ruins/layouts")]
 	public class RuinLayoutController : BaseDataController<RuinLayout>
 	{
-		public RuinLayoutController(ILogger<RelictsController> logger, IRuinLayoutRepository repository)
+		public RuinLayoutController(ILogger<ArtifactsController> logger, IRuinLayoutRepository repository)
 			: base(logger, repository)
 		{
 		}

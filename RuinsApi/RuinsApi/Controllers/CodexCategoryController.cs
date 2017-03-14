@@ -7,7 +7,7 @@ using RuinsApi.Services.DataAccess;
 
 namespace RuinsApi.Controllers
 {
-	[Route("v1/codex/category")]
+	[Route("v1/codex/categories")]
 	public class CodexCategoryController : BaseDataController<CodexCategory>
 	{
 		public CodexCategoryController(ILogger<CodexDataController> logger, ICodexCategoryRepository repository)

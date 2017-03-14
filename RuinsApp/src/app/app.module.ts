@@ -9,8 +9,8 @@ import {Logger, Options as LoggerOptions} from 'angular2-logger/app/core/logger'
 import {environment} from '../environments/environment';
 import {LoginComponent} from './components/login/login.component';
 import {MainSidebarComponent} from './components/main-sidebar/main-sidebar.component';
-import {RelictsComponent} from './components/baseData/relicts.component';
-import {RelictApiService} from './services/api/relictApi.service';
+import {ArtifactComponent} from './components/baseData/artifact.component';
+import {ArtifactApiService} from './services/api/artifactApi.service';
 import {CodexCategoryComponent} from './components/baseData/codexCategory.component';
 import {CodexDataComponent} from './components/baseData/codexData.component';
 import {CodexDataApiService} from './services/api/codexDataApi.service';
@@ -24,6 +24,8 @@ import {RuinTypeApiService} from './services/api/ruinTypeApi.service';
 import {RuinTypeComponent} from 'app/components/baseData/ruintype.component';
 import {ObeliskGroupComponent} from 'app/components/baseData/obeliskGroup.component';
 import {ObeliskGroupApiService} from 'app/services/api/obeliskGroupApi.service';
+import {LayoutVariantApiService} from './services/api/layoutVariantApi.service';
+import {RuinlayoutVariantComponent} from './components/baseData/ruinlayoutVariant.component';
 
 // currently angular2-jwt AUTH_PROVIDERS don't work, so use this workaround:
 // https://github.com/auth0/angular2-jwt/issues/258
@@ -36,15 +38,17 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 @NgModule({
 	declarations: [
 		AppComponent,
-		LoginComponent,
+		AppHeaderComponent,
 		MainSidebarComponent,
-		RelictsComponent,
+		LoginComponent,
+		IntroComponent,
+		// Base data components
 		CodexCategoryComponent,
 		CodexDataComponent,
-		AppHeaderComponent,
-		IntroComponent,
-		RuinTypeComponent,
 		ObeliskGroupComponent,
+		RuinlayoutVariantComponent,
+		ArtifactComponent,
+		RuinTypeComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -62,13 +66,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		{provide: LoggerOptions, useValue: {level: environment.initialLogLevel}},
 		Logger,
 		AuthenticationService,
-		// Apis
+		// Base data Api's
 		BaseDataLookupService,
-		RelictApiService,
 		CodexDataApiService,
 		CodexCategoryApiService,
-		RuinTypeApiService,
+		LayoutVariantApiService,
 		ObeliskGroupApiService,
+		ArtifactApiService,
+		RuinTypeApiService,
 	],
 	bootstrap: [AppComponent]
 })

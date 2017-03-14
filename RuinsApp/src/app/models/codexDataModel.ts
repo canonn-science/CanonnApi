@@ -5,11 +5,10 @@ export class CodexDataModel {
 	public categoryId: number;
 	public entryNumber: number;
 	public text: string;
-	public category: CodexCategoryModel;
 	public created: string;
 	public updated: string;
 
-	public categoryName: string;
+	public category: CodexCategoryModel;
 
 	constructor(id?: number) {
 		this.id = id;

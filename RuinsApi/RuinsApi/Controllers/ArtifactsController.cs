@@ -7,31 +7,31 @@ using RuinsApi.Services.DataAccess;
 
 namespace RuinsApi.Controllers
 {
-	[Route("v1/relicts")]
-	public class RelictsController : BaseDataController<Relict>
+	[Route("v1/artifacts")]
+	public class ArtifactsController : BaseDataController<Artifact>
 	{
-		public RelictsController(ILogger<RelictsController> logger, IRelictRepository repository)
+		public ArtifactsController(ILogger<ArtifactsController> logger, IArtifactRepository repository)
 			:base(logger, repository)
 		{
 		}
 
 		[HttpPut("{id}")]
-		[Authorize(Policy = "add:relict")]
-		[Authorize(Policy = "edit:relict")]
-		public override async Task<Relict> CreateOrUpdate([FromBody] Relict data, int id)
+		[Authorize(Policy = "add:artifact")]
+		[Authorize(Policy = "edit:artifact")]
+		public override async Task<Artifact> CreateOrUpdate([FromBody] Artifact data, int id)
 		{
 			return await base.CreateOrUpdate(data, id);
 		}
 
 		[HttpPatch("{id}")]
-		[Authorize(Policy = "edit:relict")]
-		public override async Task<Relict> Update([FromBody] Relict data, int id)
+		[Authorize(Policy = "edit:artifact")]
+		public override async Task<Artifact> Update([FromBody] Artifact data, int id)
 		{
 			return await base.Update(data, id);
 		}
 
 		[HttpDelete("{id}")]
-		[Authorize(Policy = "delete:relict")]
+		[Authorize(Policy = "delete:artifact")]
 		public override async Task<ActionResult> Delete(int id)
 		{
 			return await base.Delete(id);

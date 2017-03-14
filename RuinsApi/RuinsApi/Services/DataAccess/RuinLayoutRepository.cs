@@ -17,7 +17,7 @@ namespace RuinsApi.Services.DataAccess
 
 		protected override void MapValues(RuinLayout source, RuinLayout target)
 		{
-			target.TypeId = source.TypeId;
+			target.RuintypeId = source.RuintypeId;
 			target.Name = source.Name;
 		}
 	}

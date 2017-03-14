@@ -21,7 +21,7 @@ export class ObeliskGroupComponent extends BaseDataComponent<ObeliskGroupModel> 
 	}
 
 	public delete(item: ObeliskGroupModel) {
-		const message = `Really delete obelisk group ${item.id} - ${this.baseData.ruinTypeLookup[item.typeId].name} ${item.name}?`;
+		const message = `Really delete obelisk group ${item.id} - ${this.baseData.ruinTypeLookup[item.ruintypeId].name} ${item.name}?`;
 		if (item && window.confirm(message)) {
 			this.api.delete(item.id)
 				.do(() => this.loadData())

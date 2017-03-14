@@ -10,7 +10,7 @@ namespace RuinsApi.Controllers
 	[Route("v1/ruins/types")]
 	public class RuinsController : BaseDataController<RuinType>
 	{
-		public RuinsController(ILogger<RelictsController> logger, IRuinTypeRepository repository)
+		public RuinsController(ILogger<ArtifactsController> logger, IRuinTypeRepository repository)
 			: base(logger, repository)
 		{
 		}

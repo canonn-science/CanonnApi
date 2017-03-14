@@ -1,12 +1,13 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {environment} from '../environments/environment';
-import {RelictsComponent} from './components/baseData/relicts.component';
+import {ArtifactComponent} from './components/baseData/artifact.component';
 import {CodexCategoryComponent} from './components/baseData/codexCategory.component';
 import {CodexDataComponent} from './components/baseData/codexData.component';
 import {IntroComponent} from './components/intro/intro.component';
 import {RuinTypeComponent} from './components/baseData/ruintype.component';
 import {ObeliskGroupComponent} from 'app/components/baseData/obeliskGroup.component';
+import {RuinlayoutVariantComponent} from './components/baseData/ruinlayoutVariant.component';
 
 const routes: Routes = [
 	{
@@ -16,8 +17,8 @@ const routes: Routes = [
 	{
 		path: 'basedata',
 		children: [{
-			path: 'relicts',
-			component: RelictsComponent,
+			path: 'artifacts',
+			component: ArtifactComponent,
 		},
 		{
 			path: 'codexcategories',
@@ -28,12 +29,16 @@ const routes: Routes = [
 			component: CodexDataComponent,
 		},
 		{
-			path: 'ruinstypes',
+			path: 'ruintypes',
 			component: RuinTypeComponent,
 		},
 		{
 			path: 'obeliskgroups',
 			component: ObeliskGroupComponent,
+		},
+		{
+			path: 'ruinlayoutvariants',
+			component: RuinlayoutVariantComponent,
 		}]
 	}
 ];

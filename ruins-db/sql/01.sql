@@ -1,7 +1,7 @@
 /*
  ruins db version 1
  creates tables:
- - relict
+ - artifact
  - codex_category
  - codex_data
  inserts initial data:
@@ -10,27 +10,27 @@
  - codex_data
 */
 
-CREATE TABLE `relict` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the relict',
-	`name` TINYTEXT NOT NULL COMMENT 'name of the relict',
+CREATE TABLE `artifact` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the artifact',
+	`name` VARCHAR(50) NOT NULL COMMENT 'name of the artifact',
 	`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`)
 )
-COMMENT='holds the actual relicts'
+COMMENT='holds the actual artifacts'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
 
 CREATE TABLE `codex_category` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id for the category',
-	`primary_relict` INT(11) NOT NULL COMMENT 'id of the primary relict to unlock',
+	`artifact_id` INT(11) NOT NULL COMMENT 'id of the primary artifact to unlock this ctageory',
 	`name` VARCHAR(50) NOT NULL COMMENT 'name of the category',
 	`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
-	INDEX `FK_codexcategory_relict` (`primary_relict`),
-	CONSTRAINT `FK_codexcategory_relic` FOREIGN KEY (`primary_relict`) REFERENCES `relict` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+	INDEX `FK_codexcategory_artifact` (`artifact_id`),
+	CONSTRAINT `FK_codexcategory_artifact` FOREIGN KEY (`artifact_id`) REFERENCES `artifact` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 )
 COMMENT='Holds the categories for the codes data'
 COLLATE='utf8_general_ci'
@@ -53,7 +53,7 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
 
-INSERT INTO `relict` (`id`, `name`) VALUES
+INSERT INTO `artifact` (`id`, `name`) VALUES
 	(1, 'Casket'),
 	(2, 'Orb'),
 	(3, 'Relic'),
@@ -61,7 +61,7 @@ INSERT INTO `relict` (`id`, `name`) VALUES
 	(5, 'Totem'),
 	(6, 'Urn');
 
-INSERT INTO `codex_category` (`id`, `primary_relict`, `name`) VALUES
+INSERT INTO `codex_category` (`id`, `artifact_id`, `name`) VALUES
 	(1, 6, 'Biology'),
 	(2, 5, 'Culture'),
 	(3, 1, 'History'),

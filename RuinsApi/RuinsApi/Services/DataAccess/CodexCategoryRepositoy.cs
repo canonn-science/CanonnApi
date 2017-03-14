@@ -18,7 +18,7 @@ namespace RuinsApi.Services.DataAccess
 		protected override void MapValues(CodexCategory source, CodexCategory target)
 		{
 			target.Name = source.Name;
-			target.PrimaryRelict = source.PrimaryRelict;
+			target.ArtifactId = source.ArtifactId;
 		}
 	}
 }

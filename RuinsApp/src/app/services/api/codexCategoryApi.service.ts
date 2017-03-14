@@ -9,6 +9,6 @@ import {ApiBasedataService} from './apiBasedata.service';
 export class CodexCategoryApiService extends ApiBasedataService<CodexCategoryModel> {
 
 	constructor(logger: Logger, http: Http, authHttp: AuthHttp) {
-		super('codex/category', logger, http, authHttp);
+		super('codex/categories', logger, http, authHttp);
 	}
 }

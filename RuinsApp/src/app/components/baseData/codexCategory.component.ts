@@ -24,9 +24,9 @@ export class CodexCategoryComponent extends BaseDataComponent<CodexCategoryModel
 		return new CodexCategoryModel(0);
 	}
 
-	public delete(category: CodexCategoryModel) {
-		if (category && window.confirm(`Really delete category ${category.id} - ${category.name}?`)) {
-			this.api.delete(category.id)
+	public delete(entry: CodexCategoryModel) {
+		if (entry && window.confirm(`Really delete codex category ${entry.id} - ${entry.name}?`)) {
+			this.api.delete(entry.id)
 				.do(() => this.loadData())
 				.subscribe();
 		}

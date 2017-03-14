@@ -111,8 +111,8 @@ namespace RuinsApi
 			builder.RegisterType<CodexCategoryRepositoy>().AsImplementedInterfaces();
 			builder.RegisterType<CodexDataRepository>().AsImplementedInterfaces();
 			builder.RegisterType<ObeliskGroupRepository>().AsImplementedInterfaces();
-			builder.RegisterType<LayoutVariantRepository>().AsImplementedInterfaces();
-			builder.RegisterType<RelictRepository>().AsImplementedInterfaces();
+			builder.RegisterType<RuinlayoutVariantRepository>().AsImplementedInterfaces();
+			builder.RegisterType<ArtifactRepository>().AsImplementedInterfaces();
 			builder.RegisterType<RuinLayoutRepository>().AsImplementedInterfaces();
 			builder.RegisterType<RuinTypeRepository>().AsImplementedInterfaces();
 		}
@@ -149,6 +149,10 @@ namespace RuinsApi
 		{
 			return new[]
 			{
+				"add:artifact",
+				"edit:artifact",
+				"delete:artifact",
+
 				"add:codexcategory",
 				"edit:codexcategory",
 				"delete:codexcategory",
@@ -157,21 +161,17 @@ namespace RuinsApi
 				"edit:codexdata",
 				"delete:codexdata",
 
-				"add:layoutvariant",
-				"edit:layoutvariant",
-				"delete:layoutvariant",
-
 				"add:obeliskgroup",
 				"edit:obeliskgroup",
 				"delete:obeliskgroup",
 
-				"add:relict",
-				"edit:relict",
-				"delete:relict",
-
 				"add:ruinlayout",
 				"edit:ruinlayout",
 				"delete:ruinlayout",
+
+				"add:ruinlayoutvariant",
+				"edit:ruinlayoutvariant",
+				"delete:ruinlayoutvariant",
 
 				"add:ruintype",
 				"edit:ruintype",

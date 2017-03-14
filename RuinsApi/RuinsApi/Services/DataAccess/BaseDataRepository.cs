@@ -62,7 +62,7 @@ namespace RuinsApi.Services.DataAccess
 		private async Task<T> CreateWithId(int id, T value)
 		{
 			T entry = CreateEntity();
-			entry.Id = value.Id;
+			entry.Id = id;
 
 			MapValues(value, entry);
 

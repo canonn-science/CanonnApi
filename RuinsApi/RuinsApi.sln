@@ -5,6 +5,33 @@ VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuinsApi", "RuinsApi\RuinsApi.csproj", "{3EF1B353-E50C-4A4F-B9C3-F7EB90EA9809}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{13BD52FA-BCDC-4F0F-8AC8-4651BEC0CEEB}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{4EB46077-5E09-4BF5-874D-780C304FD899}"
+	ProjectSection(SolutionItems) = preProject
+		..\docs\index.md = ..\docs\index.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "design", "design", "{961B5CA1-FBB3-4159-9B0B-A1C1C441403F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{75ECA130-CA7B-4C01-8742-6B71C1B1582E}"
+	ProjectSection(SolutionItems) = preProject
+		..\docs\design\db\index.md = ..\docs\design\db\index.md
+		..\docs\design\db\ruinsdb.puml = ..\docs\design\db\ruinsdb.puml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RuinsDb", "RuinsDb", "{3FCCEF11-B327-4AD2-9505-635884EF7610}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{CFEC7D1D-0C90-462E-8A1C-ECFC11311C8D}"
+	ProjectSection(SolutionItems) = preProject
+		..\ruins-db\sql\01.sql = ..\ruins-db\sql\01.sql
+		..\ruins-db\sql\02.sql = ..\ruins-db\sql\02.sql
+		..\ruins-db\sql\Drop_all.sql = ..\ruins-db\sql\Drop_all.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +57,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4EB46077-5E09-4BF5-874D-780C304FD899} = {13BD52FA-BCDC-4F0F-8AC8-4651BEC0CEEB}
+		{961B5CA1-FBB3-4159-9B0B-A1C1C441403F} = {4EB46077-5E09-4BF5-874D-780C304FD899}
+		{75ECA130-CA7B-4C01-8742-6B71C1B1582E} = {961B5CA1-FBB3-4159-9B0B-A1C1C441403F}
+		{CFEC7D1D-0C90-462E-8A1C-ECFC11311C8D} = {3FCCEF11-B327-4AD2-9505-635884EF7610}
 	EndGlobalSection
 EndGlobal

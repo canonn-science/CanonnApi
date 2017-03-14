@@ -1,18 +1,16 @@
 import {RuinTypeModel} from './ruintypeModel';
+import {ObeliskGroupModel} from './obeliskGroupModel';
 
-export class ObeliskGroupModel {
+export class RuinLayoutModel {
 	public id: number;
-	public ruintypeId: string;
+
 	public name: string;
-	public count: number;
+	public ruintypeId: number;
 	public created: string;
 	public updated: string;
 
-	/*
-	public obelisks: ObeliskModel[];
-	public ruinLayoutObeliskGroups: RuinLayoutObeliskGroupModel[];
-	*/
 	public ruintype: RuinTypeModel;
+	public ObeliskGroups: ObeliskGroupModel[];
 
 	constructor(id?: number) {
 		this.id = id;

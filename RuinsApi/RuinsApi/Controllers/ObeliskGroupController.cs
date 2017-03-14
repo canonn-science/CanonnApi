@@ -7,10 +7,10 @@ using RuinsApi.Services.DataAccess;
 
 namespace RuinsApi.Controllers
 {
-	[Route("v1/obelisk/groups")]
+	[Route("v1/obelisks/groups")]
 	public class ObeliskGroupController : BaseDataController<ObeliskGroup>
 	{
-		public ObeliskGroupController(ILogger<RelictsController> logger, IObeliskGroupRepository repository)
+		public ObeliskGroupController(ILogger<ArtifactsController> logger, IObeliskGroupRepository repository)
 			: base(logger, repository)
 		{
 		}

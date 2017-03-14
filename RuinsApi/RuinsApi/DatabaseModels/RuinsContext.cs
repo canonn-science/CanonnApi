@@ -7,16 +7,15 @@ namespace RuinsApi.DatabaseModels
     public partial class RuinsContext : DbContext
     {
         public virtual DbSet<ActiveObelisk> ActiveObelisk { get; set; }
+        public virtual DbSet<Artifact> Artifact { get; set; }
         public virtual DbSet<CodexCategory> CodexCategory { get; set; }
         public virtual DbSet<CodexData> CodexData { get; set; }
-        public virtual DbSet<LayoutVariant> LayoutVariant { get; set; }
         public virtual DbSet<Obelisk> Obelisk { get; set; }
         public virtual DbSet<ObeliskGroup> ObeliskGroup { get; set; }
-        public virtual DbSet<Relict> Relict { get; set; }
         public virtual DbSet<RuinLayout> RuinLayout { get; set; }
         public virtual DbSet<RuinType> RuinType { get; set; }
-        public virtual DbSet<RuinLayoutObeliskGroups> RuinlayoutObeilskgroups { get; set; }
-
+        public virtual DbSet<RuinlayoutObeliskgroups> RuinlayoutObeliskgroups { get; set; }
+        public virtual DbSet<RuinlayoutVariant> RuinlayoutVariant { get; set; }
 /*
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,10 +29,10 @@ namespace RuinsApi.DatabaseModels
             {
                 entity.ToTable("active_obelisk");
 
-                entity.HasIndex(e => e.VariantId)
+                entity.HasIndex(e => e.RuinlayoutvariantId)
                     .HasName("FK_activeobelisk_variant");
 
-                entity.HasIndex(e => new { e.ObeliskId, e.VariantId })
+                entity.HasIndex(e => new { e.ObeliskId, e.RuinlayoutvariantId })
                     .HasName("UX_active_obelisk")
                     .IsUnique();
 
@@ -50,32 +49,29 @@ namespace RuinsApi.DatabaseModels
                     .HasColumnName("obelisk_id")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.RuinlayoutvariantId)
+                    .HasColumnName("ruinlayoutvariant_id")
+                    .HasColumnType("int(11)");
+
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                entity.Property(e => e.VariantId)
-                    .HasColumnName("variant_id")
-                    .HasColumnType("int(11)");
 
                 entity.HasOne(d => d.Obelisk)
                     .WithMany(p => p.ActiveObelisk)
                     .HasForeignKey(d => d.ObeliskId)
                     .HasConstraintName("FK_activeobelisk_obelisk");
 
-                entity.HasOne(d => d.Variant)
+                entity.HasOne(d => d.Ruinlayoutvariant)
                     .WithMany(p => p.ActiveObelisk)
-                    .HasForeignKey(d => d.VariantId)
+                    .HasForeignKey(d => d.RuinlayoutvariantId)
                     .HasConstraintName("FK_activeobelisk_variant");
             });
 
-            modelBuilder.Entity<CodexCategory>(entity =>
+            modelBuilder.Entity<Artifact>(entity =>
             {
-                entity.ToTable("codex_category");
-
-                entity.HasIndex(e => e.PrimaryRelict)
-                    .HasName("FK_codexcategory_relict");
+                entity.ToTable("artifact");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -91,19 +87,46 @@ namespace RuinsApi.DatabaseModels
                     .HasColumnName("name")
                     .HasColumnType("varchar(50)");
 
-                entity.Property(e => e.PrimaryRelict)
-                    .HasColumnName("primary_relict")
+                entity.Property(e => e.Updated)
+                    .HasColumnName("updated")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
+
+            modelBuilder.Entity<CodexCategory>(entity =>
+            {
+                entity.ToTable("codex_category");
+
+                entity.HasIndex(e => e.ArtifactId)
+                    .HasName("FK_codexcategory_artifact");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
                     .HasColumnType("int(11)");
+
+                entity.Property(e => e.ArtifactId)
+                    .HasColumnName("artifact_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Created)
+                    .HasColumnName("created")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(50)");
 
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.HasOne(d => d.PrimaryRelictNavigation)
+                entity.HasOne(d => d.Artifact)
                     .WithMany(p => p.CodexCategory)
-                    .HasForeignKey(d => d.PrimaryRelict)
-                    .HasConstraintName("FK_codexcategory_relic");
+                    .HasForeignKey(d => d.ArtifactId)
+                    .HasConstraintName("FK_codexcategory_artifact");
             });
 
             modelBuilder.Entity<CodexData>(entity =>
@@ -146,80 +169,43 @@ namespace RuinsApi.DatabaseModels
                     .HasConstraintName("FK_codexdata_codexcategory");
             });
 
-            modelBuilder.Entity<LayoutVariant>(entity =>
-            {
-                entity.ToTable("layout_variant");
-
-                entity.HasIndex(e => new { e.LayoutId, e.Name })
-                    .HasName("UX_layout_variant")
-                    .IsUnique();
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Created)
-                    .HasColumnName("created")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                entity.Property(e => e.LayoutId)
-                    .HasColumnName("layout_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(50)");
-
-                entity.Property(e => e.Updated)
-                    .HasColumnName("updated")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                entity.HasOne(d => d.Layout)
-                    .WithMany(p => p.LayoutVariant)
-                    .HasForeignKey(d => d.LayoutId)
-                    .HasConstraintName("FK_layoutvariant_ruinlayout");
-            });
-
             modelBuilder.Entity<Obelisk>(entity =>
             {
                 entity.ToTable("obelisk");
 
-                entity.HasIndex(e => e.DataId)
-                    .HasName("FK_obelisk_data");
+                entity.HasIndex(e => e.ArtifactId)
+                    .HasName("FK_obelisk_artifact");
 
-                entity.HasIndex(e => e.RelictId)
-                    .HasName("FK_obelisk_relict");
+                entity.HasIndex(e => e.CodexdataId)
+                    .HasName("FK_obelisk_codexdata");
 
-                entity.HasIndex(e => new { e.GroupId, e.Number })
-                    .HasName("UX_obelisk")
+                entity.HasIndex(e => new { e.ObeliskgroupId, e.Number })
+                    .HasName("UX_obeliskgroupid")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.ArtifactId)
+                    .HasColumnName("artifact_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.CodexdataId)
+                    .HasColumnName("codexdata_id")
+                    .HasColumnType("int(11)");
+
                 entity.Property(e => e.Created)
                     .HasColumnName("created")
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                entity.Property(e => e.DataId)
-                    .HasColumnName("data_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.GroupId)
-                    .HasColumnName("group_id")
-                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.Number)
                     .HasColumnName("number")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.RelictId)
-                    .HasColumnName("relict_id")
+                entity.Property(e => e.ObeliskgroupId)
+                    .HasColumnName("obeliskgroup_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.Updated)
@@ -227,29 +213,29 @@ namespace RuinsApi.DatabaseModels
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.HasOne(d => d.Data)
+                entity.HasOne(d => d.Artifact)
                     .WithMany(p => p.Obelisk)
-                    .HasForeignKey(d => d.DataId)
+                    .HasForeignKey(d => d.ArtifactId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK_obelisk_data");
+                    .HasConstraintName("FK_obelisk_artifact");
 
-                entity.HasOne(d => d.Group)
+                entity.HasOne(d => d.Codexdata)
                     .WithMany(p => p.Obelisk)
-                    .HasForeignKey(d => d.GroupId)
-                    .HasConstraintName("FK_obelisk_group");
-
-                entity.HasOne(d => d.Relict)
-                    .WithMany(p => p.Obelisk)
-                    .HasForeignKey(d => d.RelictId)
+                    .HasForeignKey(d => d.CodexdataId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK_obelisk_relict");
+                    .HasConstraintName("FK_obelisk_codexdata");
+
+                entity.HasOne(d => d.Obeliskgroup)
+                    .WithMany(p => p.Obelisk)
+                    .HasForeignKey(d => d.ObeliskgroupId)
+                    .HasConstraintName("FK_obelisk_obeliskgroup");
             });
 
             modelBuilder.Entity<ObeliskGroup>(entity =>
             {
                 entity.ToTable("obelisk_group");
 
-                entity.HasIndex(e => e.TypeId)
+                entity.HasIndex(e => e.RuintypeId)
                     .HasName("FK_obeliskgroup_ruintype");
 
                 entity.Property(e => e.Id)
@@ -270,8 +256,8 @@ namespace RuinsApi.DatabaseModels
                     .HasColumnName("name")
                     .HasColumnType("mediumtext");
 
-                entity.Property(e => e.TypeId)
-                    .HasColumnName("type_id")
+                entity.Property(e => e.RuintypeId)
+                    .HasColumnName("ruintype_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.Updated)
@@ -279,37 +265,18 @@ namespace RuinsApi.DatabaseModels
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.HasOne(d => d.Type)
+                entity.HasOne(d => d.Ruintype)
                     .WithMany(p => p.ObeliskGroup)
-                    .HasForeignKey(d => d.TypeId)
+                    .HasForeignKey(d => d.RuintypeId)
                     .HasConstraintName("FK_obeliskgroup_ruintype");
-            });
-
-            modelBuilder.Entity<Relict>(entity =>
-            {
-                entity.ToTable("relict");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Created)
-                    .HasColumnName("created")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                entity.Property(e => e.Updated)
-                    .HasColumnName("updated")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 
             modelBuilder.Entity<RuinLayout>(entity =>
             {
                 entity.ToTable("ruin_layout");
 
-                entity.HasIndex(e => new { e.TypeId, e.Name })
-                    .HasName("UX_ruinlayout")
+                entity.HasIndex(e => new { e.RuintypeId, e.Name })
+                    .HasName("UX_ruinlayout_ruintype")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -326,8 +293,8 @@ namespace RuinsApi.DatabaseModels
                     .HasColumnName("name")
                     .HasColumnType("varchar(50)");
 
-                entity.Property(e => e.TypeId)
-                    .HasColumnName("type_id")
+                entity.Property(e => e.RuintypeId)
+                    .HasColumnName("ruintype_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.Updated)
@@ -335,9 +302,9 @@ namespace RuinsApi.DatabaseModels
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.HasOne(d => d.Type)
+                entity.HasOne(d => d.Ruintype)
                     .WithMany(p => p.RuinLayout)
-                    .HasForeignKey(d => d.TypeId)
+                    .HasForeignKey(d => d.RuintypeId)
                     .HasConstraintName("FK_ruinlayout_ruintype");
             });
 
@@ -365,14 +332,14 @@ namespace RuinsApi.DatabaseModels
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 
-            modelBuilder.Entity<RuinLayoutObeliskGroups>(entity =>
+            modelBuilder.Entity<RuinlayoutObeliskgroups>(entity =>
             {
-                entity.ToTable("ruinlayout_obeilskgroups");
+                entity.ToTable("ruinlayout_obeliskgroups");
 
-                entity.HasIndex(e => e.GroupId)
+                entity.HasIndex(e => e.ObeliskgroupId)
                     .HasName("FK_ruinlayoutobeliskgroups_obeliskgroup");
 
-                entity.HasIndex(e => new { e.LayoutId, e.GroupId })
+                entity.HasIndex(e => new { e.RuinlayoutId, e.ObeliskgroupId })
                     .HasName("UX_ruinlayout_obeliskgroups")
                     .IsUnique();
 
@@ -385,12 +352,12 @@ namespace RuinsApi.DatabaseModels
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.Property(e => e.GroupId)
-                    .HasColumnName("group_id")
+                entity.Property(e => e.ObeliskgroupId)
+                    .HasColumnName("obeliskgroup_id")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.LayoutId)
-                    .HasColumnName("layout_id")
+                entity.Property(e => e.RuinlayoutId)
+                    .HasColumnName("ruinlayout_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.Updated)
@@ -398,15 +365,52 @@ namespace RuinsApi.DatabaseModels
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.HasOne(d => d.Group)
-                    .WithMany(p => p.RuinLayoutObeliskGroups)
-                    .HasForeignKey(d => d.GroupId)
+                entity.HasOne(d => d.Obeliskgroup)
+                    .WithMany(p => p.RuinlayoutObeliskgroups)
+                    .HasForeignKey(d => d.ObeliskgroupId)
                     .HasConstraintName("FK_ruinlayoutobeliskgroups_obeliskgroup");
 
-                entity.HasOne(d => d.Layout)
+                entity.HasOne(d => d.Ruinlayout)
                     .WithMany(p => p.RuinlayoutObeliskgroups)
-                    .HasForeignKey(d => d.LayoutId)
+                    .HasForeignKey(d => d.RuinlayoutId)
                     .HasConstraintName("FK_ruinlayoutobeliskgroups_ruinlayout");
+            });
+
+            modelBuilder.Entity<RuinlayoutVariant>(entity =>
+            {
+                entity.ToTable("ruinlayout_variant");
+
+                entity.HasIndex(e => new { e.RuinlayoutId, e.Name })
+                    .HasName("UX_ruinlayout_variant")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Created)
+                    .HasColumnName("created")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(50)");
+
+                entity.Property(e => e.RuinlayoutId)
+                    .HasColumnName("ruinlayout_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Updated)
+                    .HasColumnName("updated")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.HasOne(d => d.Ruinlayout)
+                    .WithMany(p => p.RuinlayoutVariant)
+                    .HasForeignKey(d => d.RuinlayoutId)
+                    .HasConstraintName("FK_ruinlayoutvariant_ruinlayout");
             });
         }
     }

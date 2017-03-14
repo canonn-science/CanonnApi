@@ -19,7 +19,7 @@
 						<tr>
 							<th class="column-shrink">#</th>
 							<th>Category name</th>
-							<th>Primary relict</th>
+							<th>Primary artifact</th>
 							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexcategory')"></th>
 							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexcategory')"></th>
 						</tr>
@@ -30,7 +30,7 @@
 						<tr role="row" *ngFor="let category of data">
 							<td>{{category.id}}</td>
 							<td>{{category.name}}</td>
-							<td>{{baseData.relictLookup[category.primaryRelict]?.name || 'n/a'}}</td>
+							<td>{{baseData.artifactLookup[category.artifactId]?.name || 'n/a'}}</td>
 							<td *ngIf="auth.hasPermission('edit:codexcategory')">
 								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(category)" title="Edit"><i class="fa fa-edit"></i></button>
 							</td>
@@ -70,10 +70,10 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="primaryrelict">Primary relict:</label>
+							<label class="col-sm-3 control-label" for="artifactid">Primary artifact:</label>
 							<div class="col-sm-9">
-							<select class="form-control" id="primaryrelict" name="primaryrelict" placeholder="Select primary relict" [(ngModel)]="editingData.primaryRelict">
-								<option *ngFor="let relict of baseData.relictData" [ngValue]="relict.id">{{relict.name}}</option>
+							<select class="form-control" id="artifactid" name="artifactid" placeholder="Select primary artifact" [(ngModel)]="editingData.artifactId">
+								<option *ngFor="let entry of baseData.artifactData" [ngValue]="entry.id">{{entry.name}}</option>
 							</select>
 							</div>
 						</div>

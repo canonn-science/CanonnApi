@@ -1,6 +1,6 @@
 <section class="content-header">
-	<h1>Base data: Relicts
-		<small>Available relicts that are required to activate obelisks</small>
+	<h1>Base data: Artifacts
+		<small>Available artifacts that are required to activate obelisks</small>
 	</h1>
 </section>
 <section class="content">
@@ -9,7 +9,7 @@
 		<div class="col-xs-6">
 			<div class="box">
 				<div class="box-header with-border">
-					<h3 class="box-title">Relicts</h3>
+					<h3 class="box-title">Artifacts</h3>
 				</div>
 				<div class="box-body">
 
@@ -17,21 +17,21 @@
 						<thead>
 						<tr>
 							<th class="column-shrink">#</th>
-							<th>Relict name</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:relict')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:relict')"></th>
+							<th>Artifact name</th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:artifact')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:artifact')"></th>
 						</tr>
 						</thead>
 						<tbody>
 
-						<tr role="row" *ngFor="let relict of data">
-							<td>{{relict.id}}</td>
-							<td>{{relict.name}}</td>
-							<td *ngIf="auth.hasPermission('edit:relict')">
-								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(relict)" title="Edit"><i class="fa fa-edit"></i></button>
+						<tr role="row" *ngFor="let entry of data">
+							<td>{{entry.id}}</td>
+							<td>{{entry.name}}</td>
+							<td *ngIf="auth.hasPermission('edit:artifact')">
+								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(entry)" title="Edit"><i class="fa fa-edit"></i></button>
 							</td>
-							<td *ngIf="auth.hasPermission('delete:relict')">
-								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(relict)" title="Delete"><i class="fa fa-trash-o"></i></button>
+							<td *ngIf="auth.hasPermission('delete:artifact')">
+								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(entry)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>
 						</tr>
 
@@ -39,8 +39,8 @@
 					</table>
 				</div>
 
-				<div class="box-footer" *ngIf="auth.hasPermission('add:relict')">
-					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add relict"><i class="fa fa-plus"></i> Add new relict</button>
+				<div class="box-footer" *ngIf="auth.hasPermission('add:artifact')">
+					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add artifact"><i class="fa fa-plus"></i> Add new artifact</button>
 				</div>
 			</div>
 		</div>
@@ -49,14 +49,14 @@
 		<div class="col-xs-6" *ngIf="editingData">
 			<div class="box">
 				<div class="box-header with-border">
-					<h3 class="box-title">{{ editingData.id == 0 ? 'Add new' : 'Edit existing' }} relict</h3>
+					<h3 class="box-title">{{ editingData.id == 0 ? 'Add new' : 'Edit existing' }} artifact</h3>
 				</div>
 				<div class="box-body">
 					<form class="form-horizontal">
 						<div class="form-group" *ngIf="(editingData.id !== 0)">
-							<label class="col-sm-2 control-label" for="relictid">#</label>
+							<label class="col-sm-2 control-label" for="entryid">#</label>
 							<div class="col-sm-10">
-								<input class="form-control" id="relictid" name="id" type="text" [(ngModel)]="editingData.id" disabled>
+								<input class="form-control" id="entryid" name="entryid" type="text" [(ngModel)]="editingData.id" disabled>
 							</div>
 						</div>
 						<div class="form-group">
@@ -86,7 +86,7 @@
 					<h3 class="box-title">Public API description</h3>
 				</div>
 				<div class="box-body">
-					<p><code><span class="label label-success">HTTP GET</span> /api/v1/relicts</code><p>
+					<p><code><span class="label label-success">HTTP GET</span> /api/v1/artifacts</code><p>
 					<p>Returns:</p>
 					<pre>{{format(data)}}</pre>
 				</div>

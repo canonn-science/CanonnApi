@@ -23,9 +23,9 @@ export class CodexDataComponent extends BaseDataComponent<CodexDataModel> {
 		return new CodexDataModel(0);
 	}
 
-	public delete(data: CodexDataModel) {
-		if (data && window.confirm(`Really delete codex entry ${this.baseData.codexCategoryLookup[data.categoryId].name} ${data.entryNumber}?`)) {
-			this.api.delete(data.id)
+	public delete(entry: CodexDataModel) {
+		if (entry && window.confirm(`Really delete codex data entry ${this.baseData.codexCategoryLookup[entry.categoryId].name} ${entry.entryNumber}?`)) {
+			this.api.delete(entry.id)
 				.do(() => this.loadData())
 				.subscribe();
 		}

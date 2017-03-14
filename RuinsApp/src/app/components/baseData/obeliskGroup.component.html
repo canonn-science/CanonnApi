@@ -28,7 +28,7 @@
 
 						<tr role="row" *ngFor="let item of data">
 							<td>{{item.id}}</td>
-							<td>{{baseData.ruinTypeLookup[item.typeId]?.name}}</td>
+							<td>{{baseData.ruinTypeLookup[item.ruintypeId]?.name}}</td>
 							<td>{{item.name}}</td>
 							<td>{{item.count}}</td>
 							<td *ngIf="auth.hasPermission('edit:obeliskgroup')">
@@ -66,7 +66,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="ruintype">Site:</label>
 							<div class="col-sm-10">
-								<select class="form-control" id="ruintype" name="ruintype" placeholder="Select ruin type" [(ngModel)]="editingData.typeId">
+								<select class="form-control" id="ruintype" name="ruintype" placeholder="Select ruin type" [(ngModel)]="editingData.ruintypeId">
 									<option *ngFor="let item of baseData.ruinTypeData" [ngValue]="item.id">{{item.name}}</option>
 								</select>
 							</div>

@@ -17,7 +17,7 @@ namespace RuinsApi.Services.DataAccess
 
 		protected override void MapValues(ObeliskGroup source, ObeliskGroup target)
 		{
-			target.TypeId = source.TypeId;
+			target.RuintypeId = source.RuintypeId;
 			target.Count = source.Count;
 			target.Name = source.Name;
 		}

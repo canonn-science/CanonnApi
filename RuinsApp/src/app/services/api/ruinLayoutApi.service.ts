@@ -3,11 +3,11 @@ import {Http} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import {ApiBasedataService} from './apiBasedata.service';
 import {Injectable} from '@angular/core';
-import {ObeliskGroupModel} from 'app/models/obeliskGroupModel';
+import {RuinLayoutModel} from '../../models/ruinLayoutModel';
 
 @Injectable()
-export class ObeliskGroupApiService extends ApiBasedataService<ObeliskGroupModel> {
+export class RuinLayoutApiService extends ApiBasedataService<RuinLayoutModel> {
 	constructor(logger: Logger, http: Http, authHttp: AuthHttp) {
-		super('obelisks/groups', logger, http, authHttp);
+		super('ruins/layouts', logger, http, authHttp);
 	}
 }
