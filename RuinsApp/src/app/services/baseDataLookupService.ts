@@ -8,6 +8,8 @@ import {Injectable} from '@angular/core';
 import {RuinTypeModel} from 'app/models/ruintypeModel';
 import {RuinTypeApiService} from './api/ruinTypeApi.service';
 import {Logger} from 'angular2-logger/core';
+import {RuinLayoutModel} from '../models/ruinLayoutModel';
+import {RuinLayoutApiService} from './api/ruinLayoutApi.service';
 
 @Injectable()
 export class BaseDataLookupService {
@@ -29,21 +31,23 @@ export class BaseDataLookupService {
 	public ruinTypeLookup: {
 		[key: number]: RuinTypeModel,
 	} = {};
-/*
+
 	public ruinLayoutData: RuinLayoutModel[] = [];
 	public ruinLayoutLookup: {
 		[key: number]: RuinLayoutModel,
 	} = {};
-*/
+
 	constructor(private _logger: Logger,
 					private _artifactsApi: ArtifactApiService,
 					private _codexCategoryApi: CodexCategoryApiService,
-					private _ruinTypeApi: RuinTypeApiService) {
+					private _ruinTypeApi: RuinTypeApiService,
+					private _ruinLayoutApi: RuinLayoutApiService) {
 		const relicts = this._artifactsApi.getAll();
 		const codexCategories = this._codexCategoryApi.getAll();
 		const ruinTypes = this._ruinTypeApi.getAll();
+		const ruinLayouts = this._ruinLayoutApi.getAll();
 
-		this.request$ = Observable.forkJoin(relicts, codexCategories, ruinTypes);
+		this.request$ = Observable.forkJoin(relicts, codexCategories, ruinTypes, ruinLayouts);
 
 		this.timer = Observable
 			.interval(2 * 60 * 1000) // repeat every 2 minutes
@@ -68,6 +72,10 @@ export class BaseDataLookupService {
 				this.ruinTypeData = res[2];
 				this.ruinTypeLookup = {};
 				this.ruinTypeData.forEach((item) => this.ruinTypeLookup[item.id] = item);
+
+				this.ruinLayoutData = res[3];
+				this.ruinLayoutLookup = {};
+				this.ruinLayoutData.forEach((item) => this.ruinLayoutLookup[item.id] = item);
 			}
 		);
 	}

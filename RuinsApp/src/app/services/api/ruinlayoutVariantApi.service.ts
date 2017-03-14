@@ -6,8 +6,8 @@ import {Injectable} from '@angular/core';
 import {RuinlayoutVariantModel} from '../../models/ruinlayoutVariantModel';
 
 @Injectable()
-export class LayoutVariantApiService extends ApiBasedataService<RuinlayoutVariantModel> {
+export class RuinlayoutVariantApiService extends ApiBasedataService<RuinlayoutVariantModel> {
 	constructor(logger: Logger, http: Http, authHttp: AuthHttp) {
-		super('layouts/variants', logger, http, authHttp);
+		super('ruinlayouts/variants', logger, http, authHttp);
 	}
 }

@@ -1,6 +1,6 @@
 <section class="content-header">
-	<h1>Base data: Ruin layout variants
-		<small>Variants of specific ruin layouts</small>
+	<h1>Base data: Ruin layouts
+		<small>Different layouts for ruin types</small>
 	</h1>
 </section>
 <section class="content">
@@ -9,7 +9,7 @@
 		<div class="col-xs-6">
 			<div class="box">
 				<div class="box-header with-border">
-					<h3 class="box-title">Ruin layout variants</h3>
+					<h3 class="box-title">Ruin layouts</h3>
 				</div>
 				<div class="box-body">
 
@@ -18,10 +18,10 @@
 						<thead>
 						<tr>
 							<th class="column-shrink">#</th>
-							<th>Ruin layout</th>
-							<th>Variant name</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinlayoutvariant')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinlayoutvariant')"></th>
+							<th>Ruin type</th>
+							<th>Layout name</th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinlayout')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinlayout')"></th>
 						</tr>
 
 						</thead>
@@ -29,12 +29,12 @@
 
 						<tr role="row" *ngFor="let entry of data">
 							<td>{{entry.id}}</td>
-							<td>{{baseData.ruinTypeLookup[baseData.ruinLayoutLookup[entry.ruinlayoutId]?.ruintypeId]?.name}} - {{baseData.ruinLayoutLookup[entry.ruinlayoutId]?.name}}</td>
+							<td>{{baseData.ruinTypeLookup[entry.ruintypeId]?.name}}</td>
 							<td>{{entry.name}}</td>
-							<td *ngIf="auth.hasPermission('edit:ruinlayoutvariant')">
+							<td *ngIf="auth.hasPermission('edit:ruinlayout')">
 								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(entry)" title="Edit"><i class="fa fa-edit"></i></button>
 							</td>
-							<td *ngIf="auth.hasPermission('delete:ruinlayoutvariant')">
+							<td *ngIf="auth.hasPermission('delete:ruinlayout')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(entry)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>
 						</tr>
@@ -43,17 +43,16 @@
 					</table>
 				</div>
 
-				<div class="box-footer" *ngIf="auth.hasPermission('add:ruinlayoutvariant')">
+				<div class="box-footer" *ngIf="auth.hasPermission('add:ruinlayout')">
 					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add codex category"><i class="fa fa-plus"></i> Add new ruin layout variant</button>
 				</div>
 			</div>
 		</div>
 
-
 		<div class="col-xs-6" *ngIf="editingData">
 			<div class="box">
 				<div class="box-header with-border">
-					<h3 class="box-title">{{ editingData.id == 0 ? 'Add new' : 'Edit existing' }} ruin layout variant</h3>
+					<h3 class="box-title">{{ editingData.id == 0 ? 'Add new' : 'Edit existing' }} ruin layout</h3>
 				</div>
 				<div class="box-body">
 					<form class="form-horizontal">
@@ -64,10 +63,10 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="ruinlayout">Ruin layout:</label>
+							<label class="col-sm-3 control-label" for="ruintype">Ruin type:</label>
 							<div class="col-sm-9">
-								<select class="form-control" id="ruinlayout" name="ruinlayout" placeholder="Select ruin layout" [(ngModel)]="editingData.ruinlayoutId">
-									<option *ngFor="let item of baseData.ruinLayoutData" [ngValue]="item.id">{{baseData.ruinTypeLookup[item.ruintypeId]?.name}} - {{item.name}}</option>
+								<select class="form-control" id="ruintype" name="ruintype" placeholder="Select ruin type" [(ngModel)]="editingData.ruintypeId">
+									<option *ngFor="let item of baseData.ruinTypeData" [ngValue]="item.id">{{item.name}}</option>
 								</select>
 							</div>
 						</div>
@@ -98,7 +97,7 @@
 					<h3 class="box-title">Public API description</h3>
 				</div>
 				<div class="box-body">
-					<p><code><span class="label label-success">HTTP GET</span> /api/v1/ruinlayouts/variants</code><p>
+					<p><code><span class="label label-success">HTTP GET</span> /api/v1/ruins/layouts</code><p>
 					<p>Returns:</p>
 					<pre>{{format(data)}}</pre>
 				</div>
