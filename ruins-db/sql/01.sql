@@ -30,7 +30,7 @@ CREATE TABLE `codex_category` (
 	`updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
 	INDEX `FK_codexcategory_artifact` (`artifact_id`),
-	CONSTRAINT `FK_codexcategory_artifact` FOREIGN KEY (`artifact_id`) REFERENCES `artifact` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT `FK_codexcategory_artifact` FOREIGN KEY (`artifact_id`) REFERENCES `artifact` (`id`)
 )
 COMMENT='Holds the categories for the codes data'
 COLLATE='utf8_general_ci'
@@ -46,7 +46,7 @@ CREATE TABLE `codex_data` (
 	`updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
 	INDEX `FK_codexdata_codexcategory` (`category_id`),
-	CONSTRAINT `FK_codexdata_codexcategory` FOREIGN KEY (`category_id`) REFERENCES `codex_category` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT `FK_codexdata_codexcategory` FOREIGN KEY (`category_id`) REFERENCES `codex_category` (`id`)
 )
 COMMENT='holds the data for all the codex entries'
 COLLATE='utf8_general_ci'

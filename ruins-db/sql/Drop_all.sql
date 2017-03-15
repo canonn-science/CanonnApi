@@ -1,12 +1,13 @@
 /*
 
-Resets the DB to initial state (for testing purposes)
+Resets the DB to initial state (only for testing purposes!)
 */
 
-DROP TABLE `active_obelisk`;
-DROP TABLE `ruinlayout_variant`;
-DROP TABLE `ruinlayout_obeliskgroups`;
-DROP TABLE `ruin_layout`;
+DROP TABLE `ruinsite_activeobelisks`;
+DROP TABLE `ruinsite_obeliskgroups`;
+DROP TABLE `ruin_site`;
+DROP TABLE `body`;
+DROP TABLE `system`;
 DROP TABLE `obelisk`;
 DROP TABLE `obelisk_group`;
 DROP TABLE `ruin_type`;
