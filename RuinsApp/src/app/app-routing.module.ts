@@ -7,8 +7,6 @@ import {CodexDataComponent} from './components/baseData/codexData.component';
 import {IntroComponent} from './components/intro/intro.component';
 import {RuinTypeComponent} from './components/baseData/ruintype.component';
 import {ObeliskGroupComponent} from 'app/components/baseData/obeliskGroup.component';
-import {RuinlayoutVariantComponent} from './components/baseData/ruinlayoutVariant.component';
-import {RuinLayoutComponent} from './components/baseData/ruinLayout.component';
 
 const routes: Routes = [
 	{
@@ -34,16 +32,8 @@ const routes: Routes = [
 			component: RuinTypeComponent,
 		},
 		{
-			path: 'ruinlayouts',
-			component: RuinLayoutComponent,
-		},
-		{
 			path: 'obeliskgroups',
 			component: ObeliskGroupComponent,
-		},
-		{
-			path: 'ruinlayoutvariants',
-			component: RuinlayoutVariantComponent,
 		}]
 	}
 ];

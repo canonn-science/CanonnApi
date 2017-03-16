@@ -24,10 +24,6 @@ import {RuinTypeApiService} from './services/api/ruinTypeApi.service';
 import {RuinTypeComponent} from 'app/components/baseData/ruintype.component';
 import {ObeliskGroupComponent} from 'app/components/baseData/obeliskGroup.component';
 import {ObeliskGroupApiService} from 'app/services/api/obeliskGroupApi.service';
-import {RuinlayoutVariantApiService} from './services/api/ruinlayoutVariantApi.service';
-import {RuinlayoutVariantComponent} from './components/baseData/ruinlayoutVariant.component';
-import {RuinLayoutApiService} from './services/api/ruinLayoutApi.service';
-import {RuinLayoutComponent} from './components/baseData/ruinLayout.component';
 
 // currently angular2-jwt AUTH_PROVIDERS don't work, so use this workaround:
 // https://github.com/auth0/angular2-jwt/issues/258
@@ -45,13 +41,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		LoginComponent,
 		IntroComponent,
 		// Base data components
+		ArtifactComponent,
 		CodexCategoryComponent,
 		CodexDataComponent,
 		ObeliskGroupComponent,
-		RuinlayoutVariantComponent,
-		ArtifactComponent,
 		RuinTypeComponent,
-		RuinLayoutComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -71,13 +65,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		AuthenticationService,
 		// Base data Api's
 		BaseDataLookupService,
-		CodexDataApiService,
-		CodexCategoryApiService,
-		RuinlayoutVariantApiService,
-		ObeliskGroupApiService,
 		ArtifactApiService,
+		CodexCategoryApiService,
+		CodexDataApiService,
+		ObeliskGroupApiService,
 		RuinTypeApiService,
-		RuinLayoutApiService,
 	],
 	bootstrap: [AppComponent]
 })

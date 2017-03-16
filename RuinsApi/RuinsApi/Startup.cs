@@ -108,12 +108,10 @@ namespace RuinsApi
 			builder.RegisterType<IdTokenProvider>().AsImplementedInterfaces();
 			builder.RegisterType<CachingUserInformationService>().AsImplementedInterfaces();
 
+			builder.RegisterType<ArtifactRepository>().AsImplementedInterfaces();
 			builder.RegisterType<CodexCategoryRepositoy>().AsImplementedInterfaces();
 			builder.RegisterType<CodexDataRepository>().AsImplementedInterfaces();
 			builder.RegisterType<ObeliskGroupRepository>().AsImplementedInterfaces();
-			builder.RegisterType<RuinlayoutVariantRepository>().AsImplementedInterfaces();
-			builder.RegisterType<ArtifactRepository>().AsImplementedInterfaces();
-			builder.RegisterType<RuinLayoutRepository>().AsImplementedInterfaces();
 			builder.RegisterType<RuinTypeRepository>().AsImplementedInterfaces();
 		}
 
@@ -164,14 +162,6 @@ namespace RuinsApi
 				"add:obeliskgroup",
 				"edit:obeliskgroup",
 				"delete:obeliskgroup",
-
-				"add:ruinlayout",
-				"edit:ruinlayout",
-				"delete:ruinlayout",
-
-				"add:ruinlayoutvariant",
-				"edit:ruinlayoutvariant",
-				"delete:ruinlayoutvariant",
 
 				"add:ruintype",
 				"edit:ruintype",
