@@ -20,6 +20,7 @@ import {ObeliskGroupComponent} from './components/baseData/ruins/obeliskGroup.co
 import {SystemComponent} from './components/baseData/stellar/system.component';
 import {BodyComponent} from './components/baseData/stellar/body.component';
 import {RuinTypeComponent} from './components/baseData/ruins/ruintype.component';
+import {ObeliskComponent} from './components/baseData/ruins/obelisk.component';
 // base data lookups
 import {CodexBaseDataLookupService} from './services/codexBaseDataLookupService';
 import {RuinBaseDataLookupService} from './services/ruinBaseDataLookupService';
@@ -32,6 +33,7 @@ import {RuinTypeApiService} from './services/api/ruinTypeApi.service';
 import {ObeliskGroupApiService} from 'app/services/api/obeliskGroupApi.service';
 import {SystemApiService} from './services/api/systemApi.service';
 import {BodyApiService} from './services/api/bodyApi.service';
+import {ObeliskApiService} from './services/api/obeliskApi.service';
 
 // currently angular2-jwt AUTH_PROVIDERS don't work, so use this workaround:
 // https://github.com/auth0/angular2-jwt/issues/258
@@ -56,6 +58,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		RuinTypeComponent,
 		SystemComponent,
 		BodyComponent,
+		ObeliskComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -83,6 +86,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		RuinTypeApiService,
 		SystemApiService,
 		BodyApiService,
+		ObeliskApiService,
 	],
 	bootstrap: [AppComponent]
 })

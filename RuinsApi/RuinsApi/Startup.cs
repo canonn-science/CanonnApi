@@ -115,7 +115,8 @@ namespace RuinsApi
 			// Ruin base data
 			builder.RegisterType<ObeliskGroupRepository>().AsImplementedInterfaces();
 			builder.RegisterType<RuinTypeRepository>().AsImplementedInterfaces();
-			// System bade data
+			builder.RegisterType<ObeliskRepository>().AsImplementedInterfaces();
+			// System base data
 			builder.RegisterType<SystemRepository>().AsImplementedInterfaces();
 			builder.RegisterType<BodyRepository>().AsImplementedInterfaces();
 		}
