@@ -5,12 +5,10 @@ import {CodexCategoryModel} from '../models/codexCategoryModel';
 import {ArtifactApiService} from './api/artifactApi.service';
 import {CodexCategoryApiService} from './api/codexCategoryApi.service';
 import {Injectable} from '@angular/core';
-import {RuinTypeModel} from 'app/models/ruintypeModel';
-import {RuinTypeApiService} from './api/ruinTypeApi.service';
 import {Logger} from 'angular2-logger/core';
 
 @Injectable()
-export class BaseDataLookupService {
+export class CodexBaseDataLookupService {
 
 	private timer: Subscription;
 	private request$: Observable<any>;
@@ -25,20 +23,13 @@ export class BaseDataLookupService {
 		[key: number]: CodexCategoryModel,
 	} = {};
 
-	public ruinTypeData: RuinTypeModel[] = [];
-	public ruinTypeLookup: {
-		[key: number]: RuinTypeModel,
-	} = {};
-
 	constructor(private _logger: Logger,
 					private _artifactsApi: ArtifactApiService,
-					private _codexCategoryApi: CodexCategoryApiService,
-					private _ruinTypeApi: RuinTypeApiService) {
+					private _codexCategoryApi: CodexCategoryApiService) {
 		const relicts = this._artifactsApi.getAll();
 		const codexCategories = this._codexCategoryApi.getAll();
-		const ruinTypes = this._ruinTypeApi.getAll();
 
-		this.request$ = Observable.forkJoin(relicts, codexCategories, ruinTypes);
+		this.request$ = Observable.forkJoin(relicts, codexCategories);
 
 		this.timer = Observable
 			.interval(2 * 60 * 1000) // repeat every 2 minutes
@@ -49,7 +40,7 @@ export class BaseDataLookupService {
 	}
 
 	private refreshData() {
-		this._logger.log('Refreshing base data lookup information...');
+		this._logger.log('Refreshing CODEX base data lookup information...');
 		this.request$.subscribe(
 			(res) => {
 				this.artifactData = res[0];
@@ -59,10 +50,6 @@ export class BaseDataLookupService {
 				this.codexCategoryData = res[1];
 				this.codexCategoryLookup = {};
 				this.codexCategoryData.forEach((item) => this.codexCategoryLookup[item.id] = item);
-
-				this.ruinTypeData = res[2];
-				this.ruinTypeLookup = {};
-				this.ruinTypeData.forEach((item) => this.ruinTypeLookup[item.id] = item);
 			}
 		);
 	}

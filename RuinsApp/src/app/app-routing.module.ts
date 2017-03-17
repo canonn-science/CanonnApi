@@ -1,12 +1,14 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {environment} from '../environments/environment';
-import {ArtifactComponent} from './components/baseData/artifact.component';
-import {CodexCategoryComponent} from './components/baseData/codexCategory.component';
-import {CodexDataComponent} from './components/baseData/codexData.component';
+import {ArtifactComponent} from './components/baseData/codex/artifact.component';
+import {CodexCategoryComponent} from './components/baseData/codex/codexCategory.component';
+import {CodexDataComponent} from './components/baseData/codex/codexData.component';
 import {IntroComponent} from './components/intro/intro.component';
-import {RuinTypeComponent} from './components/baseData/ruintype.component';
-import {ObeliskGroupComponent} from 'app/components/baseData/obeliskGroup.component';
+import {RuinTypeComponent} from './components/baseData/ruins/ruintype.component';
+import {ObeliskGroupComponent} from './components/baseData/ruins/obeliskGroup.component';
+import {BodyComponent} from './components/baseData/stellar/body.component';
+import {SystemComponent} from './components/baseData/stellar/system.component';
 
 const routes: Routes = [
 	{
@@ -15,27 +17,52 @@ const routes: Routes = [
 	},
 	{
 		path: 'basedata',
-		children: [{
-			path: 'artifacts',
-			component: ArtifactComponent,
-		},
-		{
-			path: 'codexcategories',
-			component: CodexCategoryComponent,
-		},
-		{
-			path: 'codexdata',
-			component: CodexDataComponent,
-		},
-		{
-			path: 'ruintypes',
-			component: RuinTypeComponent,
-		},
-		{
-			path: 'obeliskgroups',
-			component: ObeliskGroupComponent,
-		}]
-	}
+		children: [
+			{
+				path: 'stellar',
+				children: [
+					{
+						path: 'systems',
+						component: SystemComponent,
+					},
+					{
+						path: 'bodies',
+						component: BodyComponent,
+					},
+				],
+			},
+			{
+				path: 'codex',
+				children: [
+					{
+						path: 'artifacts',
+						component: ArtifactComponent,
+					},
+					{
+						path: 'codexcategories',
+						component: CodexCategoryComponent,
+					},
+					{
+						path: 'codexdata',
+						component: CodexDataComponent,
+					},
+				],
+			},
+			{
+				path: 'ruins',
+				children: [
+					{
+						path: 'ruintypes',
+						component: RuinTypeComponent,
+					},
+					{
+						path: 'obeliskgroups',
+						component: ObeliskGroupComponent,
+					},
+				],
+			}
+		],
+	},
 ];
 
 @NgModule({

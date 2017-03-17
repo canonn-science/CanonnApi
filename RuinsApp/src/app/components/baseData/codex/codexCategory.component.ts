@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {CodexCategoryApiService} from '../../services/api/codexCategoryApi.service';
-import {CodexCategoryModel} from '../../models/codexCategoryModel';
-import { BaseDataLookupService } from '../../services/baseDataLookupService';
-import { AuthenticationService } from 'app/services/api/authentication.service';
-import {BaseDataComponent} from './baseData.component';
+import {CodexCategoryApiService} from '../../../services/api/codexCategoryApi.service';
+import {CodexCategoryModel} from '../../../models/codexCategoryModel';
+import { CodexBaseDataLookupService } from '../../../services/codexBaseDataLookupService';
+import { AuthenticationService } from '../../../services/api/authentication.service';
+import {BaseDataComponent} from '../baseData.component';
 
 @Component({
 	selector: 'app-codex',
@@ -15,9 +15,9 @@ export class CodexCategoryComponent extends BaseDataComponent<CodexCategoryModel
 	constructor(
 		api: CodexCategoryApiService,
 		auth: AuthenticationService,
-		baseData: BaseDataLookupService
+		public baseData: CodexBaseDataLookupService
 	) {
-		super(api, auth, baseData);
+		super(api, auth);
 	}
 
 	public getNewDto() {

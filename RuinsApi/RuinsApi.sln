@@ -29,7 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{CFEC7D1D-0C9
 	ProjectSection(SolutionItems) = preProject
 		..\ruins-db\sql\01.sql = ..\ruins-db\sql\01.sql
 		..\ruins-db\sql\02.sql = ..\ruins-db\sql\02.sql
+		..\ruins-db\sql\03.sql = ..\ruins-db\sql\03.sql
 		..\ruins-db\sql\Drop_all.sql = ..\ruins-db\sql\Drop_all.sql
+		..\ruins-db\sql\Helper_SitesWithSystemsBodiesCoordsAndTypes.sql = ..\ruins-db\sql\Helper_SitesWithSystemsBodiesCoordsAndTypes.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{DD43E3F0-1F87-48F7-9DE1-0695F1EE9D23}"

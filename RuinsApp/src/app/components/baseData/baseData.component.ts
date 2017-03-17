@@ -2,7 +2,7 @@ import {OnInit} from '@angular/core';
 import {ApiBasedataService} from '../../services/api/apiBasedata.service';
 import {BaseDataDto} from 'app/models/baseDataDto';
 import {AuthenticationService} from 'app/services/api/authentication.service';
-import {BaseDataLookupService} from 'app/services/baseDataLookupService';
+import {CodexBaseDataLookupService} from '../../services/codexBaseDataLookupService';
 
 export abstract class BaseDataComponent<T extends BaseDataDto> implements OnInit {
 
@@ -11,8 +11,7 @@ export abstract class BaseDataComponent<T extends BaseDataDto> implements OnInit
 
 	constructor(
 		protected api: ApiBasedataService<T>,
-		public auth: AuthenticationService,
-		public baseData: BaseDataLookupService
+		public auth: AuthenticationService
 	) { }
 
 	ngOnInit() {

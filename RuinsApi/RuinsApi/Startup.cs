@@ -108,11 +108,16 @@ namespace RuinsApi
 			builder.RegisterType<IdTokenProvider>().AsImplementedInterfaces();
 			builder.RegisterType<CachingUserInformationService>().AsImplementedInterfaces();
 
+			// Codex base data
 			builder.RegisterType<ArtifactRepository>().AsImplementedInterfaces();
 			builder.RegisterType<CodexCategoryRepositoy>().AsImplementedInterfaces();
 			builder.RegisterType<CodexDataRepository>().AsImplementedInterfaces();
+			// Ruin base data
 			builder.RegisterType<ObeliskGroupRepository>().AsImplementedInterfaces();
 			builder.RegisterType<RuinTypeRepository>().AsImplementedInterfaces();
+			// System bade data
+			builder.RegisterType<SystemRepository>().AsImplementedInterfaces();
+			builder.RegisterType<BodyRepository>().AsImplementedInterfaces();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

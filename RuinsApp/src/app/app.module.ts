@@ -9,21 +9,27 @@ import {Logger, Options as LoggerOptions} from 'angular2-logger/app/core/logger'
 import {environment} from '../environments/environment';
 import {LoginComponent} from './components/login/login.component';
 import {MainSidebarComponent} from './components/main-sidebar/main-sidebar.component';
-import {ArtifactComponent} from './components/baseData/artifact.component';
+import {ArtifactComponent} from './components/baseData/codex/artifact.component';
 import {ArtifactApiService} from './services/api/artifactApi.service';
-import {CodexCategoryComponent} from './components/baseData/codexCategory.component';
-import {CodexDataComponent} from './components/baseData/codexData.component';
+import {CodexCategoryComponent} from './components/baseData/codex/codexCategory.component';
+import {CodexDataComponent} from './components/baseData/codex/codexData.component';
 import {CodexDataApiService} from './services/api/codexDataApi.service';
 import {AuthenticationService} from './services/api/authentication.service';
 import {CodexCategoryApiService} from './services/api/codexCategoryApi.service';
-import {BaseDataLookupService} from './services/baseDataLookupService';
+import {CodexBaseDataLookupService} from './services/codexBaseDataLookupService';
 import {AppHeaderComponent} from './components/app-header/app-header.component';
 import {AlertModule} from 'ng2-bootstrap';
 import {IntroComponent} from './components/intro/intro.component';
 import {RuinTypeApiService} from './services/api/ruinTypeApi.service';
-import {RuinTypeComponent} from 'app/components/baseData/ruintype.component';
-import {ObeliskGroupComponent} from 'app/components/baseData/obeliskGroup.component';
+import {RuinTypeComponent} from './components/baseData/ruins/ruintype.component';
+import {ObeliskGroupComponent} from './components/baseData/ruins/obeliskGroup.component';
 import {ObeliskGroupApiService} from 'app/services/api/obeliskGroupApi.service';
+import {SystemApiService} from './services/api/systemApi.service';
+import {BodyApiService} from './services/api/bodyApi.service';
+import {RuinBaseDataLookupService} from './services/ruinBaseDataLookupService';
+import {StellarBaseDataLookupService} from './services/stellarBaseDataLookupService';
+import {SystemComponent} from './components/baseData/stellar/system.component';
+import {BodyComponent} from './components/baseData/stellar/body.component';
 
 // currently angular2-jwt AUTH_PROVIDERS don't work, so use this workaround:
 // https://github.com/auth0/angular2-jwt/issues/258
@@ -46,6 +52,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		CodexDataComponent,
 		ObeliskGroupComponent,
 		RuinTypeComponent,
+		SystemComponent,
+		BodyComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -63,13 +71,18 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		{provide: LoggerOptions, useValue: {level: environment.initialLogLevel}},
 		Logger,
 		AuthenticationService,
-		// Base data Api's
-		BaseDataLookupService,
+		// Base data Lookups
+		CodexBaseDataLookupService,
+		RuinBaseDataLookupService,
+		StellarBaseDataLookupService,
+		// Apis
 		ArtifactApiService,
 		CodexCategoryApiService,
 		CodexDataApiService,
 		ObeliskGroupApiService,
 		RuinTypeApiService,
+		SystemApiService,
+		BodyApiService,
 	],
 	bootstrap: [AppComponent]
 })

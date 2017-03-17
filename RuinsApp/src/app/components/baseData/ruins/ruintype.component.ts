@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {AuthenticationService} from '../../services/api/authentication.service';
-import {BaseDataComponent} from 'app/components/baseData/baseData.component';
-import {RuinTypeModel} from '../../models/ruintypeModel';
-import {RuinTypeApiService} from '../../services/api/ruinTypeApi.service';
+import {AuthenticationService} from '../../../services/api/authentication.service';
+import {BaseDataComponent} from '../baseData.component';
+import {RuinTypeModel} from '../../../models/ruintypeModel';
+import {RuinTypeApiService} from '../../../services/api/ruinTypeApi.service';
 
 @Component({
 	selector: 'app-ruintypes',
@@ -12,7 +12,7 @@ import {RuinTypeApiService} from '../../services/api/ruinTypeApi.service';
 export class RuinTypeComponent extends BaseDataComponent<RuinTypeModel> {
 
 	constructor(api: RuinTypeApiService, auth: AuthenticationService) {
-		super(api, auth, null);
+		super(api, auth);
 	}
 
 	public getNewDto() {

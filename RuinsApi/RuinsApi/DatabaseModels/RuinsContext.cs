@@ -93,7 +93,7 @@ namespace RuinsApi.DatabaseModels
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.HasOne(d => d.System)
-                    .WithMany(p => p.Body)
+                    .WithMany(p => p.Bodies)
                     .HasForeignKey(d => d.SystemId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_body_system");
@@ -325,7 +325,7 @@ namespace RuinsApi.DatabaseModels
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.HasOne(d => d.Body)
-                    .WithMany(p => p.RuinSite)
+                    .WithMany(p => p.RuinSites)
                     .HasForeignKey(d => d.BodyId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_ruinsite_body");
@@ -458,6 +458,8 @@ namespace RuinsApi.DatabaseModels
                     .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
+
+            AmendModel(modelBuilder);
         }
     }
 }

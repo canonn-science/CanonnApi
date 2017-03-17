@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {ArtifactApiService} from '../../services/api/artifactApi.service';
-import {ArtifactModel} from '../../models/artifactModel';
-import {AuthenticationService} from '../../services/api/authentication.service';
-import {BaseDataComponent} from 'app/components/baseData/baseData.component';
+import {ArtifactApiService} from '../../../services/api/artifactApi.service';
+import {ArtifactModel} from '../../../models/artifactModel';
+import {AuthenticationService} from '../../../services/api/authentication.service';
+import {BaseDataComponent} from '../baseData.component';
 
 @Component({
 	selector: 'app-artifacts',
@@ -12,7 +12,7 @@ import {BaseDataComponent} from 'app/components/baseData/baseData.component';
 export class ArtifactComponent extends BaseDataComponent<ArtifactModel> {
 
 	constructor(api: ArtifactApiService, auth: AuthenticationService) {
-		super(api, auth, null);
+		super(api, auth);
 	}
 
 	public getNewDto() {

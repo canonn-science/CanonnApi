@@ -7,7 +7,7 @@ namespace RuinsApi.DatabaseModels
     {
         public Body()
         {
-            RuinSite = new HashSet<RuinSite>();
+            RuinSites = new HashSet<RuinSite>();
         }
 
         public int Id { get; set; }
@@ -18,7 +18,7 @@ namespace RuinsApi.DatabaseModels
         public int SystemId { get; set; }
         public DateTime Updated { get; set; }
 
-        public virtual ICollection<RuinSite> RuinSite { get; set; }
+        public virtual ICollection<RuinSite> RuinSites { get; set; }
         public virtual System System { get; set; }
     }
 }

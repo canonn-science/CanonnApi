@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {AuthenticationService} from '../../services/api/authentication.service';
-import {BaseDataComponent} from 'app/components/baseData/baseData.component';
-import {ObeliskGroupModel} from '../../models/obeliskGroupModel';
-import {BaseDataLookupService} from '../../services/baseDataLookupService';
-import {ObeliskGroupApiService} from '../../services/api/obeliskGroupApi.service';
+import {AuthenticationService} from '../../../services/api/authentication.service';
+import {BaseDataComponent} from '../baseData.component';
+import {ObeliskGroupModel} from '../../../models/obeliskGroupModel';
+import {ObeliskGroupApiService} from '../../../services/api/obeliskGroupApi.service';
+import {RuinBaseDataLookupService} from '../../../services/ruinBaseDataLookupService';
 
 @Component({
 	selector: 'app-obeliskgroups',
@@ -12,8 +12,8 @@ import {ObeliskGroupApiService} from '../../services/api/obeliskGroupApi.service
 })
 export class ObeliskGroupComponent extends BaseDataComponent<ObeliskGroupModel> {
 
-	constructor(api: ObeliskGroupApiService, auth: AuthenticationService, baseDataLookup: BaseDataLookupService) {
-		super(api, auth, baseDataLookup);
+	constructor(api: ObeliskGroupApiService, auth: AuthenticationService, public baseData: RuinBaseDataLookupService) {
+		super(api, auth);
 	}
 
 	public getNewDto() {
