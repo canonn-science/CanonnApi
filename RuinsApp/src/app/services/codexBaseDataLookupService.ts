@@ -5,7 +5,6 @@ import {CodexCategoryModel} from '../models/codexCategoryModel';
 import {ArtifactApiService} from './api/artifactApi.service';
 import {CodexCategoryApiService} from './api/codexCategoryApi.service';
 import {Injectable} from '@angular/core';
-import {Logger} from 'angular2-logger/core';
 
 @Injectable()
 export class CodexBaseDataLookupService {
@@ -23,8 +22,7 @@ export class CodexBaseDataLookupService {
 		[key: number]: CodexCategoryModel,
 	} = {};
 
-	constructor(private _logger: Logger,
-					private _artifactsApi: ArtifactApiService,
+	constructor(private _artifactsApi: ArtifactApiService,
 					private _codexCategoryApi: CodexCategoryApiService) {
 		const relicts = this._artifactsApi.getAll();
 		const codexCategories = this._codexCategoryApi.getAll();
@@ -40,7 +38,6 @@ export class CodexBaseDataLookupService {
 	}
 
 	private refreshData() {
-		this._logger.log('Refreshing CODEX base data lookup information...');
 		this.request$.subscribe(
 			(res) => {
 				this.artifactData = res[0];

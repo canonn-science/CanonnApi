@@ -8,7 +8,6 @@ import {ClientConfiguration} from '../../models/clientConfiguration';
 import {UserInformation} from '../../models/userInformation';
 import {ApiBaseService} from './apiBase.service';
 import {Http} from '@angular/http';
-import {Logger} from 'angular2-logger/app/core/logger';
 import {Router} from '@angular/router';
 
 @Injectable()
@@ -36,10 +35,9 @@ export class AuthenticationService extends ApiBaseService {
 	public userInformation: UserInformation;
 	private userInformation$: Observable<UserInformation>;
 
-	constructor(logger: Logger, http: Http, authHttp: AuthHttp, private _router: Router) {
-		super(logger, http, authHttp);
+	constructor(http: Http, authHttp: AuthHttp, private _router: Router) {
+		super(http, authHttp);
 
-		this._logger.log('[authenticationService] Instanciating & loading client configuration...');
 		this.getClientConfiguration()
 			.subscribe(
 				(config) => this.createLockInstance(config),
@@ -87,16 +85,13 @@ export class AuthenticationService extends ApiBaseService {
 
 	private getClientConfiguration(): Observable<ClientConfiguration> {
 		const url = `${this._apiBaseUrl}/v1/clientconfiguration`;
-		this._logger.debug('[authenticationService] trying to load client configuration from url', url);
 
 		return this._http.get(url)
 			.map((res) => {
 				const obj = res.json();
-				this._logger.debug('[authenticationService] Received client configuration', obj);
 				return <ClientConfiguration>(obj);
 			})
 			.retryWhen(err => err
-				.do(val => this._logger.warn(`[authenticationService] Could not fetch client configuration. Error: ${val}.`))
 				.delayWhen(val => Observable.timer(15000)) // retry after 15 seconds
 			);
 	}
@@ -105,7 +100,6 @@ export class AuthenticationService extends ApiBaseService {
 		const lock = new Auth0Lock(config.clientId, config.domain, this._lockOptions);
 
 		lock.on('authenticated', (authResult) => {
-			this._logger.debug('[authenticationService] Received authentication result', authResult);
 			localStorage.setItem('id_token', authResult.idToken);
 			localStorage.setItem('redirectUrl', authResult.state);
 			this.fetchUserInformation();
@@ -124,11 +118,9 @@ export class AuthenticationService extends ApiBaseService {
 
 			this.userInformation$.subscribe(
 				userInfo => {
-					this._logger.debug(`[authenticationService] Received user information`, userInfo);
 					this.userInformation = userInfo;
 					this.userInformation$ = void 0;
 				},
-				err => this._logger.error(`[authenticationService] Error fetching user information: ${err}.`)
 			);
 		}
 	}
@@ -137,7 +129,6 @@ export class AuthenticationService extends ApiBaseService {
 		const redirectUrl = localStorage.getItem('redirectUrl');
 		if (redirectUrl) {
 			localStorage.removeItem('redirectUrl');
-			this._logger.debug('[authenticationService] Redirecting to previous route', redirectUrl);
 			this._router.navigate([redirectUrl]);
 		}
 	}

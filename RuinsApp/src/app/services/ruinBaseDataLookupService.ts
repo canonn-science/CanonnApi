@@ -3,7 +3,6 @@ import 'rxjs/add/observable/interval';
 import {Injectable} from '@angular/core';
 import {RuinTypeModel} from 'app/models/ruintypeModel';
 import {RuinTypeApiService} from './api/ruinTypeApi.service';
-import {Logger} from 'angular2-logger/core';
 
 @Injectable()
 export class RuinBaseDataLookupService {
@@ -16,8 +15,7 @@ export class RuinBaseDataLookupService {
 		[key: number]: RuinTypeModel,
 	} = {};
 
-	constructor(private _logger: Logger,
-					private _ruinTypeApi: RuinTypeApiService) {
+	constructor(private _ruinTypeApi: RuinTypeApiService) {
 		const ruinTypes = this._ruinTypeApi.getAll();
 
 		this.request$ = Observable.forkJoin(ruinTypes);
@@ -31,7 +29,6 @@ export class RuinBaseDataLookupService {
 	}
 
 	private refreshData() {
-		this._logger.log('Refreshing RUIN base data lookup information...');
 		this.request$.subscribe(
 			(res) => {
 				this.ruinTypeData = res[0];

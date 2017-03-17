@@ -1,4 +1,3 @@
-import {Logger} from 'angular2-logger/app/core/logger';
 import {Http} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import {ApiBasedataService} from './apiBasedata.service';
@@ -7,7 +6,7 @@ import {ObeliskGroupModel} from 'app/models/obeliskGroupModel';
 
 @Injectable()
 export class ObeliskGroupApiService extends ApiBasedataService<ObeliskGroupModel> {
-	constructor(logger: Logger, http: Http, authHttp: AuthHttp) {
-		super('obelisks/groups', logger, http, authHttp);
+	constructor(http: Http, authHttp: AuthHttp) {
+		super('obelisks/groups', http, authHttp);
 	}
 }

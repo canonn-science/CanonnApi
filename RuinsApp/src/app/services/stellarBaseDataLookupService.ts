@@ -1,7 +1,6 @@
 import {Observable, Subscription} from 'rxjs/Rx';
 import 'rxjs/add/observable/interval';
 import {Injectable} from '@angular/core';
-import {Logger} from 'angular2-logger/core';
 import {SystemModel} from '../models/systemModel';
 import {BodyModel} from '../models/bodyModel';
 import {SystemApiService} from './api/systemApi.service';
@@ -23,8 +22,7 @@ export class StellarBaseDataLookupService {
 		[key: number]: BodyModel,
 	} = {};
 
-	constructor(private _logger: Logger,
-					private _systemApi: SystemApiService,
+	constructor(private _systemApi: SystemApiService,
 					private _bodyApi: BodyApiService) {
 		const systems = this._systemApi.getAll();
 		const bodies = this._bodyApi.getAll();
@@ -40,7 +38,6 @@ export class StellarBaseDataLookupService {
 	}
 
 	private refreshData() {
-		this._logger.log('Refreshing STELLAR base data lookup information...');
 		this.request$.subscribe(
 			(res) => {
 				this.systemData = res[0];

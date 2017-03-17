@@ -1,6 +1,5 @@
 import {AuthHttp} from 'angular2-jwt';
 import {Http} from '@angular/http';
-import {Logger} from 'angular2-logger/app/core/logger';
 import {ApiBaseService} from './apiBase.service';
 import {Observable} from 'rxjs/Rx';
 import {BaseDataDto} from '../../models/baseDataDto';
@@ -9,8 +8,8 @@ export class ApiBasedataService<TDto extends BaseDataDto> extends ApiBaseService
 
 	public baseUrl: string = null;
 
-	constructor(public controllerName: string, logger: Logger, http: Http, authHttp: AuthHttp, apiVersion: string = 'v1') {
-		super(logger, http, authHttp);
+	constructor(public controllerName: string, http: Http, authHttp: AuthHttp, apiVersion: string = 'v1') {
+		super(http, authHttp);
 
 		this.baseUrl = `${this._apiBaseUrl}/${apiVersion}/${controllerName}/`;
 	}
