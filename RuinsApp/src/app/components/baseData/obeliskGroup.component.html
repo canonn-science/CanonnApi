@@ -20,8 +20,8 @@
 							<th>Site</th>
 							<th>Name</th>
 							<th>Amount</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:obeliskgroup')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:obeliskgroup')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinbasedata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinbasedata')"></th>
 						</tr>
 						</thead>
 						<tbody>
@@ -31,10 +31,10 @@
 							<td>{{baseData.ruinTypeLookup[item.ruintypeId]?.name}}</td>
 							<td>{{item.name}}</td>
 							<td>{{item.count}}</td>
-							<td *ngIf="auth.hasPermission('edit:obeliskgroup')">
+							<td *ngIf="auth.hasPermission('edit:ruinbasedata')">
 								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(item)" title="Edit"><i class="fa fa-edit"></i></button>
 							</td>
-							<td *ngIf="auth.hasPermission('delete:obeliskgroup')">
+							<td *ngIf="auth.hasPermission('delete:ruinbasedata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(item)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>
 						</tr>
@@ -43,7 +43,7 @@
 					</table>
 				</div>
 
-				<div class="box-footer" *ngIf="auth.hasPermission('add:obeliskgroup')">
+				<div class="box-footer" *ngIf="auth.hasPermission('add:ruinbasedata')">
 					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add obelisk group"><i class="fa fa-plus"></i> Add new obelisk group</button>
 				</div>
 			</div>

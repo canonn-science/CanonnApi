@@ -16,22 +16,22 @@ namespace RuinsApi.Controllers
 		}
 
 		[HttpPut("{id}")]
-		[Authorize(Policy = "add:ruintype")]
-		[Authorize(Policy = "edit:ruintype")]
+		[Authorize(Policy = "add:ruinbasedata")]
+		[Authorize(Policy = "edit:ruinbasedata")]
 		public override async Task<RuinType> CreateOrUpdate([FromBody] RuinType data, int id)
 		{
 			return await base.CreateOrUpdate(data, id);
 		}
 
 		[HttpPatch("{id}")]
-		[Authorize(Policy = "edit:ruintype")]
+		[Authorize(Policy = "edit:ruinbasedata")]
 		public override async Task<RuinType> Update([FromBody] RuinType data, int id)
 		{
 			return await base.Update(data, id);
 		}
 
 		[HttpDelete("{id}")]
-		[Authorize(Policy = "delete:ruintype")]
+		[Authorize(Policy = "delete:ruinbasedata")]
 		public override async Task<ActionResult> Delete(int id)
 		{
 			return await base.Delete(id);

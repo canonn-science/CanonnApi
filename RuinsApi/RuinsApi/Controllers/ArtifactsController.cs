@@ -16,22 +16,22 @@ namespace RuinsApi.Controllers
 		}
 
 		[HttpPut("{id}")]
-		[Authorize(Policy = "add:artifact")]
-		[Authorize(Policy = "edit:artifact")]
+		[Authorize(Policy = "add:codexdata")]
+		[Authorize(Policy = "edit:codexdata")]
 		public override async Task<Artifact> CreateOrUpdate([FromBody] Artifact data, int id)
 		{
 			return await base.CreateOrUpdate(data, id);
 		}
 
 		[HttpPatch("{id}")]
-		[Authorize(Policy = "edit:artifact")]
+		[Authorize(Policy = "edit:codexdata")]
 		public override async Task<Artifact> Update([FromBody] Artifact data, int id)
 		{
 			return await base.Update(data, id);
 		}
 
 		[HttpDelete("{id}")]
-		[Authorize(Policy = "delete:artifact")]
+		[Authorize(Policy = "delete:codexdata")]
 		public override async Task<ActionResult> Delete(int id)
 		{
 			return await base.Delete(id);

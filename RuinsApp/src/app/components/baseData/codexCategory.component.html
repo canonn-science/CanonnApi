@@ -20,8 +20,8 @@
 							<th class="column-shrink">#</th>
 							<th>Category name</th>
 							<th>Primary artifact</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexcategory')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexcategory')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexdata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexdata')"></th>
 						</tr>
 
 						</thead>
@@ -31,10 +31,10 @@
 							<td>{{category.id}}</td>
 							<td>{{category.name}}</td>
 							<td>{{baseData.artifactLookup[category.artifactId]?.name || 'n/a'}}</td>
-							<td *ngIf="auth.hasPermission('edit:codexcategory')">
+							<td *ngIf="auth.hasPermission('edit:codexdata')">
 								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(category)" title="Edit"><i class="fa fa-edit"></i></button>
 							</td>
-							<td *ngIf="auth.hasPermission('delete:codexcategory')">
+							<td *ngIf="auth.hasPermission('delete:codexdata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(category)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>
 						</tr>
@@ -43,7 +43,7 @@
 					</table>
 				</div>
 
-				<div class="box-footer" *ngIf="auth.hasPermission('add:codexcategory')">
+				<div class="box-footer" *ngIf="auth.hasPermission('add:codexdata')">
 					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add codex category"><i class="fa fa-plus"></i> Add new codex category</button>
 				</div>
 			</div>

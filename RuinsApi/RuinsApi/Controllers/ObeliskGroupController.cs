@@ -16,22 +16,22 @@ namespace RuinsApi.Controllers
 		}
 
 		[HttpPut("{id}")]
-		[Authorize(Policy = "add:obeliskgroup")]
-		[Authorize(Policy = "edit:obeliskgroup")]
+		[Authorize(Policy = "add:ruinbasedata")]
+		[Authorize(Policy = "edit:ruinbasedata")]
 		public override async Task<ObeliskGroup> CreateOrUpdate([FromBody] ObeliskGroup data, int id)
 		{
 			return await base.CreateOrUpdate(data, id);
 		}
 
 		[HttpPatch("{id}")]
-		[Authorize(Policy = "edit:obeliskgroup")]
+		[Authorize(Policy = "edit:ruinbasedata")]
 		public override async Task<ObeliskGroup> Update([FromBody] ObeliskGroup data, int id)
 		{
 			return await base.Update(data, id);
 		}
 
 		[HttpDelete("{id}")]
-		[Authorize(Policy = "delete:obeliskgroup")]
+		[Authorize(Policy = "delete:ruinbasedata")]
 		public override async Task<ActionResult> Delete(int id)
 		{
 			return await base.Delete(id);

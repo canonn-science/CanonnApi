@@ -18,8 +18,8 @@
 						<tr>
 							<th class="column-shrink">#</th>
 							<th>Artifact name</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:artifact')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:artifact')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexdata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexdata')"></th>
 						</tr>
 						</thead>
 						<tbody>
@@ -27,10 +27,10 @@
 						<tr role="row" *ngFor="let entry of data">
 							<td>{{entry.id}}</td>
 							<td>{{entry.name}}</td>
-							<td *ngIf="auth.hasPermission('edit:artifact')">
+							<td *ngIf="auth.hasPermission('edit:codexdata')">
 								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(entry)" title="Edit"><i class="fa fa-edit"></i></button>
 							</td>
-							<td *ngIf="auth.hasPermission('delete:artifact')">
+							<td *ngIf="auth.hasPermission('delete:codexdata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(entry)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>
 						</tr>
@@ -39,7 +39,7 @@
 					</table>
 				</div>
 
-				<div class="box-footer" *ngIf="auth.hasPermission('add:artifact')">
+				<div class="box-footer" *ngIf="auth.hasPermission('add:codexdata')">
 					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add artifact"><i class="fa fa-plus"></i> Add new artifact</button>
 				</div>
 			</div>

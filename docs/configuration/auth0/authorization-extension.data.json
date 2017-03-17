@@ -1,0 +1,180 @@
+{
+  "configuration": [
+    {
+      "groupsPassthrough": false,
+      "groupsInToken": true,
+      "persistGroups": false,
+      "persistRoles": false,
+      "persistPermissions": false,
+      "permissionsPassthrough": false,
+      "permissionsInToken": true,
+      "rolesInToken": true,
+      "rolesPassthrough": false,
+      "_id": "v1"
+    }
+  ],
+  "roles": [
+    {
+      "_id": "a105f1ee-7794-4e39-b7b0-918feef3af20",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May add and edit stellar system data for Canonn",
+      "name": "System data maintainer",
+      "permissions": [
+        "65d4ea0f-61fd-422e-9559-903f30b75f3a",
+        "951dbf66-1793-4c96-881d-e2b1e38df4d2"
+      ],
+      "users": []
+    },
+    {
+      "_id": "1441182d-54e0-40e3-9206-8c0398b7873d",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "Admin for Canonn API - Full permissions",
+      "name": "Administrator",
+      "permissions": [
+        "5b59bf13-fc6d-4e37-98e5-c674a49f38cb",
+        "85dfb2ae-fa49-4f6e-bcb8-d89fd717131d",
+        "7acd48c0-0c03-486d-9dda-adadf2e12291",
+        "6064a288-f5f8-46a2-b2d1-1857be42f1c7",
+        "8f8775f2-6921-42eb-845f-a4c36e42f085",
+        "e7f20ee6-2d91-401a-80ae-fccd6d836c0a",
+        "d63411ea-1b6f-4966-8e90-84cec6d97b16",
+        "535b7878-7afb-4e24-8c96-70685c157524",
+        "951dbf66-1793-4c96-881d-e2b1e38df4d2",
+        "658ab948-ec61-4f1b-8375-c7d2b8a1b8da",
+        "7d40c189-bc7b-4c24-81bf-41a8e9634620",
+        "65d4ea0f-61fd-422e-9559-903f30b75f3a"
+      ]
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May add or edit ruin data (codex, ruin base and site data)",
+      "name": "Ruin data maintainer",
+      "permissions": [
+        "5b59bf13-fc6d-4e37-98e5-c674a49f38cb",
+        "85dfb2ae-fa49-4f6e-bcb8-d89fd717131d",
+        "e7f20ee6-2d91-401a-80ae-fccd6d836c0a",
+        "8f8775f2-6921-42eb-845f-a4c36e42f085",
+        "6064a288-f5f8-46a2-b2d1-1857be42f1c7",
+        "d63411ea-1b6f-4966-8e90-84cec6d97b16"
+      ],
+      "_id": "420de79f-b2d3-4142-b5f9-b5ba89da499a"
+    }
+  ],
+  "permissions": [
+    {
+      "_id": "5b59bf13-fc6d-4e37-98e5-c674a49f38cb",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May add codex data (artifacts, codex categories, codex entries)",
+      "name": "add:codexdata"
+    },
+    {
+      "_id": "85dfb2ae-fa49-4f6e-bcb8-d89fd717131d",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May edit codex data (artifacts, codex categories, codex entries)",
+      "name": "edit:codexdata"
+    },
+    {
+      "_id": "7acd48c0-0c03-486d-9dda-adadf2e12291",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May delete codex data (artifacts, codex categories, codex entries)",
+      "name": "delete:codexdata"
+    },
+    {
+      "_id": "e7f20ee6-2d91-401a-80ae-fccd6d836c0a",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May add ruin base data (types, obelisk groups, obelisks)",
+      "name": "add:ruinbasedata"
+    },
+    {
+      "_id": "8f8775f2-6921-42eb-845f-a4c36e42f085",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May edit ruin base data (types, obelisk groups, obelisks)",
+      "name": "edit:ruinbasedata"
+    },
+    {
+      "_id": "6064a288-f5f8-46a2-b2d1-1857be42f1c7",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May add ruin sites",
+      "name": "add:ruinsitedata"
+    },
+    {
+      "_id": "d63411ea-1b6f-4966-8e90-84cec6d97b16",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May edit ruin sites",
+      "name": "edit:ruinsitedata"
+    },
+    {
+      "_id": "535b7878-7afb-4e24-8c96-70685c157524",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May delete ruin sites",
+      "name": "delete:ruinsitedata"
+    },
+    {
+      "_id": "951dbf66-1793-4c96-881d-e2b1e38df4d2",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May add solar system data",
+      "name": "add:systemdata"
+    },
+    {
+      "_id": "65d4ea0f-61fd-422e-9559-903f30b75f3a",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May edit solar system data",
+      "name": "edit:systemdata"
+    },
+    {
+      "_id": "7d40c189-bc7b-4c24-81bf-41a8e9634620",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May delete solar system data",
+      "name": "delete:systemdata"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May delete ruin base data (types, obelisk groups, obelisks)",
+      "name": "delete:ruinbasedata",
+      "_id": "658ab948-ec61-4f1b-8375-c7d2b8a1b8da"
+    }
+  ],
+  "groups": [
+    {
+      "_id": "9008db50-6a7d-4ee5-a73b-c2e45f0223fb",
+      "name": "CanonnAdmins",
+      "description": "Administrators of Canonn",
+      "members": [
+        "auth0|58b0cea1bfd38107bc46ff72",
+        "google-oauth2|104545570574630216515",
+        "google-oauth2|110235718671102344371"
+      ],
+      "roles": [
+        "a105f1ee-7794-4e39-b7b0-918feef3af20",
+        "1441182d-54e0-40e3-9206-8c0398b7873d"
+      ]
+    },
+    {
+      "_id": "94cd2bac-405b-4b12-86b0-1ed8f8897230",
+      "name": "CanonnMaintainers",
+      "description": "Maintain global data for Canonn",
+      "roles": [
+        "a105f1ee-7794-4e39-b7b0-918feef3af20",
+        "420de79f-b2d3-4142-b5f9-b5ba89da499a"
+      ],
+      "members": [
+        "twitter|16649999"
+      ]
+    }
+  ]
+}

@@ -40,15 +40,12 @@ namespace RuinsApi.Controllers
 		}
 
 		[HttpPost()]
-		[Authorize(Policy = "add:codexcategory")]
 		public virtual async Task<T> Create([FromBody] T data)
 		{
 			return await Repository.Create(data);
 		}
 
 		[HttpPut("{id}")]
-		[Authorize(Policy = "add:codexcategory")]
-		[Authorize(Policy = "edit:codexcategory")]
 		public virtual async Task<T> CreateOrUpdate([FromBody] T data, int id)
 		{
 			try
@@ -62,7 +59,6 @@ namespace RuinsApi.Controllers
 		}
 
 		[HttpPatch("{id}")]
-		[Authorize(Policy = "edit:codexcategory")]
 		public virtual async Task<T> Update([FromBody] T data, int id)
 		{
 			try
@@ -76,7 +72,6 @@ namespace RuinsApi.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		[Authorize(Policy = "delete:codexcategory")]
 		public virtual async Task<ActionResult> Delete(int id)
 		{
 			return (await Repository.DeleteById(id))

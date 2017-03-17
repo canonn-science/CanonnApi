@@ -8,7 +8,7 @@ Please see the [documentation](./docs/index.md) start page for more detailed doc
 
 RuinsApp and RuinsApi rely on [Auth0.com](Auth0.com) for authentication.
 
-To locally develop with authenticated users, please sign up to Auth0 (free plan is fine), make yourself comfortable with it, and then follow the steps explained in [Auth0 Setup](configuration/auth0/auth0-setup.md).
+To locally develop with authenticated users, please sign up to Auth0 (free plan is fine), make yourself comfortable with it, and then follow the steps explained in [Auth0 Setup](docs/configuration/auth0/auth0-setup.md).
 
 ### API
 

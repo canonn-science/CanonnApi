@@ -16,29 +16,29 @@ namespace RuinsApi.Controllers
 		}
 
 		[HttpPost()]
-		[Authorize(Policy = "add:codexcategory")]
+		[Authorize(Policy = "add:codexdata")]
 		public override async Task<CodexCategory> Create([FromBody] CodexCategory data)
 		{
 			return await base.Create(data);
 		}
 
 		[HttpPut("{id}")]
-		[Authorize(Policy = "add:codexcategory")]
-		[Authorize(Policy = "edit:codexcategory")]
+		[Authorize(Policy = "add:codexdata")]
+		[Authorize(Policy = "edit:codexdata")]
 		public override async Task<CodexCategory> CreateOrUpdate([FromBody] CodexCategory data, int id)
 		{
 			return await base.CreateOrUpdate(data, id);
 		}
 
 		[HttpPatch("{id}")]
-		[Authorize(Policy = "edit:codexcategory")]
+		[Authorize(Policy = "edit:codexdata")]
 		public override async Task<CodexCategory> Update([FromBody] CodexCategory data, int id)
 		{
 			return await base.Update(data, id);
 		}
 
 		[HttpDelete("{id}")]
-		[Authorize(Policy = "delete:codexcategory")]
+		[Authorize(Policy = "delete:codexdata")]
 		public override async Task<ActionResult> Delete(int id)
 		{
 			return await base.Delete(id);

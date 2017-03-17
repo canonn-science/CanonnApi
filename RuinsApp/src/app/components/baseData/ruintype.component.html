@@ -18,8 +18,8 @@
 						<tr>
 							<th class="column-shrink">#</th>
 							<th>Type name</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruintype')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruintype')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinbasedata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinbasedata')"></th>
 						</tr>
 						</thead>
 						<tbody>
@@ -27,10 +27,10 @@
 						<tr role="row" *ngFor="let item of data">
 							<td>{{item.id}}</td>
 							<td>{{item.name}}</td>
-							<td *ngIf="auth.hasPermission('edit:ruintype')">
+							<td *ngIf="auth.hasPermission('edit:ruinbasedata')">
 								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(item)" title="Edit"><i class="fa fa-edit"></i></button>
 							</td>
-							<td *ngIf="auth.hasPermission('delete:ruintype')">
+							<td *ngIf="auth.hasPermission('delete:ruinbasedata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(item)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>
 						</tr>
@@ -39,7 +39,7 @@
 					</table>
 				</div>
 
-				<div class="box-footer" *ngIf="auth.hasPermission('add:ruintype')">
+				<div class="box-footer" *ngIf="auth.hasPermission('add:ruinbasedata')">
 					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add ruin type"><i class="fa fa-plus"></i> Add new ruin type</button>
 				</div>
 			</div>

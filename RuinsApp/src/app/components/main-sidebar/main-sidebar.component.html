@@ -8,9 +8,10 @@
 
 			<!-- sidebar menu: : style can be found in sidebar.less -->
 			<ul class="nav sidebar-menu">
+				<li class="header">Main navigation</li>
 
-				<!-- base data -->
-				<li class="treeview">
+				<!-- Base data -->
+				<li class="treeview active">
 					<a href="#">
 						<i class="fa fa-folder"></i>
 						<span>Base data</span>
@@ -19,13 +20,28 @@
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a [routerLink]="['/basedata/artifacts']"><i class="fa fa-circle-o"></i>Artifacts</a></li>
-						<li><a [routerLink]="['/basedata/codexcategories']"><i class="fa fa-circle-o"></i>Codex categories</a></li>
-						<li><a [routerLink]="['/basedata/codexdata']"><i class="fa fa-circle-o"></i>Codex data</a></li>
-						<li><a [routerLink]="['/basedata/ruintypes']"><i class="fa fa-circle-o"></i>Ruin types</a></li>
-						<li><a [routerLink]="['/basedata/obeliskgroups']"><i class="fa fa-circle-o"></i>Obelisk groups</a></li>
-						<li><a [routerLink]="['/basedata/ruinlayouts']"><i class="fa fa-circle-o"></i>Ruin layouts</a></li>
-						<li><a [routerLink]="['/basedata/ruinlayoutvariants']"><i class="fa fa-circle-o"></i>Ruin layout variants</a></li>
+
+						<li>
+							<a href="#">
+								Codex base data
+							</a>
+							<ul class="treeview-menu">
+								<li><a [routerLink]="['/basedata/artifacts']"><i class="fa fa-circle-o"></i>Artifacts</a></li>
+								<li><a [routerLink]="['/basedata/codexcategories']"><i class="fa fa-circle-o"></i>Codex categories</a></li>
+								<li><a [routerLink]="['/basedata/codexdata']"><i class="fa fa-circle-o"></i>Codex data</a></li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#">
+								Ruin base data
+							</a>
+							<ul class="treeview-menu">
+								<li><a [routerLink]="['/basedata/ruintypes']"><i class="fa fa-circle-o"></i>Ruin types</a></li>
+								<li><a [routerLink]="['/basedata/obeliskgroups']"><i class="fa fa-circle-o"></i>Obelisk groups</a></li>
+							</ul>
+						</li>
+
 					</ul>
 				</li>
 			</ul>

@@ -147,25 +147,21 @@ namespace RuinsApi
 		{
 			return new[]
 			{
-				"add:artifact",
-				"edit:artifact",
-				"delete:artifact",
-
-				"add:codexcategory",
-				"edit:codexcategory",
-				"delete:codexcategory",
-
 				"add:codexdata",
 				"edit:codexdata",
 				"delete:codexdata",
 
-				"add:obeliskgroup",
-				"edit:obeliskgroup",
-				"delete:obeliskgroup",
+				"add:ruinbasedata",
+				"edit:ruinbasedata",
+				"delete:ruinbasedata",
 
-				"add:ruintype",
-				"edit:ruintype",
-				"delete:ruintype",
+				"add:ruinsitedata",
+				"edit:ruinsitedata",
+				"delete:ruinsitedata",
+
+				"add:systemdata",
+				"edit:systemdata",
+				"delete:systemdata",
 			};
 		}
 	}
