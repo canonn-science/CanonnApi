@@ -1,7 +1,7 @@
 Get-ChildItem Env:
 
 $branch = [Environment]::GetEnvironmentVariable("teamcity.build.branch").ToLower()
-if ($branch -eq "master") {
+if ($branch -eq "master" -or $branch -eq "<default>") {
 	$branch = "";
 } else {
 	$branch = "-$branch"
