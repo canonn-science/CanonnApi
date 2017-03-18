@@ -1,3 +1,5 @@
+Get-ChildItem Env:
+
 $branch = [Environment]::GetEnvironmentVariable("teamcity.build.branch").ToLower()
 $buildCounter = [Environment]::GetEnvironmentVariable("build.counter").ToLower()
 
