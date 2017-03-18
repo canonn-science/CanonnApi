@@ -1,5 +1,10 @@
-Get-ChildItem Env:
+# clean up dist folder from possible earlier build
+$strFolderName="dist"
+If (Test-Path $strFolderName){
+	Remove-Item $strFolderName
+}
 
+# set teamcity build version based on branch
 $branch = [Environment]::GetEnvironmentVariable("teamcity.build.branch").ToLower()
 if ($branch -eq "master" -or $branch -eq "<default>") {
 	$branch = "";
