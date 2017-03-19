@@ -6,12 +6,12 @@ If (Test-Path $strFolderName){
 
 # set teamcity build version based on branch
 $branch = [Environment]::GetEnvironmentVariable("teamcity.build.branch").ToLower()
-if ($branch -eq "refs/heads/master") {
-	$branch = "";
-} else {
-	$branch = "-$branch"
-}
-
 $buildCounter = [Environment]::GetEnvironmentVariable("build.counter").ToLower()
 
-Write-Host "##teamcity[buildNumber '1.0.0$branch-$buildCounter']"
+if ($branch -eq "refs/heads/master") {
+	$suffix = "";
+} else {
+	$suffix = "-$branch-$buildCounter"
+}
+
+Write-Host "##teamcity[buildNumber '1.0.0$suffix']"
