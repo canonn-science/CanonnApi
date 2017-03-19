@@ -6,7 +6,7 @@ If (Test-Path $strFolderName){
 
 # set teamcity build version based on branch
 $branch = [Environment]::GetEnvironmentVariable("teamcity.build.branch").ToLower()
-if ($branch -eq "master" -or $branch -eq "<default>") {
+if ($branch -eq "refs/heads/master") {
 	$branch = "";
 } else {
 	$branch = "-$branch"
