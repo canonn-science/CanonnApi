@@ -15,7 +15,7 @@ if (!$branch) {
 $branch = $branch.ToLower()
 $buildCounter = [Environment]::GetEnvironmentVariable("build.counter")
 if ($buildCounter) {
-	$buildCounter = "-$buildCounter.ToLower()"
+	$buildCounter = "-$buildCounter".ToLower()
 }
 
 if ($branch -eq "refs/heads/master") {
