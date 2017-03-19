@@ -23,13 +23,13 @@ Please install the following Extension: **Auth0 Authorization**.
 Then follow these steps:
 
 1. Note/copy the `Client Id` of the Auth0 client you created above
-2. Edit the `authorization-extension.data.json` in this folder, and replace all occurances of `YOUR_APPLICATION_CLIENT_ID` with the client id of your application from step 1
-3. From the Auth0 left hand navigation, select Extensions, and then select the `Auth0 Authorization` extension
-4. When the extension management page opened, select `configuration` from the top right drop down menu
-5. Go to tab `Import / Export`
-6. Select `Import` and import the file `authorization-extension.data.json` that now contains your client id
-7. Go to `Rule Configuration`, make sure the first three options are active, and click on 'Publish Rule`
-7. Last, assign the groups (or roles) you just imported to your users as required
+2. Edit the `authorization-extension.data.json` in this folder, and replace all occurances of `YOUR_APPLICATION_ID_HERE` with the client id of your application from step 1.
+3. From the Auth0 left hand navigation, select Extensions, and then select the `Auth0 Authorization` extension.
+4. When the extension management page opened, select `configuration` from the top right drop down menu.
+5. Go to tab `Import / Export`.
+6. Select `Import` and import the file `authorization-extension.data.json` that now contains your client id.
+7. Go to `Rule Configuration`, make sure the first three options are active, and click on 'Publish Rule`.
+7. Last, assign the groups (or roles) you just imported to your users as required.
 
 ## Changes in this project
 

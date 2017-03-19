@@ -15,3 +15,12 @@ Using the NuGet packages `Pomelo.EntityFrameworkCore.MySql` and `Pomelo.EntityFr
 ```
 Scaffold-DbContext "server=DB-HOST;database=DB-NAME;userid=DB-USER;password=DB-PASSWORD" Pomelo.EntityFrameworkCore.MySql -Context RuinsContext -OutputDir DatabaseModels -Force
 ```
+
+# Database upgrades / versioning
+
+Database upgrades are automated using [DbUp](https://github.com/DbUp/DbUp).
+
+This is done in the project `Canonn.Database`. The single versioning scripts are included in this project as embedded resources. This allows for automatic db migration during automated deployments.
+
+Please use the existing scripts as a template for creating new versions of the db.
+Make sure, that the state of the database always matches with the state of the API project.
