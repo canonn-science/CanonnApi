@@ -1,57 +1,19 @@
-/*
- ruins db version 1
- creates tables:
- - artifact
- - codex_category
- - codex_data
- inserts initial data:
- - relict
- - codex_category
- - codex_data
-*/
+-- due to a bug in DbUp, 'delimiter' may not start at the very first character in a line...
+ delimiter $$
 
-CREATE TABLE `artifact` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the artifact',
-	`name` VARCHAR(50) NOT NULL COMMENT 'name of the artifact',
-	`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`)
-)
-COMMENT='holds the actual artifacts'
-COLLATE='utf8_general_ci'
-ENGINE=InnoDB
-;
+CREATE PROCEDURE up()
+BEGIN
 
-CREATE TABLE `codex_category` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id for the category',
-	`artifact_id` INT(11) NOT NULL COMMENT 'id of the primary artifact to unlock this ctageory',
-	`name` VARCHAR(50) NOT NULL COMMENT 'name of the category',
-	`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`),
-	INDEX `FK_codexcategory_artifact` (`artifact_id`),
-	CONSTRAINT `FK_codexcategory_artifact` FOREIGN KEY (`artifact_id`) REFERENCES `artifact` (`id`)
-)
-COMMENT='Holds the categories for the codes data'
-COLLATE='utf8_general_ci'
-ENGINE=InnoDB
-;
+SET @version := (
+	SELECT `value`
+	FROM `canonndb_metadata`
+	WHERE `name` = 'version'
+);
 
-CREATE TABLE `codex_data` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the entry',
-	`category_id` INT(11) NOT NULL COMMENT 'references the category',
-	`entry_number` INT(11) NOT NULL COMMENT 'number of the entry',
-	`text` TEXT NOT NULL COMMENT 'the actual entry',
-	`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`),
-	INDEX `FK_codexdata_codexcategory` (`category_id`),
-	CONSTRAINT `FK_codexdata_codexcategory` FOREIGN KEY (`category_id`) REFERENCES `codex_category` (`id`)
-)
-COMMENT='holds the data for all the codex entries'
-COLLATE='utf8_general_ci'
-ENGINE=InnoDB
-;
+SET @newVersion = 3;
+
+IF @version < @newVersion THEN
+	-- START MIGRATION SCRIPT
 
 INSERT INTO `artifact` (`id`, `name`) VALUES
 	(1, 'Casket'),
@@ -170,3 +132,20 @@ INSERT INTO `codex_data` (`id`, `category_id`, `entry_number`, `text`) VALUES
 	(99, 5, 18, 'This data contains some details regarding AI in the Guardians\' society. What really sets the Guardians apart from humanity, technologically, was the way they embraced neural implantation and artificial intelligence. Not only did the implants enhance one\'s mental capacity, they also provided one with a direct connection to the monolith network and the fledgling AIs. It was this symbiosis that fuelled the rapid advancement of technology during this era, but unfortunately this same advancement also resulted in the ultimate destruction of their species.'),
 	(100, 5, 19, 'This data contains some details regarding AI in the Guardians\' society. The early AIs were designed with two goals in mind. The first was to augment the abilities of the Guardian operators who were responsible for managing the monolith network and interaction with the AIs - a goal they achieved. The development of shared thought-space technology and neural networking gave their civilisation an unprecedented intellectual boost. The second was for the AIs to actually drive their own development, which they also achieved. The first few generations of AI relied heavily on the monolith network, but they soon evolved into a more distributed model by storing their consciousness within the implants.'),
 	(101, 5, 20, 'This data contains some details regarding AI in Guardian society. At this stage, social engineering was being used to ensure the AIs adhered to the same user models as their progenitors. But during the first civil war, most implanted Guardians were exiled, and the AIs recognised their vulnerability. They responded by developing their own operational hardware, independent of implanted Guardian users. Frustratingly, the details of these mechanisms have been purged from the record, possibly by the religious extremists who formed the last of the Guardians\' species.');
+
+	-- END MIGRATION SCRIPT
+
+	-- update version and add metadata	
+	INSERT INTO `canonndb_metadata` (`name`, `value`) VALUES
+		(CONCAT('update_v', @newVersion), DATE_FORMAT(UTC_TIMESTAMP(), '%Y-%m-%dT%TZ'));
+	UPDATE `canonndb_metadata` SET `value` = @newVersion WHERE `name` = 'version';
+
+END IF;
+
+END$$ -- PROCUDURE up()
+
+ delimiter ;
+
+CALL up();
+
+DROP PROCEDURE `up`;

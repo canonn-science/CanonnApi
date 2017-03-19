@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CanonnApi.Database</id>
+    <version>1.0.0</version>
+    <description>Database deployment scripts for the canonn api backend.</description>
+    <authors>Sebastian Gingter</authors>
+  </metadata>
+</package>
