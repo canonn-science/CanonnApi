@@ -4,7 +4,6 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-	version: '1.0.0-beta2',
 	production: false,
 	apiBaseUri: 'http://localhost:52685',
 };

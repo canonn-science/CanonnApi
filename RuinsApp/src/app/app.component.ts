@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {environment} from 'environments/environment';
+const { version: appVersion } = require('../../package.json');
 
 declare var $: any;
 
@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
 	public version: string;
 
 	constructor() {
-		this.version = environment.version;
+		this.version = appVersion;
 	}
 
 	ngOnInit() {
