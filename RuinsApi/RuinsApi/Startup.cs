@@ -119,6 +119,8 @@ namespace RuinsApi
 			// System base data
 			builder.RegisterType<SystemRepository>().AsImplementedInterfaces();
 			builder.RegisterType<BodyRepository>().AsImplementedInterfaces();
+			// Ruin site data
+			builder.RegisterType<RuinSiteRepository>().AsImplementedInterfaces();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
