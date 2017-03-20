@@ -29,17 +29,20 @@ $versionString = "$version$suffix";
 # set new version tag to teamcity
 Write-Host "##teamcity[buildNumber '$versionString']"
 
-# write version number to assemblyinfo
-$path = ".\properties\AssemblyInfo.cs"
-(Get-Content $path) | ForEach-Object{
-    if($_ -match '\[assembly: AssemblyVersion\("(.*)"\)\]'){
-        '[assembly: AssemblyVersion("{0}.{1}")]' -f $version, $versionObj.Revision
-    } ElseIf ($_ -match '\[assembly: AssemblyFileVersion\("(.*)"\)\]') {
-        '[assembly: AssemblyFileVersion("{0}")]' -f $version, $versionObj.Build
-    } ElseIf ($_ -match '\[assembly: AssemblyInformationalVersion\("(.*)"\)\]') {
-        '[assembly: AssemblyInformationalVersion("{0}")]' -f $versionString
-    } Else {
-        # Output line as is
-        $_
-    }
-} | Set-Content $path
+# write version number to assemblyinfo files
+$paths = @("RuinsApi", "CanonnApi.Database")
+foreach ($path in $paths) {
+    $file = ".\$path\properties\AssemblyInfo.cs"
+    (Get-Content $file) | ForEach-Object{
+        if($_ -match '\[assembly: AssemblyVersion\("(.*)"\)\]'){
+            '[assembly: AssemblyVersion("{0}.{1}")]' -f $version, $versionObj.Revision
+        } ElseIf ($_ -match '\[assembly: AssemblyFileVersion\("(.*)"\)\]') {
+            '[assembly: AssemblyFileVersion("{0}")]' -f $version, $versionObj.Build
+        } ElseIf ($_ -match '\[assembly: AssemblyInformationalVersion\("(.*)"\)\]') {
+            '[assembly: AssemblyInformationalVersion("{0}")]' -f $versionString
+        } Else {
+            # Output line as is
+            $_
+        }
+    } | Set-Content $path
+}
