@@ -17,10 +17,6 @@
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageTags>Canonn; science; dbup;</PackageTags>
     <PackageProjectUrl>https://github.com/canonn-science/canonnapi</PackageProjectUrl>
-    <!-- removed because Octopus fails hard over this
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/canonn-science/canonnapi</RepositoryUrl>
-    -->
     <PackageReleaseNotes></PackageReleaseNotes>
 
     <IncludeBuildOutput>false</IncludeBuildOutput>

@@ -15,13 +15,8 @@
     <PackageTags>Canonn; science; api;</PackageTags>
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <RepositoryType>Git</RepositoryType>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/canonn-science/canonnapi</PackageProjectUrl>
-    <!-- removed because Octopus fails hard over this
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/canonn-science/canonnapi</RepositoryUrl>
-    -->
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoPackageAnalysis>true</NoPackageAnalysis>
@@ -62,9 +57,9 @@
 
   <ItemGroup>
     <!--pack information -->
-    <Content Include="\bin\Release\netcoreapp1.1\win8-x64\publish\*">
+    <Content Include=".\bin\Release\netcoreapp1.1\win8-x64\publish\**\*">
       <Visible>false</Visible>
-      <PackagePath>.</PackagePath>
+      <PackagePath>web</PackagePath>
       <Pack>true</Pack>
     </Content>
   </ItemGroup>

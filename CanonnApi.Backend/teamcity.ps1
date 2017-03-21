@@ -30,3 +30,4 @@ dotnet restore
 dotnet publish -c Release -r win8-x64 /p:Version=$versionString
 
 dotnet pack --no-build --output bin/nupkg /p:Version=$versionString
+
