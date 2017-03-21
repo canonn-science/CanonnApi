@@ -57,7 +57,7 @@
 
   <ItemGroup>
     <!--pack information -->
-    <Content Include=".\bin\Release\netcoreapp1.1\win8-x64\publish\**\*">
+    <Content Include=".\bin\Release\netcoreapp1.1\win8-x64\publish\*">
       <Visible>false</Visible>
       <PackagePath>web</PackagePath>
       <Pack>true</Pack>
