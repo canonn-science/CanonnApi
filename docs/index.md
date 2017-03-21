@@ -2,7 +2,7 @@
 
 ## Database
 
-The ruins database contains all data for ruin layouts, their variants, obelisks, their status and actual ruins sites.
+The canonn api database contains all data for ruin layouts, their variants, obelisks, their status and actual ruins sites.
 
 For details see the [database documentation](./design/db/index.md).
 
@@ -21,8 +21,8 @@ See [RuinsApp](../RuinsApp/README.md) for details.
 
 ## Authentication
 
-RuinsApp and RuinsApi rely on [Auth0.com](Auth0.com) for authentication.
-See [Auth0 Setup](./configuration/auth0/auth0-setup.md) for details on how Auth0 should be set up to work with RuinsApi.
+The CanonnApi frontend and backend API both rely on [Auth0.com](Auth0.com) for authentication.
+See [Auth0 Setup](./configuration/auth0/auth0-setup.md) for details on how Auth0 should be set up to work with CanonnApi.
 
 ## Versioning
 

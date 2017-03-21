@@ -6,7 +6,7 @@ Please see the [documentation](./docs/index.md) start page for more detailed doc
 
 ### External dependencies
 
-RuinsApp and RuinsApi rely on [Auth0.com](Auth0.com) for authentication.
+The CanonnApi Frontend and Backend together rely on [Auth0.com](Auth0.com) for authentication.
 
 To locally develop with authenticated users, please sign up to Auth0 (free plan is fine), make yourself comfortable with it, and then follow the steps explained in [Auth0 Setup](docs/configuration/auth0/auth0-setup.md).
 
@@ -21,12 +21,12 @@ This is required to locally set up the api:
 1. Create a new MySql or MariaDb database.
    1. Create a user that has sufficient privileges on that database to insert, read, update and delete data in tables in this database.
    2. Create a second user that has sufficient privileges to edit the DB schema for the db updates.
-2. In the Visual Studio project `\RuinsApi\CanonnApi.Database` open the file `app.config` and enter the connection string with name `canonnDb` in the format `server=SERVERNAME;database=DBNAME;userid=DBUSERNAME;password=DBUSERPASSWORD`. Use the user name / password for the user that may create the database schema (Step 1.2) here.
+2. In the Visual Studio project `\CanonnApi.Backend\CanonnApi.Database.AutoUpdater` open the file `app.config` and enter the connection string with name `canonnDb` in the format `server=SERVERNAME;database=DBNAME;userid=DBUSERNAME;password=DBUSERPASSWORD`. Use the user name / password for the user that may create the database schema (Step 1.2) here.
 3. Build and exeute the project. This will create the required tables in the database and seed the initial data.
-4. Copy the file `appsettings.Secrets.json` from the folder `docs\configuration\api` to the folder `RuinsApi\RuinsApi` and fill the empty double quotes with your Auth0 domain and client id (the client secret is currently not required). Also, fill the connection string for `ruinsDb` in the format `server=SERVERNAME;database=DBNAME;userid=DBUSERNAME;password=DBUSERPASSWORD` with the user created in step 1.1.
+4. Copy the file `appsettings.Secrets.json` from the folder `docs\configuration\api` to the folder `CanonnApi.Backend\CanonnApi.Web` and fill the empty double quotes with your Auth0 domain and client id (the client secret is currently not required). Also, fill the connection string for `ruinsDb` in the format `server=SERVERNAME;database=DBNAME;userid=DBUSERNAME;password=DBUSERPASSWORD` with the user created in step 1.1.
 
 The API will locally run on port 52685.
-You can either start the API from within Visual Studio or from the commandline. For that, go to the `RuinsApi\RuinsApi` folder and call the `start_dev.bat`. This will set an environment variable so that the API runs in Development mode, and compile and start the API project.
+You can either start the API from within Visual Studio or from the commandline. For that, go to the `CanonnApi.Backend\CanonnApi.Web` folder and call the `start_dev.bat`. This will set an environment variable so that the API runs in Development mode, and compile and start the API project.
 
 ### Client Application / Web Application
 

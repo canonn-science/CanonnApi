@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- main project info -->
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net46</TargetFramework>
+    <RuntimeIdentifiers>win8-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- pack related info -->
+    <AssemblyName>Canonn.Database.AutoUpdater</AssemblyName>
+    <PackageId>Canonn.Database.AutoUpdater</PackageId>
+    <Authors>Sebastian Gingter</Authors>
+    <Description>Tool for automatically upgrading the databases on auto-deployments (or local dev setup)</Description>
+    <Company>Canonn Science</Company>
+    <Copyright>Copyright © 2017, Sebastian Gingter, Canonn Science</Copyright>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageTags>Canonn; science; dbup;</PackageTags>
+    <PackageProjectUrl>https://github.com/canonn-science/canonnapi</PackageProjectUrl>
+    <PackageReleaseNotes></PackageReleaseNotes>
+
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\Script0001 - Create and seed dbversion table.sql" />
+    <EmbeddedResource Include="Scripts\Script0002 - Create codex tables.sql" />
+    <EmbeddedResource Include="Scripts\Script0003 - Seed codex base data.sql" />
+    <EmbeddedResource Include="Scripts\Script0004 - Create ruin tables.sql" />
+    <EmbeddedResource Include="Scripts\Script0005 - Seed ruin base data.sql" />
+    <EmbeddedResource Include="Scripts\Script0006 - Create stellar data tables.sql" />
+    <EmbeddedResource Include="Scripts\Script0007 - Create ruin site tables.sql" />
+    <EmbeddedResource Include="Scripts\Script0008 - Seed initial stellar and ruin site data.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dbup" Version="3.3.5" />
+    <PackageReference Include="dbup-mysql" Version="3.3.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
+    <PackageReference Include="MySql.Data" Version="6.9.9" />
+    <PackageReference Include="Serilog" Version="2.4.0" />
+    <PackageReference Include="Serilog.Sinks.Literate" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Deploy.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--pack information -->
+    <Content Include="bin\Release\net46\win8-x64\publish\*">
+      <Visible>false</Visible>
+      <PackagePath>.</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+  </ItemGroup>
+</Project>
