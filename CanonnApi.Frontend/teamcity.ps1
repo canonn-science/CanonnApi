@@ -17,7 +17,7 @@ if ($buildCounter) {
 	$buildCounter = "-$buildCounter"
 }
 
-if ($branch -eq "refs/heads/master") {
+if ($branch -eq "master") {
 	$suffix = "";
 } else {
 	$suffix = "-$branch$buildCounter"
@@ -30,3 +30,12 @@ Write-Host "##teamcity[buildNumber '$versionString']"
 
 # write version number to files
 (Get-Content .\package.json).replace('"version": "1.0.0",', '"version": "' + $versionString + '",') | Set-Content .\package.json
+
+npm run ng -- build --target production --aot
+
+# revert version number after build
+(Get-Content .\package.json).replace('"version": "' + $versionString + '",', '"version": "1.0.0",') | Set-Content .\package.json
+
+# required for packing
+dotnet restore
+dotnet pack --no-build --output dist/nupkg /p:Version=$versionString

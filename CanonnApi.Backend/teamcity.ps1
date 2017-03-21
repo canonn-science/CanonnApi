@@ -12,7 +12,7 @@ if ($buildCounter) {
 	$buildCounter = "-$buildCounter"
 }
 
-if ($branch -eq "refs/heads/master") {
+if ($branch -eq "master") {
 	$suffix = "";
 } else {
 	$suffix = "-$branch$buildCounter"
