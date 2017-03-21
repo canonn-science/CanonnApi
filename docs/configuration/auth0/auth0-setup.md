@@ -33,4 +33,4 @@ Then follow these steps:
 
 ## Changes in this project
 
-Copy the `api/appsettings.Secrets.json` file to the `RuinsApi` folder. Edit the file, and copy the client Domain and client ID from the Auth0 configuration to this file.
+Copy the `api/appsettings.Secrets.json` file to the `CanonnApi.Backend\CanonnApi.Web` folder. Edit the file, and copy the client Domain and client ID from the Auth0 configuration to this file.
