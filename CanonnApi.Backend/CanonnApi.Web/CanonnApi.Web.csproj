@@ -18,8 +18,10 @@
     <RepositoryType>Git</RepositoryType>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/canonn-science/canonnapi</PackageProjectUrl>
+    <!-- removed because Octopus fails hard over this
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/canonn-science/canonnapi</RepositoryUrl>
+    -->
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoPackageAnalysis>true</NoPackageAnalysis>

@@ -1,7 +1,7 @@
 # clean up dist folder from possible earlier build
 $strFolderName="dist"
 If (Test-Path $strFolderName){
-	Remove-Item $strFolderName
+	Remove-Item $strFolderName -Recurse
 }
 
 $version = (Get-Content version.txt)
