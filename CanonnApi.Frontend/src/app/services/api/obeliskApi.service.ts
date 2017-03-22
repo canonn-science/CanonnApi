@@ -11,8 +11,8 @@ export class ObeliskApiService extends ApiBasedataService<ObeliskModel> {
 		super('obelisks', http, authHttp);
 	}
 
-	public search(ruintypeId: number = 0, obeliskgroupId: number = 0): Observable<ObeliskModel> {
-		return this._http.get(`${this.baseUrl}/search?ruintypeId=${ruintypeId}&obeliskgroupId=${obeliskgroupId}`)
-			.map(res => <ObeliskModel>res.json());
+	public search(ruintypeId: number = 0, obeliskgroupId: number = 0): Observable<ObeliskModel[]> {
+		return this._http.get(`${this.baseUrl}search?ruintypeId=${ruintypeId}&obeliskgroupId=${obeliskgroupId}`)
+			.map(res => <ObeliskModel[]>res.json());
 	}
 }

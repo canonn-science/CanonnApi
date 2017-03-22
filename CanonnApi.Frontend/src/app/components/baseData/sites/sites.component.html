@@ -1,0 +1,96 @@
+<div class="content">
+	<div class="col col-xs-12">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">Site creation</h3>
+			</div>
+			<!-- /.box-header -->
+			<!-- form start -->
+			<form role="form">
+				<div class="box-body">
+					<div class="form-group">
+						<label for="exampleInputPassword1">ID</label>
+						<input type="number" class="form-control" id="exampleInputPassword1" placeholder="Password">
+					</div>
+					<div class="row">
+						<div class="col-xs-3">
+							<div class="form-group">
+								<label>System:</label>
+								<input [(ngModel)]="selectedSystem"
+										 [typeahead]="systems"
+										 (typeaheadOnSelect)="systemSelect($event)"
+										 typeaheadOptionField="name"
+										 name="selectedSystem"
+										 class="form-control">
+							</div>
+						</div>
+						<div class="col-xs-3">
+							<div class="form-group" *ngIf="selectedSystem">
+								<label>Body:</label>
+								<input [(ngModel)]="selectedBody"
+										 [typeahead]="filteredBodies"
+										 typeaheadOptionField="name"
+										 name="selectedBody"
+										 class="form-control">
+							</div>
+						</div>
+						<div class="col-xs-3">
+							<div class="form-group">
+								<label>Ruin Type:</label>
+								<select class="form-control" id="ruintype" name="ruintype" placeholder="Select ruin type"
+										  [(ngModel)]="ruinTypeId" (change)="ruinTypeSelect()">
+									<option *ngFor="let item of _ruinData.ruinTypeData" [ngValue]="item.id">{{item.name}}
+									</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3">
+							<div class="form-group">
+								<label>Latitude</label>
+								<input [(ngModel)]="latitude"
+										 name="latitude"
+										 class="form-control"
+										 type="number">
+							</div>
+						</div>
+						<div class="col-xs-3">
+							<div class="form-group">
+								<label>Longitude</label>
+								<input [(ngModel)]="longitude"
+										 name="longitude"
+										 class="form-control"
+										 type="number">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div *ngFor="let obeliskGroup of availableObeliskGroups" class="col-xs-6">
+							<div class="tile-switch large"
+								  [ngClass]="{ 'active': obeliskGroup.active, 'inactive': !obeliskGroup.active }"
+								  (click)="toggleObeliskGroup(obeliskGroup)">
+								{{ obeliskGroup.name }}
+							</div>
+							<div class="row" *ngIf="obelisks && obeliskGroup.active">
+								<div class="col-xs-12">
+									<div class="tile-switch"
+										  *ngFor="let obelisk of obelisksByGroupId(obeliskGroup.id)"
+										  [ngClass]="{ 'active': obelisk.active, 'inactive': !obelisk.active, 'destroyed': obelisk.isBroken }"
+										  (click)="toggleObelisk(obelisk)">
+										{{ obelisk.groupId }} {{ obelisk.number }}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.box-body -->
+
+				<div class="box-footer">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
