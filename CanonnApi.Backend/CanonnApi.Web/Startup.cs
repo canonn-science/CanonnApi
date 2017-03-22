@@ -18,6 +18,7 @@ using CanonnApi.Web.Json.Serialization;
 using CanonnApi.Web.Middlewares;
 using CanonnApi.Web.Models;
 using CanonnApi.Web.Services;
+using CanonnApi.Web.Services.Maps;
 using Serilog;
 
 namespace CanonnApi.Web
@@ -121,6 +122,7 @@ namespace CanonnApi.Web
 			builder.RegisterType<BodyRepository>().AsImplementedInterfaces();
 			// Ruin site data
 			builder.RegisterType<RuinSiteRepository>().AsImplementedInterfaces();
+			builder.RegisterType<MapsRepository>().AsImplementedInterfaces();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
