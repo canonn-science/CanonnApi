@@ -1,0 +1,34 @@
+.tile-switch {
+	height: 50px;
+	width: 50px;
+
+	border-radius: 5px;
+	cursor: pointer;
+	display: flex;
+	font-weight: bold;
+	align-items: center;
+	justify-content: center;
+	float: left;
+	margin: 5px;
+
+	&.large { width: 100%; }
+
+	&.active {
+		background: linear-gradient(#48dc68, #2cb148);
+		border: 1px solid #1e9036;
+		color: #0c5f1d;
+	}
+
+	&.inactive {
+		background: linear-gradient(#ddd, #aaa);
+		border: 1px solid #333;
+		color: #333;
+	}
+
+	&.destroyed {
+		background: lighten(#d43926, 15%);
+		border: 1px solid #770c0c;
+		color: #770c0c;
+		cursor: not-allowed;
+	}
+}

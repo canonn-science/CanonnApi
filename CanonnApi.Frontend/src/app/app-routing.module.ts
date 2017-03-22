@@ -10,6 +10,7 @@ import {ObeliskGroupComponent} from './components/baseData/ruins/obeliskGroup.co
 import {BodyComponent} from './components/baseData/stellar/body.component';
 import {SystemComponent} from './components/baseData/stellar/system.component';
 import {ObeliskComponent} from './components/baseData/ruins/obelisk.component';
+import {SitesComponent} from './components/baseData/sites/sites.component';
 
 const routes: Routes = [
 	{
@@ -63,6 +64,10 @@ const routes: Routes = [
 					{
 						path: 'obelisks',
 						component: ObeliskComponent,
+					},
+					{
+						path: 'sites',
+						component: SitesComponent
 					}
 				],
 			}
