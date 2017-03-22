@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {SystemApiService} from '../../../services/api/systemApi.service';
 import {SystemModel} from '../../../models/systemModel';
 import {BodyModel} from '../../../models/bodyModel';
-import {BodyApiService} from '../../../services/api/bodyApi.service';
 import {TypeaheadMatch} from 'ng2-bootstrap';
 import {ObeliskModel} from '../../../models/obeliskModel';
-import {ObeliskGroupApiService} from '../../../services/api/obeliskGroupApi.service';
 import {ObeliskGroupModel} from '../../../models/obeliskGroupModel';
 import {ObeliskApiService} from '../../../services/api/obeliskApi.service';
 import {RuinBaseDataLookupService} from '../../../services/ruinBaseDataLookupService';
+import {StellarBaseDataLookupService} from '../../../services/stellarBaseDataLookupService';
+import {RuinSiteModel} from '../../../models/ruinSiteModel';
+import {RuinSitesApiService} from '../../../services/api/ruinSitesApi.service';
+import {AuthenticationService} from '../../../services/api/authentication.service';
 
 @Component({
 	selector: 'app-sites',
@@ -16,55 +17,77 @@ import {RuinBaseDataLookupService} from '../../../services/ruinBaseDataLookupSer
 	styleUrls: ['./sites.component.less']
 })
 export class SitesComponent implements OnInit {
-	public systems: SystemModel[];
-	public bodies: BodyModel[];
+	public data: RuinSiteModel[];
+	public editingData: RuinSiteModel;
 	public filteredBodies: BodyModel[];
-	public selectedBody: BodyModel;
-	public selectedSystem: SystemModel;
-	public obeliskGroups: ObeliskGroupModel[];
-	public obelisks: ObeliskModel[];
-	public ruinTypeId: number;
-	public availableObeliskGroups: ObeliskGroupModel[];
 
-	constructor(private _systemApi: SystemApiService,
-					private _bodyApi: BodyApiService,
-					private _obeliskGroupApi: ObeliskGroupApiService,
-					private _obeliskApi: ObeliskApiService,
-					private _ruinData: RuinBaseDataLookupService) {
+	constructor(
+		public auth: AuthenticationService,
+		public ruinSitesApiService: RuinSitesApiService,
+		public stellarBaseData: StellarBaseDataLookupService,
+		public ruinBaseData: RuinBaseDataLookupService,
+		private _obeliskApi: ObeliskApiService) {
 	}
 
 	public ngOnInit() {
-		this._systemApi.getAll()
-			.subscribe(res => this.systems = res);
-		this._bodyApi.getAll()
-			.subscribe(res => this.bodies = res);
-		this._obeliskGroupApi.getAll()
-			.subscribe(res => this.obeliskGroups = res);
+		this.ruinSitesApiService.getAll()
+			.subscribe(res => this.data = res);
 	}
 
-	public systemSelect(match: TypeaheadMatch) {
-		this.selectedBody = void 0;
+	public edit(item: RuinSiteModel) {
+		item.selectedSystem = this.stellarBaseData.systemLookup[this.stellarBaseData.bodyLookup[item.bodyId].systemId].name;
+		item.selectedBody = this.stellarBaseData.bodyLookup[item.bodyId].name;
+
+		this.editingData = item;
+		this.ruintypeSelected();
+	}
+
+	public createNew() {
+		this.editingData = new RuinSiteModel(0);
+	}
+
+	public save() {
+		// TODO: Implement
+	}
+
+	public discard() {
+		this.editingData = void 0;
+	}
+
+	public systemSelected(match: TypeaheadMatch) {
+		this.editingData.selectedBody = void 0;
+		this.editingData.bodyId = void 0;
 
 		if (!!match.item.id) {
-			this.filteredBodies = this.bodies.filter(obj => obj.systemId === match.item.id);
+			this.filteredBodies = this.stellarBaseData.bodyData.filter(obj => obj.systemId === match.item.id);
 		}
 	}
 
-	public ruinTypeSelect() {
-		this.availableObeliskGroups = this.obeliskGroups.filter(og => og.ruintypeId === this.ruinTypeId);
-		this._obeliskApi.search(this.ruinTypeId)
-			.subscribe(res => this.obelisks = res);
+	public bodySelected(match: TypeaheadMatch) {
+		if (match.item) {
+			this.editingData.bodyId = match.item.id;
+		}
+	}
+
+	public ruintypeSelected() {
+		this.editingData.obeliskGroups = this.ruinBaseData.obeliskGroupData.filter(og => og.ruintypeId === this.editingData.ruintypeId);
+
+		this._obeliskApi.search(this.editingData.ruintypeId)
+			.subscribe(res => this.editingData.obelisks = res);
+	}
+
+	public toggleObeliskGroup(obeliskGroup: ObeliskGroupModel) {
+		obeliskGroup.active = !obeliskGroup.active;
+		if (!obeliskGroup.active) {
+			this.obelisksByGroupId(obeliskGroup.id).forEach(o => o.active = false);
+		}
 	}
 
 	public toggleObelisk(obelisk: ObeliskModel) {
 		obelisk.active = !obelisk.active;
 	}
 
-	public toggleObeliskGroup(obeliskGroup: ObeliskGroupModel) {
-		obeliskGroup.active = !obeliskGroup.active;
-	}
-
 	public obelisksByGroupId(obeliskGroupId: number): ObeliskModel[] {
-		return this.obelisks.filter(o => o.obeliskgroupId === obeliskGroupId);
+		return this.editingData.obelisks.filter(o => o.obeliskgroupId === obeliskGroupId);
 	}
 }
