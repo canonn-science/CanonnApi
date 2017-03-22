@@ -7,3 +7,4 @@
 debug.log*
 RuinsApi/RuinsApi/appsettings.Secrets.json
 *.zip
+*.secrets.*
