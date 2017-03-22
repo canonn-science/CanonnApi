@@ -35,6 +35,7 @@ import {ObeliskGroupApiService} from 'app/services/api/obeliskGroupApi.service';
 import {SystemApiService} from './services/api/systemApi.service';
 import {BodyApiService} from './services/api/bodyApi.service';
 import {ObeliskApiService} from './services/api/obeliskApi.service';
+import {RuinSitesApiService} from './services/api/ruinSitesApi.service';
 
 
 // currently angular2-jwt AUTH_PROVIDERS don't work, so use this workaround:
@@ -91,6 +92,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		SystemApiService,
 		BodyApiService,
 		ObeliskApiService,
+		RuinSitesApiService,
 	],
 	bootstrap: [AppComponent]
 })
