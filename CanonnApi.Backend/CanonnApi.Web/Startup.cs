@@ -131,9 +131,10 @@ namespace CanonnApi.Web
 
 			if (env.IsDevelopment())
 			{
-				app.UseCors("default");
 				app.UseDeveloperExceptionPage();
 			}
+
+			app.UseCors("default");
 
 			SecretConfiguration secretConfiguration = settings.Value;
 			app.UseJwtBearerAuthentication(new JwtBearerOptions()
