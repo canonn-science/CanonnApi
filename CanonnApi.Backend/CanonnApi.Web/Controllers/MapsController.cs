@@ -20,5 +20,11 @@ namespace CanonnApi.Web.Controllers
 		{
 			return Json(await _repository.LoadSitesOverview());
 		}
+
+		[HttpGet("scandata")]
+		public async Task<ActionResult> GetScanData()
+		{
+			return Json(await _repository.LoadScanData());
+		}
 	}
 }

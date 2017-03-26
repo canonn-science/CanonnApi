@@ -44,5 +44,54 @@ namespace CanonnApi.Web.Services.Maps
 
 			return result;
 		}
+
+		public async Task<object> LoadScanData()
+		{
+			var dataGraph = await _ruinsContext.Obelisk
+				.Include(o => o.Obeliskgroup.Ruintype)
+				.Include(o => o.Artifact)
+				.Include(o => o.Codexdata.Category.Artifact)
+				.Where(o => o.CodexdataId != null)
+				.OrderBy(o => o.Obeliskgroup.RuintypeId)
+					.ThenBy(o => o.Obeliskgroup.Name)
+					.ThenBy(o => o.Number)
+				.ToListAsync();
+
+			// build resulting structure
+			var result = new Dictionary<string, Dictionary<string, Dictionary<string, ScanDataDto>>>();
+
+			foreach (var scanData in dataGraph)
+			{
+				Dictionary<string, Dictionary<string, ScanDataDto>> obeliskGroupLevel;
+				Dictionary<string, ScanDataDto> obeliskLevel;
+
+				if (!result.TryGetValue(scanData.Obeliskgroup.Ruintype.Name.ToLowerInvariant(), out obeliskGroupLevel))
+				{
+					obeliskGroupLevel = new Dictionary<string, Dictionary<string, ScanDataDto>>();
+					result.Add(scanData.Obeliskgroup.Ruintype.Name.ToLowerInvariant(), obeliskGroupLevel);
+				}
+
+				if (!obeliskGroupLevel.TryGetValue(scanData.Obeliskgroup.Name.ToLowerInvariant(), out obeliskLevel))
+				{
+					obeliskLevel = new Dictionary<string, ScanDataDto>();
+					obeliskGroupLevel.Add(scanData.Obeliskgroup.Name.ToLowerInvariant(), obeliskLevel);
+				}
+
+				var data = new ScanDataDto()
+				{
+					Scan = $"{scanData.Codexdata.Category.Name} {scanData.Codexdata.EntryNumber}",
+				};
+
+				data.Items.Add(scanData.Codexdata.Category.Artifact.Name);
+				if (scanData.Artifact != null)
+				{
+					data.Items.Add(scanData.Artifact.Name);
+				}
+
+				obeliskLevel.Add(scanData.Number.ToString(), data);
+			}
+
+			return result;
+		}
 	}
 }

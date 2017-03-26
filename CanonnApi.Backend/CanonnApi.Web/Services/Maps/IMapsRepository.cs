@@ -6,5 +6,6 @@ namespace CanonnApi.Web.Services.Maps
 	public interface IMapsRepository
 	{
 		Task<IOrderedEnumerable<SystemDto>> LoadSitesOverview();
+		Task<object> LoadScanData();
 	}
 }
