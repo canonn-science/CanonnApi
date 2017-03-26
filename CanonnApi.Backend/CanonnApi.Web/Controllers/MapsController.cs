@@ -26,5 +26,11 @@ namespace CanonnApi.Web.Controllers
 		{
 			return Json(await _repository.LoadScanData());
 		}
+
+		[HttpGet("ruininfo/{id}")]
+		public async Task<ActionResult> GetRuinInfo(int id)
+		{
+			return Json(await _repository.LoadRuinInfo(id));
+		}
 	}
 }
