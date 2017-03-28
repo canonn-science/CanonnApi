@@ -11,7 +11,7 @@
 				<li class="header">Main navigation</li>
 
 				<!-- Base data -->
-				<li class="treeview" [ngClass]="{ 'active': router.isActive('/basedata') }">
+				<li class="treeview" [ngClass]="{ 'active': router.isActive('/basedata', false) }">
 					<a href="#">
 						<i class="fa fa-folder"></i>
 						<span>Base data</span>
@@ -21,35 +21,35 @@
 					</a>
 					<ul class="treeview-menu">
 
-						<li [ngClass]="{ 'active': router.isActive('/basedata/stellar') }">
+						<li [ngClass]="{ 'active': router.isActive('/basedata/stellar', false) }">
 							<a href="#">
 								Stellar base data
 							</a>
 							<ul class="treeview-menu">
-								<li [ngClass]="{ 'active': router.isActive('/basedata/stellar/systems') }"><a [routerLink]="['/basedata/stellar/systems']"><i class="fa fa-circle-o"></i>Systems</a></li>
-								<li [ngClass]="{ 'active': router.isActive('/basedata/stellar/bodies') }"><a [routerLink]="['/basedata/stellar/bodies']"><i class="fa fa-circle-o"></i>Stellar bodies</a></li>
+								<li [ngClass]="{ 'active': router.isActive('/basedata/stellar/systems', true) }"><a [routerLink]="['/basedata/stellar/systems']"><i class="fa fa-circle-o"></i>Systems</a></li>
+								<li [ngClass]="{ 'active': router.isActive('/basedata/stellar/bodies', true) }"><a [routerLink]="['/basedata/stellar/bodies']"><i class="fa fa-circle-o"></i>Stellar bodies</a></li>
 							</ul>
 						</li>
 
-						<li [ngClass]="{ 'active': router.isActive('/basedata/codex') }">
+						<li [ngClass]="{ 'active': router.isActive('/basedata/codex', false) }">
 							<a href="#">
 								Codex base data
 							</a>
 							<ul class="treeview-menu">
-								<li [ngClass]="{ 'active': router.isActive('/basedata/codex/artifacts') }"><a [routerLink]="['/basedata/codex/artifacts']"><i class="fa fa-circle-o"></i>Artifacts</a></li>
-								<li [ngClass]="{ 'active': router.isActive('/basedata/codex/codexcategories') }"><a [routerLink]="['/basedata/codex/codexcategories']"><i class="fa fa-circle-o"></i>Codex categories</a></li>
-								<li [ngClass]="{ 'active': router.isActive('/basedata/codex/codexdata') }"><a [routerLink]="['/basedata/codex/codexdata']"><i class="fa fa-circle-o"></i>Codex data</a></li>
+								<li [ngClass]="{ 'active': router.isActive('/basedata/codex/artifacts', true) }"><a [routerLink]="['/basedata/codex/artifacts']"><i class="fa fa-circle-o"></i>Artifacts</a></li>
+								<li [ngClass]="{ 'active': router.isActive('/basedata/codex/codexcategories', true) }"><a [routerLink]="['/basedata/codex/codexcategories']"><i class="fa fa-circle-o"></i>Codex categories</a></li>
+								<li [ngClass]="{ 'active': router.isActive('/basedata/codex/codexdata', true) }"><a [routerLink]="['/basedata/codex/codexdata']"><i class="fa fa-circle-o"></i>Codex data</a></li>
 							</ul>
 						</li>
 
-						<li [ngClass]="{ 'active': router.isActive('/basedata/ruins') }">
+						<li [ngClass]="{ 'active': router.isActive('/basedata/ruins', false) }">
 							<a href="#">
 								Ruin base data
 							</a>
 							<ul class="treeview-menu">
-								<li [ngClass]="{ 'active': router.isActive('/basedata/ruins/ruintypes') }"><a [routerLink]="['/basedata/ruins/ruintypes']"><i class="fa fa-circle-o"></i>Ruin types</a></li>
-								<li [ngClass]="{ 'active': router.isActive('/basedata/ruins/obeliskgroups') }"><a [routerLink]="['/basedata/ruins/obeliskgroups']"><i class="fa fa-circle-o"></i>Obelisk groups</a></li>
-								<li [ngClass]="{ 'active': router.isActive('/basedata/ruins/obelisks') }"><a [routerLink]="['/basedata/ruins/obelisks']"><i class="fa fa-circle-o"></i>Obelisks</a></li>
+								<li [ngClass]="{ 'active': router.isActive('/basedata/ruins/ruintypes', true) }"><a [routerLink]="['/basedata/ruins/ruintypes']"><i class="fa fa-circle-o"></i>Ruin types</a></li>
+								<li [ngClass]="{ 'active': router.isActive('/basedata/ruins/obeliskgroups', true) }"><a [routerLink]="['/basedata/ruins/obeliskgroups']"><i class="fa fa-circle-o"></i>Obelisk groups</a></li>
+								<li [ngClass]="{ 'active': router.isActive('/basedata/ruins/obelisks', true) }"><a [routerLink]="['/basedata/ruins/obelisks']"><i class="fa fa-circle-o"></i>Obelisks</a></li>
 							</ul>
 						</li>
 
