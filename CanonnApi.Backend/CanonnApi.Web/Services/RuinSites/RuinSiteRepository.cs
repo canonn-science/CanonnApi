@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using CanonnApi.Web.DatabaseModels;
+using CanonnApi.Web.Services.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
-namespace CanonnApi.Web.Services.DataAccess
+namespace CanonnApi.Web.Services.RuinSites
 {
 	public class RuinSiteRepository : BaseDataRepository<RuinSite>, IRuinSiteRepository
 	{
@@ -26,12 +27,12 @@ namespace CanonnApi.Web.Services.DataAccess
 			target.RuintypeId = source.RuintypeId;
 		}
 
-		public async Task<List<ObeliskGroup>> LoadObeliskGroupsForSite(int siteId)
+		public async Task<List<ObeliskGroupWithActiveState>> LoadActiveObeliskGroupsForSite(int siteId)
 		{
-			return await RuinsContext.RuinsiteObeliskgroups
-				.Include(e => e.Obeliskgroup)
-				.Where(e => e.RuinsiteId == siteId)
-				.Select(e => e.Obeliskgroup)
+			return await RuinsContext.ObeliskGroup
+				.Include(og => og.RuinsiteObeliskgroups)
+				.Where(og => og.Ruintype.RuinSite.Any(rs => rs.Id == siteId))
+				.Select(og => new ObeliskGroupWithActiveState(og))
 				.ToListAsync();
 		}
 

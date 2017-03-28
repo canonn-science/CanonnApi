@@ -19,6 +19,7 @@ using CanonnApi.Web.Middlewares;
 using CanonnApi.Web.Models;
 using CanonnApi.Web.Services;
 using CanonnApi.Web.Services.Maps;
+using CanonnApi.Web.Services.RuinSites;
 using Serilog;
 
 namespace CanonnApi.Web

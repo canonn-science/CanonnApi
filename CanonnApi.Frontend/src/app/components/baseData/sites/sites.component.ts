@@ -30,6 +30,10 @@ export class SitesComponent implements OnInit {
 	}
 
 	public ngOnInit() {
+		this.loadData();
+	}
+
+	public loadData() {
 		this.ruinSitesApiService.getAll()
 			.subscribe(res => this.data = res);
 	}
@@ -47,7 +51,12 @@ export class SitesComponent implements OnInit {
 	}
 
 	public save() {
-		// TODO: Implement
+		const data = this.editingData;
+		this.editingData = void 0;
+
+		this.ruinSitesApiService.saveOrUpdate(data)
+			.do(() => this.loadData())
+			.subscribe();
 	}
 
 	public discard() {

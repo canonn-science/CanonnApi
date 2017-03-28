@@ -33,12 +33,12 @@ export class ApiBasedataService<TDto extends BaseDataDto> extends ApiBaseService
 	}
 
 	private createNew(dto: TDto): Observable<TDto> {
-		return this._authHttp.post(this.baseUrl, dto)
+		return this._http.post(this.baseUrl, dto)
 			.map(res => <TDto>res.json());
 	}
 
 	private saveChanges(dto: TDto): Observable<TDto> {
-		return this._authHttp.put(this.baseUrl + dto.id, dto)
+		return this._http.put(this.baseUrl + dto.id, dto)
 			.map(res => <TDto>res.json());
 	}
 
