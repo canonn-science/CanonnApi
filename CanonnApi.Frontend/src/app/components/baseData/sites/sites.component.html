@@ -1,0 +1,163 @@
+<section class="content-header">
+	<h1>Base data: Sites
+		<small>Ruin sites, on planets or moons, with shiny stuff on them</small>
+	</h1>
+</section>
+
+<div class="content">
+	<div class="row">
+
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Sites</h3>
+				</div>
+				<div class="box-body">
+
+					<table class="table table-striped">
+						<thead>
+						<tr>
+							<th class="column-shrink">#</th>
+							<th>System</th>
+							<th>Body</th>
+							<th class="column-shrink">Latitude</th>
+							<th class="column-shrink">Longitude</th>
+							<th class="column-shrink">Ruin Type</th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinsitedata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinsitedata')"></th>
+						</tr>
+						</thead>
+						<tbody>
+
+						<tr role="row" *ngFor="let item of data">
+							<td>GS{{item.id | number:'3.0-0'}}</td>
+							<td>{{stellarBaseData.systemLookup[stellarBaseData.bodyLookup[item.bodyId]?.systemId || 0]?.name}}</td>
+							<td>{{stellarBaseData.bodyLookup[item.bodyId]?.name}}</td>
+							<td>{{item.latitude | number:'.2-4'}}</td>
+							<td>{{item.longitude | number:'.2-4'}}</td>
+							<td>{{ruinBaseData.ruinTypeLookup[item.ruintypeId]?.name}}</td>
+							<td *ngIf="auth.hasPermission('edit:ruinsitedata')">
+								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(item)" title="Edit"><i class="fa fa-edit"></i></button>
+							</td>
+							<td *ngIf="auth.hasPermission('delete:ruinsitedata')">
+								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(item)" title="Delete"><i class="fa fa-trash-o"></i></button>
+							</td>
+						</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+				<div class="box-footer" *ngIf="auth.hasPermission('add:ruinsitedata')">
+					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add obelisk"><i class="fa fa-plus"></i> Add new site</button>
+				</div>
+			</div>
+		</div>
+
+
+	<div class="col col-xs-12" *ngIf="editingData">
+		<div class="box">
+			<div class="box-header with-border">
+				<h3 class="box-title">{{ editingData.id == 0 ? 'Add new' : 'Edit existing' }} site</h3>
+			</div>
+			<form role="form">
+			<div class="box-body">
+
+				<div class="row">
+
+					<div class="col-xs-4">
+						<div class="form-groups">
+						<label for="gsid">Guardian Site Id:</label>
+						<input type="number" class="form-control" id="gsid" name="gsid" [(ngModel)]="editingData.id">
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<div class="form-group">
+						<label for="system">System:</label>
+							<input [(ngModel)]="editingData.selectedSystem"
+								 [typeahead]="stellarBaseData.systemData"
+								 (typeaheadOnSelect)="systemSelected($event)"
+								 typeaheadOptionField="name"
+								 id="system"
+								 name="system"
+								 class="form-control">
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<div class="form-group" *ngIf="editingData.selectedSystem">
+							<label for="body">Body:</label>
+							<input [(ngModel)]="editingData.selectedBody"
+								 [typeahead]="filteredBodies"
+								(typeaheadOnSelect)="bodySelected($event)"
+								 typeaheadOptionField="name"
+								 id="body"
+								 name="body"
+								 class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-4">
+						<div class="form-group">
+								<label for="ruintype">Ruin Type:</label>
+								<select class="form-control" id="ruintype" name="ruintype" placeholder="Select ruin type"
+										  [(ngModel)]="editingData.ruintypeId" (change)="ruintypeSelected()">
+									<option *ngFor="let item of ruinBaseData.ruinTypeData" [ngValue]="item.id">{{item.name}}
+									</option>
+								</select>
+							</div>
+					</div>
+					<div class="col-xs-4">
+						<div class="form-group">
+							<label for="latitude">Latitude</label>
+							<input [(ngModel)]="editingData.latitude"
+								 name="latitude"
+								 id="latitude"
+								 class="form-control"
+								 type="number">
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<div class="form-group">
+							<label for="longitude">Longitude</label>
+							<input [(ngModel)]="editingData.longitude"
+								 name="longitude"
+								 id="longitude"
+								 class="form-control"
+								 type="number">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div *ngFor="let obeliskGroup of editingData.obeliskGroups" class="col-xs-6">
+						<div class="tile-switch large"
+							  [ngClass]="{ 'active': obeliskGroup.active, 'inactive': !obeliskGroup.active }"
+							  (click)="toggleObeliskGroup(obeliskGroup)">
+							{{ obeliskGroup.name }}
+						</div>
+						<div class="row" *ngIf="editingData.obelisks && obeliskGroup.active">
+							<div class="col-xs-12">
+								<div class="tile-switch"
+									  *ngFor="let obelisk of obelisksByGroupId(obeliskGroup.id)"
+									  [ngClass]="{ 'active': obelisk.active, 'inactive': !obelisk.active, 'destroyed': obelisk.isBroken }"
+									  (click)="toggleObelisk(obelisk)"
+										>
+										{{ obelisk.number }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!-- /.box-body -->
+			</form>
+
+			<div class="box-footer">
+				<button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+				<button class="btn" (click)="discard()">Discard</button>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>

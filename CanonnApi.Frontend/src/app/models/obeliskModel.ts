@@ -10,6 +10,7 @@ export class ObeliskModel {
 	public isBroken: boolean;
 	public artifactId: number;
 	public codexdataId: number;
+	public active: boolean;
 
 	public created: string;
 	public updated: string;

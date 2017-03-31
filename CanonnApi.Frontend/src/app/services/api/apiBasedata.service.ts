@@ -8,7 +8,7 @@ export class ApiBasedataService<TDto extends BaseDataDto> extends ApiBaseService
 
 	public baseUrl: string = null;
 
-	constructor(public controllerName: string, http: Http, authHttp: AuthHttp, apiVersion: string = 'v1') {
+	constructor(public controllerName: string, protected http: Http, protected authHttp: AuthHttp, apiVersion: string = 'v1') {
 		super(http, authHttp);
 
 		this.baseUrl = `${this._apiBaseUrl}/${apiVersion}/${controllerName}/`;
