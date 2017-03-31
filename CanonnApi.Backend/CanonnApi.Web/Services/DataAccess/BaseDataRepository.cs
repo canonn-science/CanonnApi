@@ -85,10 +85,11 @@ namespace CanonnApi.Web.Services.DataAccess
 			return entry;
 		}
 
-		public async Task<bool> DeleteById(int id)
+		public virtual async Task<bool> DeleteById(int id)
 		{
 			// delete by stub
 			DbSet().Remove(new T() { Id = id });
+
 			try
 			{
 				await RuinsContext.SaveChangesAsync();

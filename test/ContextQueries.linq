@@ -13,15 +13,10 @@ void Main()
 	builder.UseMySql("server=localhost;database=ruinsdb;user id=ruinsdb;password=ruinsdb");
 	var ctx = new RuinsContext(builder.Options);
 	
+	
 	int siteId = 1;
 
 	ctx.RuinSite
-/*
-		.Include(rs => rs.Ruintype.ObeliskGroup)
-			.ThenInclude(og => og.Obelisk)
-		.Include(rs => rs.RuinsiteActiveobelisks)
-		.Include(rs => rs.RuinsiteActiveobelisks)
-*/
 		.Include(rs => rs.RuinsiteObeliskgroups)
 		.Where(rs => rs.Id == siteId)
 		.Select(rs => new {
@@ -34,8 +29,6 @@ void Main()
 			SelectedBody = rs.BodyId,
 			RuintypeId = rs.RuintypeId,
 			
-			// Ruintype = rs.Ruintype,
-
 			ObeliskGroups = rs.Ruintype.ObeliskGroup.Select(og => new {
 				og.Id,
 				og.Name,
@@ -49,19 +42,8 @@ void Main()
 				o.IsBroken,
 				Active = o.RuinsiteActiveobelisks.Select(rsao => rsao.Ruinsite).Contains(rs),
 			}),
-
-			/*
-			allGroups = rs.Ruintype.ObeliskGroup.Select(og => new { og.Id, og.Name, og.Count }),
-			allObelisks = rs.Ruintype.ObeliskGroup.SelectMany(og => og.Obelisk).Select(o => new {
-				o.Id,
-				hasData = o.CodexdataId != null,
-				o.IsBroken,
-			}),
-			*/
-			//ObeliskGroups = rs.RuinsiteObeliskgroups.Select(rsog => rsog.Obeliskgroup),
-			// Obelisks = rs.RuinsiteActiveobelisks.Select(rsao => rsao.Obelisk),
 		})
-		.Single().Dump();
+		.Single();
 }
 
 public partial class Obelisk

@@ -7,9 +7,13 @@ namespace CanonnApi.Web.Services.RuinSites
 {
 	public interface IRuinSiteRepository: IBaseDataRepository<RuinSite>
 	{
+		Task<RuinSiteWithObeliskData> GetForSiteEditor(int siteId);
+		Task<RuinSiteWithObeliskData> SaveFromEditor(RuinSiteWithObeliskData siteId);
+
 		Task<List<ObeliskGroupWithActiveState>> LoadActiveObeliskGroupsForSite(int siteId);
-		Task<bool> SaveObeliskGroupsForSite(int siteId, ObeliskGroup[] obeliskGroups);
 		Task<List<Obelisk>> LoadActiveObelisksForSite(int siteId);
-		Task<bool> SaveActiveObelisksForSite(int siteId, Obelisk[] obelisks);
+
+		Task<bool> SaveObeliskGroupsForSite(int siteId, IEnumerable<ObeliskGroup> obeliskGroups);
+		Task<bool> SaveActiveObelisksForSite(int siteId, IEnumerable<Obelisk> obelisks);
 	}
 }

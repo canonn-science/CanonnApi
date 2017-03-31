@@ -39,11 +39,13 @@ export class SitesComponent implements OnInit {
 	}
 
 	public edit(item: RuinSiteModel) {
+		this.ruinSitesApiService.getForEditor(item.id)
+			.subscribe(res => {
+				this.editingData = res;
+			});
+
 		item.selectedSystem = this.stellarBaseData.systemLookup[this.stellarBaseData.bodyLookup[item.bodyId].systemId].name;
 		item.selectedBody = this.stellarBaseData.bodyLookup[item.bodyId].name;
-
-		this.editingData = item;
-		this.ruintypeSelected();
 	}
 
 	public createNew() {
@@ -54,7 +56,7 @@ export class SitesComponent implements OnInit {
 		const data = this.editingData;
 		this.editingData = void 0;
 
-		this.ruinSitesApiService.saveOrUpdate(data)
+		this.ruinSitesApiService.saveSite(data)
 			.do(() => this.loadData())
 			.subscribe();
 	}
@@ -89,6 +91,14 @@ export class SitesComponent implements OnInit {
 		obeliskGroup.active = !obeliskGroup.active;
 		if (!obeliskGroup.active) {
 			this.obelisksByGroupId(obeliskGroup.id).forEach(o => o.active = false);
+		}
+	}
+
+	public delete(item: RuinSiteModel) {
+		if (item && window.confirm(`Really delete ruin site GS${item.id}?`)) {
+			this.ruinSitesApiService.delete(item.id)
+				.do(() => this.loadData())
+				.subscribe();
 		}
 	}
 

@@ -41,6 +41,26 @@ namespace CanonnApi.Web.Controllers
 			return entry;
 		}
 
+		[HttpGet("edit/{id}")]
+		public virtual async Task<RuinSiteWithObeliskData> GetForEditor(int id)
+		{
+			var result = await Repository.GetForSiteEditor(id);
+
+			if (result == null)
+				throw new HttpNotFoundException();
+
+			return result;
+		}
+
+		[HttpPost("edit/{id}")]
+		[HttpPut("edit/{id}")]
+		[Authorize(Policy = "add:ruinsitedata")]
+		[Authorize(Policy = "edit:ruinsitedata")]
+		public virtual async Task<RuinSiteWithObeliskData> SaveFromEditor([FromBody] RuinSiteWithObeliskData data)
+		{
+			return await Repository.SaveFromEditor(data);
+		}
+
 		[HttpPost()]
 		[Authorize(Policy = "add:ruinsitedata")]
 		public virtual async Task<RuinSite> Create([FromBody] RuinSite data)

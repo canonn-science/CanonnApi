@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using CanonnApi.Web.DatabaseModels;
@@ -27,6 +28,70 @@ namespace CanonnApi.Web.Services.RuinSites
 			target.RuintypeId = source.RuintypeId;
 		}
 
+		public async Task<RuinSiteWithObeliskData> GetForSiteEditor(int siteId)
+		{
+			var siteTask = RuinsContext
+				.RuinSite
+				.AsNoTracking()
+				.Include(rs => rs.Body.System)
+				.SingleAsync(s => s.Id == siteId);
+
+			var obeliskGroupTask = RuinsContext
+				.RuinSite
+				.AsNoTracking()
+				.Where(rs => rs.Id == siteId)
+				.SelectMany(rs => rs.Ruintype.ObeliskGroup)
+				.ToListAsync().ConfigureAwait(false);
+
+			var obeliskTasks = RuinsContext
+				.RuinSite
+				.AsNoTracking()
+				.Where(rs => rs.Id == siteId)
+				.SelectMany(rs => rs.Ruintype.ObeliskGroup)
+				.SelectMany(og => og.Obelisk)
+				.ToListAsync().ConfigureAwait(false);
+
+			var availableObeliskGroupsTask = RuinsContext
+				.RuinsiteObeliskgroups
+				.AsNoTracking()
+				.Where(rsao => rsao.RuinsiteId == siteId)
+				.Select(rsao => rsao.ObeliskgroupId)
+				.ToListAsync().ConfigureAwait(false);
+
+			var activeObeliskTask = RuinsContext
+				.RuinsiteActiveobelisks
+				.AsNoTracking()
+				.Where(rsao => rsao.RuinsiteId == siteId)
+				.Select(rsao => rsao.ObeliskId)
+				.ToListAsync().ConfigureAwait(false);
+
+			var result = new RuinSiteWithObeliskData(await siteTask)
+			{
+				Body = null,  // prevent cyclic reference in serializable data, and we don't need the actual body instance here
+			};
+
+			// prevent cyclic reference in data:
+
+			var availableGroups = new HashSet<int>(await availableObeliskGroupsTask);
+			result.ObeliskGroups.AddRange((await obeliskGroupTask).Select(og => new ObeliskGroupWithActiveState(og) { Active = availableGroups.Contains(og.Id) }));
+
+			var activeObelisks = new HashSet<int>(await activeObeliskTask);
+			result.Obelisks.AddRange((await obeliskTasks).Select(o => new ObeliskWithActiveState(o) { Active = activeObelisks.Contains(o.Id) } ));
+
+			return result;
+		}
+
+		public async Task<RuinSiteWithObeliskData> SaveFromEditor(RuinSiteWithObeliskData data)
+		{
+			// need to serialize.. sadly
+			await CreateOrUpdateById(data.Id, data);
+			await SaveObeliskGroupsForSite(data.Id, data.ObeliskGroups.Where(og => og.Active));
+
+			var activeGroups = data.ObeliskGroups.Select(g => g.Id).ToImmutableHashSet();
+			await SaveActiveObelisksForSite(data.Id, data.Obelisks.Where(o => o.Active && activeGroups.Contains(o.ObeliskgroupId)));
+			return await GetForSiteEditor(data.Id);
+		}
+
 		public async Task<List<ObeliskGroupWithActiveState>> LoadActiveObeliskGroupsForSite(int siteId)
 		{
 			return await RuinsContext.ObeliskGroup
@@ -36,7 +101,16 @@ namespace CanonnApi.Web.Services.RuinSites
 				.ToListAsync();
 		}
 
-		public async Task<bool> SaveObeliskGroupsForSite(int siteId, ObeliskGroup[] obeliskGroups)
+		public async Task<List<Obelisk>> LoadActiveObelisksForSite(int siteId)
+		{
+			return await RuinsContext.RuinsiteActiveobelisks
+				.Include(e => e.Obelisk)
+				.Where(e => e.RuinsiteId == siteId)
+				.Select(e => e.Obelisk)
+				.ToListAsync();
+		}
+
+		public async Task<bool> SaveObeliskGroupsForSite(int siteId, IEnumerable<ObeliskGroup> obeliskGroups)
 		{
 			var currentGroups = await RuinsContext.RuinsiteObeliskgroups
 				.Include(e => e.Obeliskgroup)
@@ -80,23 +154,14 @@ namespace CanonnApi.Web.Services.RuinSites
 			return true;
 		}
 
-		public async Task<List<Obelisk>> LoadActiveObelisksForSite(int siteId)
-		{
-			return await RuinsContext.RuinsiteActiveobelisks
-				.Include(e => e.Obelisk)
-				.Where(e => e.RuinsiteId == siteId)
-				.Select(e => e.Obelisk)
-				.ToListAsync();
-		}
-
-		public async Task<bool> SaveActiveObelisksForSite(int siteId, Obelisk[] obelisks)
+		public async Task<bool> SaveActiveObelisksForSite(int siteId, IEnumerable<Obelisk> obelisks)
 		{
 			var currentActiveObelisks = await RuinsContext.RuinsiteActiveobelisks
 				.Where(e => e.RuinsiteId == siteId)
 				.ToListAsync();
 
 			var obelisksToDelete = currentActiveObelisks
-				.Where(g => obelisks.All(og => og.Id != g.Obelisk.Id));
+				.Where(g => obelisks.All(og => og.Id != g.ObeliskId));
 
 			var obelisksToAdd = obelisks
 				.Where(og => currentActiveObelisks.All(g => g.ObeliskId != og.Id));
@@ -116,6 +181,14 @@ namespace CanonnApi.Web.Services.RuinSites
 			await RuinsContext.SaveChangesAsync();
 
 			return true;
+		}
+
+		public override Task<bool> DeleteById(int id)
+		{
+			RuinsContext.RemoveRange(RuinsContext.RuinsiteObeliskgroups.Where(rsog => rsog.RuinsiteId == id));
+			RuinsContext.RemoveRange(RuinsContext.RuinsiteActiveobelisks.Where(rsao => rsao.RuinsiteId == id));
+
+			return base.DeleteById(id);
 		}
 	}
 }
