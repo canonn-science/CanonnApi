@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using CanonnApi.Web.Models;
@@ -26,7 +27,17 @@ namespace CanonnApi.Web.Controllers
 			{
 				Domain = _settings.ClientDomain,
 				ClientId = _settings.ClientId,
+				ApiVersion = GetApiVersion(),
 			};
+		}
+
+		private string GetApiVersion()
+		{
+			return typeof(ClientConfigurationController)
+				.GetTypeInfo()
+				.Assembly
+				.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+				.InformationalVersion;
 		}
 	}
 }

@@ -25,8 +25,28 @@
 				<a href="#" class="btn btn-default btn-flat" (click)="auth.logout()">Sign out</a>
 			</div>
 		</li>
-
 	</ul>
-
 </li>
+
+
+<li class="dropdown tasks-menu">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+		<i class="fa fa-question-circle fa-lg"></i>
+		<!-- <span class="label label-danger">9</span> -->
+	</a>
+	<ul class="dropdown-menu">
+		<li class="header"><b>Help</b></li>
+		<li>
+			<a href="https://github.com/canonn-science/CanonnApi/issues" target="new">
+				<i class="fa fa-bug text-red"></i> Report bugs and questions on GitHub
+			</a>
+		</li>
+
+		<li class="header"><b>About</b><br/>
+			Frontend version: {{version}}<br/>
+			API version: {{apiVersion}}
+		</li>
+	</ul>
+</li>
+
 </ul>

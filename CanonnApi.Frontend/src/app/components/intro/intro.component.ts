@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthenticationService} from '../../services/api/authentication.service';
 const {version: appVersion} = require('../../../../package.json');
 
 @Component({
@@ -8,13 +9,17 @@ const {version: appVersion} = require('../../../../package.json');
 })
 export class IntroComponent implements OnInit {
 
+	public apiVersion: string;
 	public version: string;
 
-	constructor() {
+	constructor(private authenticationService: AuthenticationService) {
 		this.version = appVersion;
 	}
 
 	ngOnInit() {
+		this.authenticationService.clientConfiguration$.subscribe(
+			(cc) => { this.apiVersion = cc.apiVersion; }
+		);
 	}
 
 }

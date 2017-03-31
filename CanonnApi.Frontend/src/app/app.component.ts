@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-const { version: appVersion } = require('../../package.json');
 
 declare var $: any;
 
@@ -10,15 +9,14 @@ declare var $: any;
 	providers: [],
 })
 export class AppComponent implements OnInit {
-	public version: string;
 
 	constructor() {
-		this.version = appVersion;
 	}
 
 	ngOnInit() {
-		const o = $.AdminLTE.options;
+
 /*
+      const o = $.AdminLTE.options;
 		// Activate the layout maker
 		$.AdminLTE.layout.activate();
 

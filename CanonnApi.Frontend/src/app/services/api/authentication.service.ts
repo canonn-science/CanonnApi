@@ -9,6 +9,7 @@ import {UserInformation} from '../../models/userInformation';
 import {ApiBaseService} from './apiBase.service';
 import {Http} from '@angular/http';
 import {Router} from '@angular/router';
+import {Subject} from 'rxjs/Subject';
 
 @Injectable()
 export class AuthenticationService extends ApiBaseService {
@@ -33,6 +34,11 @@ export class AuthenticationService extends ApiBaseService {
 	};
 
 	public userInformation: UserInformation;
+	public get clientConfiguration$(): Observable<ClientConfiguration> {
+		return this.clientConfigurationEmitter;
+	}
+
+	private clientConfigurationEmitter = new Subject<ClientConfiguration>();
 	private userInformation$: Observable<UserInformation>;
 
 	constructor(http: Http, authHttp: AuthHttp, private _router: Router) {
@@ -62,12 +68,9 @@ export class AuthenticationService extends ApiBaseService {
 	}
 
 	public hasPermission(permission: string): boolean {
-		return true; /* WARNING DEBUG ONLY!!
 		if (this.userInformation) {
 			return (this.userInformation.permissions.includes(permission));
 		}
-
-		return false; */
 	}
 
 	public authenticated() {
@@ -89,8 +92,9 @@ export class AuthenticationService extends ApiBaseService {
 
 		return this._http.get(url)
 			.map((res) => {
-				const obj = res.json();
-				return <ClientConfiguration>(obj);
+				const obj = <ClientConfiguration>res.json();
+				this.clientConfigurationEmitter.next(obj);
+				return (obj);
 			})
 			.retryWhen(err => err
 				.delayWhen(val => Observable.timer(15000)) // retry after 15 seconds
