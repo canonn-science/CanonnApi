@@ -21,10 +21,8 @@
 
     <ItemGroup>
       <!--pack information -->
-      <Content Include="dist\**\*">
+      <Content Include="dist\**\*" PackagePath="web\%(RecursiveDir)%(Filename)%(Extension)">
         <Visible>false</Visible>
-        <PackagePath>web</PackagePath>
-        <Pack>true</Pack>
       </Content>
     </ItemGroup>
 </Project>
