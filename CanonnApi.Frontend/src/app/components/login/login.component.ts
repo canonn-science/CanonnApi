@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
 	public version: string;
 
 	constructor(public auth: AuthenticationService) {
+		this.apiVersion = 'not connected';
 		this.version = appVersion;
 	}
 

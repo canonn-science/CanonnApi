@@ -13,6 +13,7 @@ export class IntroComponent implements OnInit {
 	public version: string;
 
 	constructor(private authenticationService: AuthenticationService) {
+		this.apiVersion = 'not connected';
 		this.version = appVersion;
 	}
 
