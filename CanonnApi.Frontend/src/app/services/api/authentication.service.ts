@@ -9,7 +9,7 @@ import {UserInformation} from '../../models/userInformation';
 import {ApiBaseService} from './apiBase.service';
 import {Http} from '@angular/http';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
+import {ReplaySubject} from 'rxjs/ReplaySubject';
 
 @Injectable()
 export class AuthenticationService extends ApiBaseService {
@@ -38,7 +38,7 @@ export class AuthenticationService extends ApiBaseService {
 		return this.clientConfigurationEmitter;
 	}
 
-	private clientConfigurationEmitter = new Subject<ClientConfiguration>();
+	private clientConfigurationEmitter = new ReplaySubject<ClientConfiguration>(1);
 	private userInformation$: Observable<UserInformation>;
 
 	constructor(http: Http, authHttp: AuthHttp, private _router: Router) {
