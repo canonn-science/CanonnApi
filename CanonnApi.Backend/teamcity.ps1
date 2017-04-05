@@ -9,7 +9,7 @@ if (!$branch) {
 $branch = $branch.ToLower()
 $buildCounter = [Environment]::GetEnvironmentVariable("build.counter")
 if ($buildCounter) {
-	$buildCounter = "-$buildCounter"
+	$buildCounter = "-{0:D4}" -f $buildCounter
 }
 
 if ($branch -eq "master") {
@@ -30,4 +30,3 @@ dotnet restore
 dotnet publish -c Release -r win8-x64 /p:Version=$versionString
 
 dotnet pack --no-build --output bin/nupkg /p:Version=$versionString
-

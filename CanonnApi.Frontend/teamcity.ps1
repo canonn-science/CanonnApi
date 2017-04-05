@@ -14,7 +14,7 @@ if (!$branch) {
 $branch = $branch.ToLower()
 $buildCounter = [Environment]::GetEnvironmentVariable("build.counter")
 if ($buildCounter) {
-	$buildCounter = "-$buildCounter"
+	$buildCounter = "-{0:D4}" -f $buildCounter
 }
 
 if ($branch -eq "master") {
