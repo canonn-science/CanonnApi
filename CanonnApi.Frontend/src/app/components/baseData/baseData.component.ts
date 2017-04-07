@@ -25,7 +25,6 @@ export abstract class BaseDataComponent<T extends BaseDataDto> implements OnInit
 
 	public edit(data: T) {
 		this.editingData = Object.assign({}, data);
-		window.location.hash = 'editor';
 	}
 
 	public createNew() {
