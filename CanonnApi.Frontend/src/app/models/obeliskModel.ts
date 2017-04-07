@@ -19,6 +19,8 @@ export class ObeliskModel {
 	public artifact: ArtifactModel;
 	public codexdata: CodexDataModel;
 
+	public ruintypeId: number; // just for editor
+
 	constructor(id?: number) {
 		this.id = id;
 	}
