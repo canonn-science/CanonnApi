@@ -124,6 +124,12 @@ export class AuthenticationService extends ApiBaseService {
 			this.userInformation$.subscribe(
 				userInfo => {
 					this.userInformation = userInfo;
+
+					// when user has no info, these are undefined, so make sure we have some data:
+					this.userInformation.groups = this.userInformation.groups || [];
+					this.userInformation.roles = this.userInformation.roles || [];
+					this.userInformation.permissions = this.userInformation.permissions || [];
+
 					this.userInformation$ = void 0;
 				},
 			);

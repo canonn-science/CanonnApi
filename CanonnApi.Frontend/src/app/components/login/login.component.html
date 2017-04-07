@@ -18,7 +18,18 @@
 			</p>
 		</li>
 		<li class="user-body">
-
+			<div *ngIf="auth.userInformation.roles.length > 0">
+				<div class="row">
+					<h4 class="col-xs-12">Roles:</h4>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<ul>
+							<li *ngFor="let role of auth.userInformation.roles.sort()">{{role}}</li>
+						</ul>
+					</div>
+			</div>
+			</div>
 		</li>
 		<li class="user-footer">
 			<div class="pull-right">
