@@ -47,11 +47,14 @@ namespace Canonn.Database.AutoUpdater
 				logger.Error(result.Error, "Error while performing database update");
 
 #if DEBUG
-				Console.ReadLine();
+				Console.ReadKey();
 #endif
 				return -1;
 			}
 
+#if DEBUG
+			Console.ReadKey();
+#endif
 			return 0;
 		}
 	}

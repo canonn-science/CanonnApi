@@ -13,5 +13,6 @@ namespace CanonnApi.Web.Services.DataAccess
 		Task<T> Create(T value);
 		Task<T> Update(int id, T value);
 		Task<bool> DeleteById(int id);
+		Task<int> SaveChanges();
 	}
 }

@@ -70,6 +70,10 @@ namespace CanonnApi.Web.DatabaseModels
                     .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                entity.Property(e => e.Distance)
+                    .HasColumnName("distance")
+                    .HasColumnType("int(11)");
+
                 entity.Property(e => e.EddbExtId)
                     .HasColumnName("eddb_ext_id")
                     .HasColumnType("int(11)");

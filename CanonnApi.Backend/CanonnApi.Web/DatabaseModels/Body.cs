@@ -12,6 +12,7 @@ namespace CanonnApi.Web.DatabaseModels
 
         public int Id { get; set; }
         public DateTime Created { get; set; }
+        public int? Distance { get; set; }
         public int? EddbExtId { get; set; }
         public int? EdsmExtId { get; set; }
         public string Name { get; set; }

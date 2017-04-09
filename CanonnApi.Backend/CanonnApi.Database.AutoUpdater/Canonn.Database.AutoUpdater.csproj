@@ -24,14 +24,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\Script0001 - Create and seed dbversion table.sql" />
-    <EmbeddedResource Include="Scripts\Script0002 - Create codex tables.sql" />
-    <EmbeddedResource Include="Scripts\Script0003 - Seed codex base data.sql" />
-    <EmbeddedResource Include="Scripts\Script0004 - Create ruin tables.sql" />
-    <EmbeddedResource Include="Scripts\Script0005 - Seed ruin base data.sql" />
-    <EmbeddedResource Include="Scripts\Script0006 - Create stellar data tables.sql" />
-    <EmbeddedResource Include="Scripts\Script0007 - Create ruin site tables.sql" />
-    <EmbeddedResource Include="Scripts\Script0008 - Seed initial stellar and ruin site data.sql" />
+    <EmbeddedResource Include="Scripts\*.sql" />
   </ItemGroup>
 
   <ItemGroup>

@@ -19,6 +19,7 @@ using CanonnApi.Web.Middlewares;
 using CanonnApi.Web.Models;
 using CanonnApi.Web.Services;
 using CanonnApi.Web.Services.Maps;
+using CanonnApi.Web.Services.RemoteApis;
 using CanonnApi.Web.Services.RuinSites;
 using Serilog;
 
@@ -124,6 +125,9 @@ namespace CanonnApi.Web
 			// Ruin site data
 			builder.RegisterType<RuinSiteRepository>().AsImplementedInterfaces();
 			builder.RegisterType<MapsRepository>().AsImplementedInterfaces();
+
+			// helper services
+			builder.RegisterType<EdsmService>().AsImplementedInterfaces();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

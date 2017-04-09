@@ -101,5 +101,10 @@ namespace CanonnApi.Web.Services.DataAccess
 
 			return true;
 		}
+
+		public virtual async Task<int> SaveChanges()
+		{
+			return await RuinsContext.SaveChangesAsync();
+		}
 	}
 }

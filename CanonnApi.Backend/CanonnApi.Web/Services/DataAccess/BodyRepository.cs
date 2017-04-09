@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using CanonnApi.Web.DatabaseModels;
 
 namespace CanonnApi.Web.Services.DataAccess
@@ -19,8 +21,14 @@ namespace CanonnApi.Web.Services.DataAccess
 		{
 			target.SystemId = source.SystemId;
 			target.Name = source.Name;
+			target.Distance = source.Distance;
 			target.EdsmExtId = source.EdsmExtId;
 			target.EddbExtId = source.EddbExtId;
+		}
+
+		public async Task<IEnumerable<Body>> GetAllWithSystems()
+		{
+			return await RuinsContext.Body.Include(b => b.System).ToListAsync();
 		}
 	}
 }

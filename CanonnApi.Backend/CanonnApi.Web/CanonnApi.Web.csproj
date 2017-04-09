@@ -48,6 +48,7 @@
     <PackageReference Include="Serilog.Sinks.File" Version="3.2.0" />
     <PackageReference Include="Serilog.Sinks.Literate" Version="2.1.0" />
     <PackageReference Include="Serilog.Sinks.Trace" Version="2.1.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0-msbuild3-final" />
