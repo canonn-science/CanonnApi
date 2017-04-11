@@ -19,6 +19,7 @@
 							<th class="column-shrink">#</th>
 							<th>System name</th>
 							<th>Body name</th>
+							<th>Distance</th>
 							<th>EDSM Id</th>
 <!--							<th>EDDB Id</th> -->
 							<th class="column-shrink" *ngIf="auth.hasPermission('delete:systemdata')"></th>
@@ -31,6 +32,7 @@
 							<td>{{entry.id}}</td>
 							<td>{{baseData.systemLookup[entry.systemId]?.name}}</td>
 							<td>{{entry.name}}</td>
+							<td>{{entry.distance}}</td>
 							<td *ngIf="!entry.edsmExtId">n/a</td>
 							<td *ngIf="entry.edsmExtId"><a href="https://www.edsm.net/en/system/bodies/id/{{baseData.systemLookup[entry.systemId]?.edsmExtId}}/name/{{baseData.systemLookup[entry.systemId]?.name}}/details/idB/{{entry.edsmExtId}}/nameB/{{baseData.systemLookup[entry.systemId]?.name}}+{{entry.name}}" target="_blank">{{entry.edsmExtId}}</a></td>
 <!--							<td>{{entry.eddbExtId}}</td> -->
@@ -82,6 +84,12 @@
 							<label class="col-sm-2 control-label" for="name">Name:</label>
 							<div class="col-sm-10">
 								<input class="form-control" id="name" name="name" type="text" [(ngModel)]="editingData.name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="distance">Distance (from EDSM):</label>
+							<div class="col-sm-10">
+								<input class="form-control" id="distance" name="distance" type="number" [(ngModel)]="editingData.distance" disabled>
 							</div>
 						</div>
 						<div class="form-group">
