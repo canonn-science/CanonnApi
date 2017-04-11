@@ -1,0 +1,63 @@
+<ul class="nav navbar-nav">
+
+<li *ngIf="auth.isReady() && !auth.authenticated()">
+	<a href="#" (click)="auth.login()">Sign in</a>
+</li>
+
+<li *ngIf="auth.authenticated() && auth.userInformation" class="dropdown user user-menu">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<img src="{{auth.userInformation.picture}}" class="user-image image-small" alt="{{auth.userInformation.name}}">
+		<span class="hidden-xs">{{auth.userInformation.name}}</span>
+	</a>
+	<ul class="dropdown-menu">
+		<li class="user-header">
+			<img src="{{auth.userInformation.picture}}" class="img-circle" alt="{{auth.userInformation.name}}">
+			<p>
+				{{auth.userInformation.name}}
+				<small *ngIf="auth.userInformation.created_at">Member since: {{auth.userInformation.created_at | date: 'yyyy-MM-dd'}}</small>
+			</p>
+		</li>
+		<li class="user-body">
+			<div *ngIf="auth.userInformation.roles.length > 0">
+				<div class="row">
+					<h4 class="col-xs-12">Roles:</h4>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<ul>
+							<li *ngFor="let role of auth.userInformation.roles.sort()">{{role}}</li>
+						</ul>
+					</div>
+			</div>
+			</div>
+		</li>
+		<li class="user-footer">
+			<div class="pull-right">
+				<a href="#" class="btn btn-default btn-flat" (click)="auth.logout()">Sign out</a>
+			</div>
+		</li>
+	</ul>
+</li>
+
+
+<li class="dropdown tasks-menu">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+		<i class="fa fa-question-circle fa-lg"></i>
+		<!-- <span class="label label-danger">9</span> -->
+	</a>
+	<ul class="dropdown-menu">
+		<li class="header"><b>Help</b></li>
+		<li>
+			<a href="https://github.com/canonn-science/CanonnApi/issues" target="new">
+				<i class="fa fa-bug text-red"></i> Report bugs and questions on GitHub
+			</a>
+		</li>
+
+		<li class="header"><b>About</b><br/>
+			Frontend version: {{version}}<br/>
+			API version: {{apiVersion}}
+		</li>
+	</ul>
+</li>
+
+</ul>

@@ -1,0 +1,63 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+
+	<section class="sidebar">
+
+		<!-- sidebar: style can be found in sidebar.less -->
+		<div class="sidebar" id="scrollspy">
+
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="nav sidebar-menu">
+				<li class="header">Main navigation</li>
+
+				<!-- Base data -->
+				<li class="treeview" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+					<a href="#">
+						<i class="fa fa-folder"></i>
+						<span>Base data</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+
+						<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+							<a href="#">
+								Stellar base data
+							</a>
+							<ul class="treeview-menu">
+								<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/basedata/stellar/systems']"><i class="fa fa-circle-o"></i>Systems</a></li>
+								<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/basedata/stellar/bodies']"><i class="fa fa-circle-o"></i>Stellar bodies</a></li>
+							</ul>
+						</li>
+
+						<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+							<a href="#">
+								Codex base data
+							</a>
+							<ul class="treeview-menu">
+								<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/basedata/codex/artifacts']"><i class="fa fa-circle-o"></i>Artifacts</a></li>
+								<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/basedata/codex/codexcategories']"><i class="fa fa-circle-o"></i>Codex categories</a></li>
+								<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/basedata/codex/codexdata']"><i class="fa fa-circle-o"></i>Codex data</a></li>
+							</ul>
+						</li>
+
+						<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+							<a href="#">
+								Ruin base data
+							</a>
+							<ul class="treeview-menu">
+								<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/basedata/ruins/ruintypes']"><i class="fa fa-circle-o"></i>Ruin types</a></li>
+								<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/basedata/ruins/obeliskgroups']"><i class="fa fa-circle-o"></i>Obelisk groups</a></li>
+								<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/basedata/ruins/obelisks']"><i class="fa fa-circle-o"></i>Obelisks</a></li>
+								<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/basedata/ruins/sites']"><i class="fa fa-circle-o"></i>Sites</a></li>
+							</ul>
+						</li>
+
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</section>
+	<!-- /.sidebar -->
+</aside>

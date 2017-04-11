@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <!-- main project info -->
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <RuntimeIdentifiers>win8-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- pack related info -->
+    <Authors>Sebastian Gingter</Authors>
+    <Description>The backend API web project for the Canonn API project.</Description>
+    <Company>Canonn Science</Company>
+    <Copyright>Copyright © 2017, Sebastian Gingter, Canonn Science</Copyright>
+    <PackageId>CanonnApi.Web</PackageId>
+    <PackageTags>Canonn; science; api;</PackageTags>
+
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/canonn-science/canonnapi</PackageProjectUrl>
+    <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.0-preview4-final" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0-msbuild3-final" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="1.1.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.0" />
+    <PackageReference Include="SapientGuardian.EntityFrameworkCore.MySql" Version="7.1.19" />
+    <PackageReference Include="Serilog" Version="2.4.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="1.4.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="2.2.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="3.2.0" />
+    <PackageReference Include="Serilog.Sinks.Literate" Version="2.1.0" />
+    <PackageReference Include="Serilog.Sinks.Trace" Version="2.1.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0-msbuild3-final" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--pack information -->
+    <Content Include=".\bin\Release\netcoreapp1.1\win8-x64\publish\*">
+      <Visible>false</Visible>
+      <PackagePath>web</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+  </ItemGroup>
+
+</Project>

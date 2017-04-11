@@ -1,0 +1,117 @@
+<section class="content-header">
+	<h1>Stellar base data: Systems
+		<small>Available systems</small>
+	</h1>
+</section>
+<section class="content">
+	<div class="row">
+
+		<div class="col-xs-12" *ngIf="!editingData">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Systems</h3>
+				</div>
+				<div class="box-body">
+
+					<table class="table table-striped">
+						<thead>
+						<tr>
+							<th class="column-shrink">#</th>
+							<th>Name</th>
+							<th>EDSM Id</th>
+<!--							<th>EDDB Id</th> -->
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:systemdata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:systemdata')"></th>
+						</tr>
+						</thead>
+						<tbody>
+
+						<tr role="row" *ngFor="let entry of data">
+							<td>{{entry.id}}</td>
+							<td>{{entry.name}}</td>
+							<td *ngIf="!entry.edsmExtId">n/a</td>
+							<td *ngIf="entry.edsmExtId"><a href="https://www.edsm.net/en/system/id/{{entry.edsmExtId}}/name/{{entry.name}}" target="_blank">{{entry.edsmExtId}}</a></td>
+<!--							<td>{{entry.eddbExtId}}</td> -->
+							<td *ngIf="auth.hasPermission('edit:systemdata')">
+								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(entry)" title="Edit"><i class="fa fa-edit"></i></button>
+							</td>
+							<td *ngIf="auth.hasPermission('delete:systemdata')">
+								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(entry)" title="Delete"><i class="fa fa-trash-o"></i></button>
+							</td>
+						</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+				<div class="box-footer" *ngIf="auth.hasPermission('edit:systemdata')">
+					<button class="btn btn-sm" [disabled]="fetchIds$" (click)="fetchEdsmIds()" title="update EDSM id's"><i *ngIf="fetchIds$" class="fa fa-spinner fa-pulse fa-fw"></i> Fetch missing EDSM id's</button>
+				</div>
+
+				<div class="box-footer" *ngIf="auth.hasPermission('add:systemdata')">
+					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add system"><i class="fa fa-plus"></i> Add new system</button>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-xs-12" *ngIf="editingData">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">{{ editingData.id == 0 ? 'Add new' : 'Edit existing' }} system</h3>
+				</div>
+				<div class="box-body">
+					<form class="form-horizontal">
+						<div class="form-group" *ngIf="(editingData.id !== 0)">
+							<label class="col-sm-2 control-label" for="entryid">#</label>
+							<div class="col-sm-10">
+								<input class="form-control" id="entryid" name="entryid" type="text" [(ngModel)]="editingData.id" disabled>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="name">Name:</label>
+							<div class="col-sm-10">
+								<input class="form-control" id="name" name="name" type="text" [(ngModel)]="editingData.name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="edsmid">EDSM Id</label>
+							<div class="col-sm-10">
+								<input class="form-control" id="edsmid" name="edsmid" type="number" [(ngModel)]="editingData.edsmExtId">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="eddbid">EDDB Id</label>
+							<div class="col-sm-10">
+								<input class="form-control" id="eddbid" name="eddbid" type="number" [(ngModel)]="editingData.eddbExtId">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="box-footer">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-10">
+						<button class="btn btn-primary" (click)="save()">Save</button>
+						<button class="btn" (click)="discard()">Discard</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Public API description</h3>
+				</div>
+				<div class="box-body">
+					<p><code><span class="label label-success">HTTP GET</span> /api/v1/stellar/systems</code><p>
+					<p>Returns:</p>
+					<pre>{{format(data?.slice(1, 5))}}</pre>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

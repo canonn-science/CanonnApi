@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- dummy stuff required for dotnet pack to run... -->
+    <TargetFramework>net46</TargetFramework>
+    <!-- pack related info -->
+    <AssemblyName>CanonnApi.Frontend</AssemblyName>
+    <PackageId>CanonnApi.Frontend</PackageId>
+    <Authors>Sebastian Gingter</Authors>
+    <Description>Frontend web application for the Canonn API</Description>
+    <Company>Canonn Science</Company>
+    <Copyright>Copyright © 2017, Sebastian Gingter, Canonn Science</Copyright>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageTags>Canonn; science; angular; frontend;</PackageTags>
+    <PackageProjectUrl>https://github.com/canonn-science/canonnapi</PackageProjectUrl>
+    <PackageReleaseNotes></PackageReleaseNotes>
+
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <PackProjectInputFile>CanonnApi.Frontend.nuproj</PackProjectInputFile>
+  </PropertyGroup>
+
+    <ItemGroup>
+      <!--pack information -->
+      <Content Include="dist\**\*" PackagePath="web\%(RecursiveDir)%(Filename)%(Extension)">
+        <Visible>false</Visible>
+      </Content>
+    </ItemGroup>
+</Project>

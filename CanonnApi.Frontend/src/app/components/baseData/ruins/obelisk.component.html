@@ -1,0 +1,167 @@
+<section class="content-header">
+	<h1>Base data: Obelisks
+		<small>Obelisks, grouped in obelisk groups</small>
+	</h1>
+</section>
+<section class="content">
+	<div class="row">
+
+		<div class="col-xs-12" *ngIf="!editingData">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Obelisks</h3>
+				</div>
+				<div class="box-body">
+
+					<table class="table table-striped">
+						<thead>
+						<tr>
+							<th class="column-shrink">#</th>
+							<th>Ruin type</th>
+							<th>Obelisk group</th>
+							<th>Number</th>
+							<th>Broken</th>
+							<th>Secondary artifact</th>
+							<th>Data</th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinbasedata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinbasedata')"></th>
+						</tr>
+						</thead>
+						<tbody>
+
+						<tr role="row" *ngFor="let item of data">
+							<td>{{item.id}}</td>
+							<td>{{ruinBaseData.ruinTypeLookup[ruinBaseData.obeliskGroupLookup[item.obeliskgroupId]?.ruintypeId || 0]?.name}}</td>
+							<td>{{ruinBaseData.obeliskGroupLookup[item.obeliskgroupId]?.name}}</td>
+							<td>{{item.number}}</td>
+							<td>{{item.isBroken ? 'broken' : '' }}</td>
+							<td>{{codexBaseData.artifactLookup[item.artifactId]?.name || (item.codexdataId ? 'any' : '')}}</td>
+							<td>{{codexBaseData.codexCategoryLookup[codexDataLookup[item.codexdataId]?.categoryId]?.name}} {{codexDataLookup[item.codexdataId]?.entryNumber}}</td>
+							<td *ngIf="auth.hasPermission('edit:ruinbasedata')">
+								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(item)" title="Edit"><i class="fa fa-edit"></i></button>
+							</td>
+							<td *ngIf="auth.hasPermission('delete:ruinbasedata')">
+								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(item)" title="Delete"><i class="fa fa-trash-o"></i></button>
+							</td>
+						</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+				<div class="box-footer" *ngIf="auth.hasPermission('add:ruinbasedata')">
+					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add obelisk"><i class="fa fa-plus"></i> Add new obelisk</button>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-xs-12" *ngIf="editingData">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">{{ editingData.id == 0 ? 'Add new' : 'Edit existing' }} obelisk</h3>
+				</div>
+				<div class="box-body">
+					<form role="form">
+
+						<div class="row">
+							<div class="col-xs-4">
+								<div class="form-group" *ngIf="(editingData.id !== 0)">
+									<label for="itemid">#</label>
+									<input class="form-control" id="itemid" name="itemid" type="text" [(ngModel)]="editingData.id" disabled>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label for="ruintype">Ruin Type:</label>
+									<select class="form-control" id="ruintype" name="ruintype" placeholder="Select ruin type" [(ngModel)]="editingData.ruintypeId" (change)="ruintypeSelected()">
+										<option *ngFor="let item of ruinBaseData.ruinTypeData" [ngValue]="item.id">{{item.name}}</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label for="obeliskgroup">Obelisk Group:</label>
+									<select class="form-control" id="obeliskgroup" name="obeliskgroup" placeholder="Select obelisk group" [(ngModel)]="editingData.obeliskgroupId">
+										<option *ngFor="let item of obeliskGroups" [ngValue]="item.id">{{item.name}}</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label for="number">Number:</label>
+									<input class="form-control" id="number" name="number" type="number" [(ngModel)]="editingData.number" />
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label for="artifact">Secondary artifact:</label>
+									<select class="form-control" id="artifact" name="artifact" placeholder="Select secondary artifact" [(ngModel)]="editingData.artifactId">
+										<option [ngValue]="null">any / none</option>
+										<option *ngFor="let item of codexBaseData.artifactData" [ngValue]="item.id">{{item.name}}</option>
+									</select>
+								</div>
+							</div>
+
+
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label for="codexdata">Codex data:</label>
+									<select class="form-control" id="codexdata" name="codexdata" placeholder="Select codex data" [(ngModel)]="editingData.codexdataId">
+										<option [ngValue]="null">(none)</option>
+										<option *ngFor="let item of codexData" [ngValue]="item.id">{{codexBaseData.codexCategoryLookup[item.categoryId]?.name}} {{item.entryNumber}}</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label for="isbroken">Is broken:</label>
+									<div class="form-control">
+										<input id="isbroken" name="isbroken" type="checkbox" [(ngModel)]="editingData.isBroken"/>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</form>
+				</div>
+				<div class="box-footer">
+					<div class="col-sm-12">
+						<button class="btn btn-primary" (click)="save()">Save</button>
+						<button class="btn" (click)="discard()">Discard</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Public API description</h3>
+				</div>
+				<div class="box-body">
+					<p><code><span class="label label-success">HTTP GET</span> /api/v1/obelisks</code><p>
+					<p>Returns:</p>
+					<pre>{{format(data?.slice(1, 5))}}</pre>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
