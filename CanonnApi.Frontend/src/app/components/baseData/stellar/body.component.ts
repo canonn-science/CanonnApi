@@ -4,6 +4,7 @@ import {BaseDataComponent} from '../baseData.component';
 import {BodyModel} from '../../../models/bodyModel';
 import {BodyApiService} from '../../../services/api/bodyApi.service';
 import {StellarBaseDataLookupService} from '../../../services/stellarBaseDataLookupService';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
 	selector: 'app-stellar-bodies',
@@ -11,6 +12,12 @@ import {StellarBaseDataLookupService} from '../../../services/stellarBaseDataLoo
 	styleUrls: ['./body.component.less'],
 })
 export class BodyComponent extends BaseDataComponent<BodyModel> {
+
+	private fetchIds$: Observable<any> = void 0;
+
+	protected get bodyApi(): BodyApiService {
+		return <BodyApiService>this.api;
+	}
 
 	constructor(api: BodyApiService, auth: AuthenticationService, public baseData: StellarBaseDataLookupService) {
 		super(api, auth);
@@ -30,5 +37,18 @@ export class BodyComponent extends BaseDataComponent<BodyModel> {
 
 	public get sortedSystemData() {
 		return this.baseData.systemData.sort((a, b) => (a.name !== b.name) ? a.name < b.name ? -1 : 1 : 0);
+	}
+
+	public fetchEdsmIds() {
+		if (!this.fetchIds$) {
+			this.fetchIds$ = this.bodyApi.fetchEdsmIds();
+
+			this.fetchIds$.subscribe(
+				(res) => {
+					this.loadData();
+					this.fetchIds$ = void 0;
+				}
+			);
+		}
 	}
 }

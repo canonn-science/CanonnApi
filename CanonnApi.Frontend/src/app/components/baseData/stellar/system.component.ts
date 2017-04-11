@@ -3,6 +3,7 @@ import {AuthenticationService} from '../../../services/api/authentication.servic
 import {BaseDataComponent} from '../baseData.component';
 import {SystemModel} from '../../../models/systemModel';
 import {SystemApiService} from '../../../services/api/systemApi.service';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
 	selector: 'app-stellar-systems',
@@ -10,6 +11,11 @@ import {SystemApiService} from '../../../services/api/systemApi.service';
 	styleUrls: ['./system.component.less'],
 })
 export class SystemComponent extends BaseDataComponent<SystemModel> {
+	private fetchIds$: Observable<any> = void 0;
+
+	protected get systemApi(): SystemApiService {
+		return <SystemApiService>this.api;
+	}
 
 	constructor(api: SystemApiService, auth: AuthenticationService) {
 		super(api, auth);
@@ -24,6 +30,19 @@ export class SystemComponent extends BaseDataComponent<SystemModel> {
 			this.api.delete(entry.id)
 				.do(() => this.loadData())
 				.subscribe();
+		}
+	}
+
+	public fetchEdsmIds() {
+		if (!this.fetchIds$) {
+			this.fetchIds$ = this.systemApi.fetchEdsmIds();
+
+			this.fetchIds$.subscribe(
+				(res) => {
+					this.loadData();
+					this.fetchIds$ = void 0;
+				}
+			);
 		}
 	}
 }

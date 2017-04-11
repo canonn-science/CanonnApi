@@ -46,6 +46,10 @@
 					</table>
 				</div>
 
+				<div class="box-footer" *ngIf="auth.hasPermission('edit:systemdata')">
+					<button class="btn btn-sm" [disabled]="fetchIds$" (click)="fetchEdsmIds()" title="update EDSM id's"><i *ngIf="fetchIds$" class="fa fa-spinner fa-pulse fa-fw"></i> Fetch missing EDSM id's</button>
+				</div>
+
 				<div class="box-footer" *ngIf="auth.hasPermission('add:systemdata')">
 					<button class="btn btn-sm btn-success" [disabled]="editingData" (click)="createNew()" title="add body"><i class="fa fa-plus"></i> Add new body</button>
 				</div>
