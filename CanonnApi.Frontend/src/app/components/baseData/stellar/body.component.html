@@ -20,7 +20,7 @@
 							<th>System name</th>
 							<th>Body name</th>
 							<th>EDSM Id</th>
-							<th>EDDB Id</th>
+<!--							<th>EDDB Id</th> -->
 							<th class="column-shrink" *ngIf="auth.hasPermission('delete:systemdata')"></th>
 							<th class="column-shrink" *ngIf="auth.hasPermission('edit:systemdata')"></th>
 						</tr>
@@ -31,8 +31,9 @@
 							<td>{{entry.id}}</td>
 							<td>{{baseData.systemLookup[entry.systemId]?.name}}</td>
 							<td>{{entry.name}}</td>
-							<td>{{entry.edsmExtId}}</td>
-							<td>{{entry.eddbExtId}}</td>
+							<td *ngIf="!entry.edsmExtId">n/a</td>
+							<td *ngIf="entry.edsmExtId"><a href="https://www.edsm.net/en/system/bodies/id/{{baseData.systemLookup[entry.systemId]?.edsmExtId}}/name/{{baseData.systemLookup[entry.systemId]?.name}}/details/idB/{{entry.edsmExtId}}/nameB/{{baseData.systemLookup[entry.systemId]?.name}}+{{entry.name}}" target="_blank">{{entry.edsmExtId}}</a></td>
+<!--							<td>{{entry.eddbExtId}}</td> -->
 							<td *ngIf="auth.hasPermission('edit:systemdata')">
 								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(entry)" title="Edit"><i class="fa fa-edit"></i></button>
 							</td>
