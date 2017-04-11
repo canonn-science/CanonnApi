@@ -31,8 +31,8 @@
 						<tbody>
 
 						<tr role="row" *ngFor="let item of data">
-							<td>GS{{item.id | number:'3.0-0'}}</td>
-							<td><a href="https://ruins.canonn.technology/#GS{{item.id | number:'3.0-0'}}" target="_blank">Map</a></td>
+							<td>GS{{item.id}}</td>
+							<td><a href="https://ruins.canonn.technology/#GS{{item.id}}" target="_blank">Map</a></td>
 							<td>{{stellarBaseData.systemLookup[stellarBaseData.bodyLookup[item.bodyId]?.systemId || 0]?.name}}</td>
 							<td>{{stellarBaseData.bodyLookup[item.bodyId]?.name}}</td>
 							<td>{{item.latitude | number:'.2-4'}}</td>
