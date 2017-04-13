@@ -50,10 +50,7 @@ namespace CanonnApi.Web.Controllers
 			var systems = await Repository.GetAll();
 
 			var updatedSystems = await _edsmService.FetchSystemIds(systems.Where(sys => sys.EdsmExtId == null));
-			if (updatedSystems.All(us => us.Updated))
-			{
-				await Repository.SaveChanges();
-			}
+			await Repository.SaveChanges();
 
 			return updatedSystems;
 		}

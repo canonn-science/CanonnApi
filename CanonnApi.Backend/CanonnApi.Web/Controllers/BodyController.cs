@@ -51,10 +51,7 @@ namespace CanonnApi.Web.Controllers
 			var bodies = await Repository.GetAllWithSystems();
 
 			var updatedBodies = await _edsmService.FetchBodyIds(bodies.Where(body => body.EdsmExtId == null || body.Distance == null));
-			if (updatedBodies.All(us => us.Updated))
-			{
-				await Repository.SaveChanges();
-			}
+			await Repository.SaveChanges();
 
 			foreach (var updatedBody in updatedBodies)
 			{
