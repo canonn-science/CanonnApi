@@ -17,23 +17,23 @@
 
 						<thead>
 						<tr>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexdata')">Edit</th>
 							<th class="column-shrink">#</th>
 							<th>Category name</th>
 							<th>Primary artifact</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexdata')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexdata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexdata')">Delete</th>
 						</tr>
 
 						</thead>
 						<tbody>
 
 						<tr role="row" *ngFor="let category of data">
-							<td>{{category.id}}</td>
-							<td>{{category.name}}</td>
-							<td>{{baseData.artifactLookup[category.artifactId]?.name || 'n/a'}}</td>
 							<td *ngIf="auth.hasPermission('edit:codexdata')">
 								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(category)" title="Edit"><i class="fa fa-edit"></i></button>
 							</td>
+							<td>{{category.id}}</td>
+							<td>{{category.name}}</td>
+							<td>{{baseData.artifactLookup[category.artifactId]?.name || 'n/a'}}</td>
 							<td *ngIf="auth.hasPermission('delete:codexdata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(category)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>

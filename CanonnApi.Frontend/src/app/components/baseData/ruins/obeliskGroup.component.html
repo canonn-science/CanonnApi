@@ -16,24 +16,24 @@
 					<table class="table table-striped">
 						<thead>
 						<tr>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinbasedata')">Edit</th>
 							<th class="column-shrink">#</th>
 							<th>Site</th>
 							<th>Name</th>
 							<th>Amount</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinbasedata')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinbasedata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinbasedata')">Delete</th>
 						</tr>
 						</thead>
 						<tbody>
 
 						<tr role="row" *ngFor="let item of data">
+							<td *ngIf="auth.hasPermission('edit:ruinbasedata')">
+								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(item)" title="Edit"><i class="fa fa-edit"></i></button>
+							</td>
 							<td>{{item.id}}</td>
 							<td>{{baseData.ruinTypeLookup[item.ruintypeId]?.name}}</td>
 							<td>{{item.name}}</td>
 							<td>{{item.count}}</td>
-							<td *ngIf="auth.hasPermission('edit:ruinbasedata')">
-								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(item)" title="Edit"><i class="fa fa-edit"></i></button>
-							</td>
 							<td *ngIf="auth.hasPermission('delete:ruinbasedata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(item)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>

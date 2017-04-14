@@ -16,25 +16,25 @@
 					<table class="table table-striped">
 						<thead>
 						<tr>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:systemdata')">Edit</th>
 							<th class="column-shrink">#</th>
 							<th>Name</th>
 							<th>EDSM Id</th>
 <!--							<th>EDDB Id</th> -->
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:systemdata')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:systemdata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:systemdata')">Delete</th>
 						</tr>
 						</thead>
 						<tbody>
 
 						<tr role="row" *ngFor="let entry of data">
+							<td *ngIf="auth.hasPermission('edit:systemdata')">
+								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(entry)" title="Edit"><i class="fa fa-edit"></i></button>
+							</td>
 							<td>{{entry.id}}</td>
 							<td>{{entry.name}}</td>
 							<td *ngIf="!entry.edsmExtId">n/a</td>
 							<td *ngIf="entry.edsmExtId"><a href="https://www.edsm.net/en/system/id/{{entry.edsmExtId}}/name/{{entry.name}}" target="_blank">{{entry.edsmExtId}}</a></td>
 <!--							<td>{{entry.eddbExtId}}</td> -->
-							<td *ngIf="auth.hasPermission('edit:systemdata')">
-								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(entry)" title="Edit"><i class="fa fa-edit"></i></button>
-							</td>
 							<td *ngIf="auth.hasPermission('delete:systemdata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(entry)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>

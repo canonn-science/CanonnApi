@@ -17,25 +17,25 @@
 
 						<thead>
 						<tr>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexdata')">Edit</th>
 							<th class="column-shrink">#</th>
 							<th>Category</th>
-							<th>Entry No.</th>
+							<th>No.</th>
 							<th class="column-expand">Text</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexdata')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexdata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexdata')">Delete</th>
 						</tr>
 
 						</thead>
 						<tbody>
 
 						<tr role="row" *ngFor="let entry of data">
+							<td *ngIf="auth.hasPermission('edit:codexdata')">
+								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(entry)" title="Edit"><i class="fa fa-edit"></i></button>
+							</td>
 							<td>{{entry.id}}</td>
 							<td>{{baseData.codexCategoryLookup[entry.categoryId]?.name || 'n/a'}}</td>
 							<td>{{entry.entryNumber}}</td>
 							<td>{{entry.text}}</td>
-							<td *ngIf="auth.hasPermission('edit:codexdata')">
-								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(entry)" title="Edit"><i class="fa fa-edit"></i></button>
-							</td>
 							<td *ngIf="auth.hasPermission('delete:codexdata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(entry)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>

@@ -16,6 +16,7 @@
 					<table class="table table-striped">
 						<thead>
 						<tr>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinbasedata')">Edit</th>
 							<th class="column-shrink">#</th>
 							<th>Ruin type</th>
 							<th>Obelisk group</th>
@@ -23,13 +24,15 @@
 							<th>Broken</th>
 							<th>Secondary artifact</th>
 							<th>Data</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinbasedata')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinbasedata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinbasedata')">Delete</th>
 						</tr>
 						</thead>
 						<tbody>
 
 						<tr role="row" *ngFor="let item of data">
+							<td *ngIf="auth.hasPermission('edit:ruinbasedata')">
+								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(item)" title="Edit"><i class="fa fa-edit"></i></button>
+							</td>
 							<td>{{item.id}}</td>
 							<td>{{ruinBaseData.ruinTypeLookup[ruinBaseData.obeliskGroupLookup[item.obeliskgroupId]?.ruintypeId || 0]?.name}}</td>
 							<td>{{ruinBaseData.obeliskGroupLookup[item.obeliskgroupId]?.name}}</td>
@@ -37,9 +40,6 @@
 							<td>{{item.isBroken ? 'broken' : '' }}</td>
 							<td>{{codexBaseData.artifactLookup[item.artifactId]?.name || (item.codexdataId ? 'any' : '')}}</td>
 							<td>{{codexBaseData.codexCategoryLookup[codexDataLookup[item.codexdataId]?.categoryId]?.name}} {{codexDataLookup[item.codexdataId]?.entryNumber}}</td>
-							<td *ngIf="auth.hasPermission('edit:ruinbasedata')">
-								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(item)" title="Edit"><i class="fa fa-edit"></i></button>
-							</td>
 							<td *ngIf="auth.hasPermission('delete:ruinbasedata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(item)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>
