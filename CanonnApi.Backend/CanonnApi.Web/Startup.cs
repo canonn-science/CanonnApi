@@ -108,8 +108,7 @@ namespace CanonnApi.Web
 
 		private void RegisterAutofacDependencies(ContainerBuilder builder)
 		{
-			builder.RegisterType<IdTokenProvider>().AsImplementedInterfaces();
-			builder.RegisterType<CachingUserInformationService>().AsImplementedInterfaces();
+			builder.RegisterType<BearerTokenProvider>().AsImplementedInterfaces();
 
 			// Codex base data
 			builder.RegisterType<ArtifactRepository>().AsImplementedInterfaces();
@@ -146,7 +145,7 @@ namespace CanonnApi.Web
 			SecretConfiguration secretConfiguration = settings.Value;
 			app.UseJwtBearerAuthentication(new JwtBearerOptions()
 			{
-				Audience = secretConfiguration.ClientId,
+				Audience = secretConfiguration.Audience,
 				Authority = $"https://{secretConfiguration.ClientDomain}/",
 			});
 

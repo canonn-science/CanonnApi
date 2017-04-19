@@ -28,6 +28,7 @@ namespace CanonnApi.Web.Controllers
 				Domain = _settings.ClientDomain,
 				ClientId = _settings.ClientId,
 				ApiVersion = GetApiVersion(),
+				Audience = _settings.Audience,
 			};
 		}
 
