@@ -42,7 +42,7 @@ import {RuinSitesApiService} from './services/api/ruinSitesApi.service';
 // https://github.com/auth0/angular2-jwt/issues/258
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 	return new AuthHttp(new AuthConfig({
-		tokenName: 'id_token',
+		tokenName: 'access_token',
 	}), http, options);
 }
 
