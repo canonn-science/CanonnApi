@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Http} from '@angular/http';
 
 declare var $: any;
 
@@ -10,10 +11,16 @@ declare var $: any;
 })
 export class AppComponent implements OnInit {
 
-	constructor() {
+	constructor(http: Http) {
+		http.get('/assets/app.config.json')
+			.map(res => res.json())
+			.subscribe(config => {
+				$('body').addClass(config.skin);
+		});
 	}
 
 	ngOnInit() {
+	}
 
 /*
       const o = $.AdminLTE.options;
@@ -28,5 +35,4 @@ export class AppComponent implements OnInit {
 			$.AdminLTE.controlSidebar.activate();
 		}
 */
-	}
 }

@@ -23,7 +23,7 @@
 				"styles.less",
 				"../node_modules/admin-lte/bootstrap/css/bootstrap.min.css",
 				"../node_modules/admin-lte/dist/css/AdminLTE.min.css",
-				"../node_modules/admin-lte/dist/css/skins/skin-red.min.css"
+				"../node_modules/admin-lte/dist/css/skins/_all-skins.min.css"
 			],
 			"scripts": [
 				"../node_modules/jquery/dist/jquery.min.js",
