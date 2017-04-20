@@ -63,7 +63,11 @@ namespace CanonnApi.Web
 			}));
 
 			services.AddMvc()
-				.AddJsonOptions(mvcJsonOptions => mvcJsonOptions.SerializerSettings.ContractResolver = new IgnoreEmptyEnumerablesResolver());
+				.AddJsonOptions(mvcJsonOptions =>
+				{
+					mvcJsonOptions.SerializerSettings.ContractResolver = new IgnoreEmptyEnumerablesResolver();
+					mvcJsonOptions.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+				});
 
 			services.AddLogging();
 			services.AddMemoryCache();

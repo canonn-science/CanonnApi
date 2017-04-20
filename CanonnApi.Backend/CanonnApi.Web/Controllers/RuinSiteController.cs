@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -139,6 +138,12 @@ namespace CanonnApi.Web.Controllers
 			return (await Repository.SaveActiveObelisksForSite(id, obelisks))
 				? (ActionResult)Ok()
 				: NotFound();
+		}
+
+		[HttpGet("searchdata/{categoryName}/{entryNumber}")]
+		public async Task<List<RuinSite>> SearchForDataEntries(string categoryName, int entryNumber)
+		{
+			return await Repository.SearchSitesForData(categoryName, entryNumber);
 		}
 	}
 }
