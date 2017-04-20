@@ -24,6 +24,7 @@
 							<th>Broken</th>
 							<th>Secondary artifact</th>
 							<th>Data</th>
+							<th>Verified</th>
 							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinbasedata')">Delete</th>
 						</tr>
 						</thead>
@@ -40,6 +41,7 @@
 							<td>{{item.isBroken ? 'broken' : '' }}</td>
 							<td>{{codexBaseData.artifactLookup[item.artifactId]?.name || (item.codexdataId ? 'any' : '')}}</td>
 							<td>{{codexBaseData.codexCategoryLookup[codexDataLookup[item.codexdataId]?.categoryId]?.name}} {{codexDataLookup[item.codexdataId]?.entryNumber}}</td>
+							<td><i class="fa" [ngClass]="{'fa-check-square-o': item.isVerified, 'fa-square-o' : !item.isVerified }"></i></td>
 							<td *ngIf="auth.hasPermission('delete:ruinbasedata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(item)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>
@@ -135,6 +137,17 @@
 								</div>
 							</div>
 
+						</div>
+
+						<div class="row">
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label for="isverified">Is verified:</label>
+									<div class="form-control">
+										<input id="isverified" name="isverified" type="checkbox" [(ngModel)]="editingData.isVerified"/>
+									</div>
+								</div>
+							</div>
 						</div>
 
 					</form>

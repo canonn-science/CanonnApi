@@ -55,7 +55,7 @@ namespace CanonnApi.Web.Controllers
 
 			foreach (var updatedBody in updatedBodies)
 			{
-				updatedBody.Body.System.Bodies = null;
+				updatedBody.Body.System.Body = null;
 			}
 
 			return updatedBodies;

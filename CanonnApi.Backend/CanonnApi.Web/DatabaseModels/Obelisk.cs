@@ -15,6 +15,7 @@ namespace CanonnApi.Web.DatabaseModels
         public int? CodexdataId { get; set; }
         public DateTime Created { get; set; }
         public bool IsBroken { get; set; }
+        public bool IsVerified { get; set; }
         public int Number { get; set; }
         public int ObeliskgroupId { get; set; }
         public DateTime Updated { get; set; }

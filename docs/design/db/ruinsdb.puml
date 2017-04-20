@@ -51,6 +51,7 @@ obelisk : id = INT
 obelisk : obeliskgroup_id = INT
 obelisk : number = INT
 obelisk : is_broken = BOOL
+obelisk : is_verified = BOOL
 obelisk : artifact_id = INT
 obelisk : codexdata_id = INT
 obelisk : created = DATETIME
@@ -74,6 +75,7 @@ object body
 body : id = INT
 body : system_id = INT
 body : name = VARCHAR(150)
+body : distance = INT (from EDSM)
 body : edsm_ext_id = INT (id from EDSM)
 body : eddb_ext_id = INT (id from EDDB)
 body : created = DATETIME
@@ -85,7 +87,7 @@ body "0..n" -- "1" system
 object ruin_site
 ruin_site : id = INT
 ruin_site : body_id = INT
-ruin_site : latitude = DECIMAL(7,4)
+ruin_site : latitude = DECIMAL(6,4)
 ruin_site : longitude = DECIMAL(7,4)
 ruin_site : ruintype_id = INT
 ruin_site : created = DATETIME

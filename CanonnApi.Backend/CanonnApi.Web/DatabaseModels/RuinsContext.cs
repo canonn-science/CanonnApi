@@ -8,6 +8,7 @@ namespace CanonnApi.Web.DatabaseModels
     {
         public virtual DbSet<Artifact> Artifact { get; set; }
         public virtual DbSet<Body> Body { get; set; }
+        public virtual DbSet<CanonndbMetadata> CanonndbMetadata { get; set; }
         public virtual DbSet<CodexCategory> CodexCategory { get; set; }
         public virtual DbSet<CodexData> CodexData { get; set; }
         public virtual DbSet<Obelisk> Obelisk { get; set; }
@@ -36,7 +37,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Created)
                     .HasColumnName("created")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.Name)
@@ -46,7 +46,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 
@@ -67,7 +66,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Created)
                     .HasColumnName("created")
-                    .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.Distance)
@@ -93,14 +91,30 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
-                    .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.HasOne(d => d.System)
-                    .WithMany(p => p.Bodies)
+                    .WithMany(p => p.Body)
                     .HasForeignKey(d => d.SystemId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_body_system");
+            });
+
+            modelBuilder.Entity<CanonndbMetadata>(entity =>
+            {
+                entity.HasKey(e => e.Name)
+                    .HasName("PK_canonndb_metadata");
+
+                entity.ToTable("canonndb_metadata");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.Value)
+                    .IsRequired()
+                    .HasColumnName("value")
+                    .HasColumnType("varchar(255)");
             });
 
             modelBuilder.Entity<CodexCategory>(entity =>
@@ -120,7 +134,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Created)
                     .HasColumnName("created")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.Name)
@@ -130,7 +143,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.HasOne(d => d.Artifact)
@@ -157,7 +169,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Created)
                     .HasColumnName("created")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.EntryNumber)
@@ -171,7 +182,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.HasOne(d => d.Category)
@@ -209,11 +219,15 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Created)
                     .HasColumnName("created")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.IsBroken)
                     .HasColumnName("is_broken")
+                    .HasColumnType("bit(1)")
+                    .HasDefaultValueSql("b'0'");
+
+                entity.Property(e => e.IsVerified)
+                    .HasColumnName("is_verified")
                     .HasColumnType("bit(1)")
                     .HasDefaultValueSql("b'0'");
 
@@ -227,7 +241,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.HasOne(d => d.Artifact)
@@ -264,7 +277,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Created)
                     .HasColumnName("created")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.Name)
@@ -278,7 +290,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.HasOne(d => d.Ruintype)
@@ -308,7 +319,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Created)
                     .HasColumnName("created")
-                    .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.Latitude)
@@ -325,11 +335,10 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
-                    .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.HasOne(d => d.Body)
-                    .WithMany(p => p.RuinSites)
+                    .WithMany(p => p.RuinSite)
                     .HasForeignKey(d => d.BodyId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_ruinsite_body");
@@ -351,7 +360,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Created)
                     .HasColumnName("created")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.Name)
@@ -361,7 +369,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
-                    .HasColumnType("datetime")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 
@@ -441,7 +448,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Created)
                     .HasColumnName("created")
-                    .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.EddbExtId)
@@ -459,7 +465,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
-                    .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 

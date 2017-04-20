@@ -1,4 +1,5 @@
 import {SystemModel} from './systemModel';
+import {RuinSiteModel} from './ruinSiteModel';
 
 export class BodyModel {
 	public id: number;
@@ -11,6 +12,7 @@ export class BodyModel {
 	public updated: string;
 
 	public system: SystemModel;
+	public ruinSite: RuinSiteModel[];
 
 	constructor(id?: number) {
 		this.id = id;

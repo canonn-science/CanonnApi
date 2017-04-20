@@ -61,7 +61,8 @@ namespace CanonnApi.Web.Services.Maps
 						CodexDataNumber = o.Codexdata.EntryNumber.ToString(),
 						ObeliskGroup = o.Obeliskgroup.Name.ToLowerInvariant(),
 						RuinType = o.Obeliskgroup.Ruintype.Name.ToLowerInvariant(),
-					})
+						IsVerified = o.IsVerified,
+				})
 				.ToListAsync();
 
 			// build resulting structure
@@ -87,6 +88,7 @@ namespace CanonnApi.Web.Services.Maps
 				var data = new ScanDataDto()
 				{
 					Scan = $"{scanData.CategoryName} {scanData.CodexDataNumber}",
+					IsVerified = scanData.IsVerified,
 				};
 
 				data.Items.Add(scanData.PrimaryArtifact);

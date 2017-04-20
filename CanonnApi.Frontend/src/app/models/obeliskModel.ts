@@ -8,6 +8,7 @@ export class ObeliskModel {
 	public obeliskgroupId: number;
 	public number: number;
 	public isBroken: boolean;
+	public isVerified: boolean;
 	public artifactId: number;
 	public codexdataId: number;
 	public active: boolean;

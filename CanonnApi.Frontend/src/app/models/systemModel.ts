@@ -8,7 +8,7 @@ export class SystemModel {
 	public created: string;
 	public updated: string;
 
-	public bodies: BodyModel[];
+	public body: BodyModel[];
 
 	constructor(id?: number) {
 		this.id = id;
