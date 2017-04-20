@@ -45,79 +45,34 @@ namespace CanonnApi.Web.Services.Maps
 			return result;
 		}
 
-		public async Task<object> LoadBrokenObelisks()
-		{
-			var dataGraph = await _ruinsContext.Obelisk
-				.Where(o => o.IsBroken)
-				.OrderBy(o => o.Obeliskgroup.Ruintype.Name)
-					.ThenBy(o => o.Obeliskgroup.Name)
-					.ThenBy(o => o.Number)
-				.Select(o => new
-				{
-					Number = o.Number.ToString(),
-					ObeliskGroup = o.Obeliskgroup.Name.ToLowerInvariant(),
-					RuinType = o.Obeliskgroup.Ruintype.Name.ToLowerInvariant(),
-					IsBroken = o.IsBroken,
-					IsVerified = o.IsVerified,
-				})
-				.ToListAsync();
-
-			// build resulting structure
-			var result = new Dictionary<string, Dictionary<string, Dictionary<string, BrokenObeliskDto>>>();
-
-			foreach (var obeliskInfo in dataGraph)
-			{
-				Dictionary<string, Dictionary<string, BrokenObeliskDto>> obeliskGroupLevel;
-				Dictionary<string, BrokenObeliskDto> obeliskLevel;
-
-				if (!result.TryGetValue(obeliskInfo.RuinType, out obeliskGroupLevel))
-				{
-					obeliskGroupLevel = new Dictionary<string, Dictionary<string, BrokenObeliskDto>>();
-					result.Add(obeliskInfo.RuinType, obeliskGroupLevel);
-				}
-
-				if (!obeliskGroupLevel.TryGetValue(obeliskInfo.ObeliskGroup, out obeliskLevel))
-				{
-					obeliskLevel = new Dictionary<string, BrokenObeliskDto>();
-					obeliskGroupLevel.Add(obeliskInfo.ObeliskGroup, obeliskLevel);
-				}
-
-				var data = new BrokenObeliskDto()
-				{
-					IsBroken = obeliskInfo.IsBroken,
-					IsVerified = obeliskInfo.IsVerified,
-				};
-
-				obeliskLevel.Add(obeliskInfo.Number, data);
-			}
-
-			return result;
-		}
-
 		public async Task<object> LoadScanData()
 		{
 			var dataGraph = await _ruinsContext.Obelisk
-				.Where(o => o.CodexdataId != null)
+				.Include(o => o.Codexdata.Category.Artifact)
+				.Include(o => o.Obeliskgroup.Ruintype)
+				.Where(o => o.IsBroken || o.Codexdata != null)
 				.OrderBy(o => o.Obeliskgroup.Ruintype.Name)
 					.ThenBy(o => o.Obeliskgroup.Name)
 					.ThenBy(o => o.Number)
-				.Select(o => new
+				.ToListAsync();
+
+			var projectedData = dataGraph.Select(o => new
 				{
 					Number = o.Number.ToString(),
-					PrimaryArtifact = o.Codexdata.Category.Artifact.Name,
-					SecondaryArtifact = (o.Codexdata.Artifact != null) ? o.Codexdata.Artifact.Name : null,
-					CategoryName = o.Codexdata.Category.Name,
-					CodexDataNumber = o.Codexdata.EntryNumber.ToString(),
+					PrimaryArtifact = o.Codexdata?.Category.Artifact.Name,
+					SecondaryArtifact = o.Codexdata?.Artifact?.Name,
+					CategoryName = o.Codexdata?.Category.Name,
+					CodexDataNumber = o.Codexdata?.EntryNumber.ToString(),
 					ObeliskGroup = o.Obeliskgroup.Name.ToLowerInvariant(),
 					RuinType = o.Obeliskgroup.Ruintype.Name.ToLowerInvariant(),
 					IsVerified = o.IsVerified,
-				})
-				.ToListAsync();
+					IsBroken = o.IsBroken,
+				});
 
 			// build resulting structure
 			var result = new Dictionary<string, Dictionary<string, Dictionary<string, ScanDataDto>>>();
 
-			foreach (var scanData in dataGraph)
+			foreach (var scanData in projectedData)
 			{
 				Dictionary<string, Dictionary<string, ScanDataDto>> obeliskGroupLevel;
 				Dictionary<string, ScanDataDto> obeliskLevel;
@@ -136,11 +91,16 @@ namespace CanonnApi.Web.Services.Maps
 
 				var data = new ScanDataDto()
 				{
-					Scan = $"{scanData.CategoryName} {scanData.CodexDataNumber}",
+					Scan = !String.IsNullOrWhiteSpace(scanData.CodexDataNumber) ? $"{scanData.CategoryName} {scanData.CodexDataNumber}" : null,
 					IsVerified = scanData.IsVerified,
+					IsBroken = scanData.IsBroken,
 				};
 
-				data.Items.Add(scanData.PrimaryArtifact);
+				if (scanData.PrimaryArtifact != null)
+				{
+					data.Items.Add(scanData.PrimaryArtifact);
+				}
+
 				if (scanData.SecondaryArtifact != null)
 				{
 					data.Items.Add(scanData.SecondaryArtifact);

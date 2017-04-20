@@ -8,6 +8,5 @@ namespace CanonnApi.Web.Services.Maps
 		Task<IOrderedEnumerable<SystemDto>> LoadSitesOverview();
 		Task<object> LoadScanData();
 		Task<object> LoadRuinInfo(int id);
-		Task<object> LoadBrokenObelisks();
 	}
 }
