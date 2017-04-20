@@ -121,6 +121,10 @@ export class AuthenticationService extends ApiBaseService {
 	}
 
 	private fetchUserInformation() {
+		if (this.userInformation) {
+			return;
+		}
+
 		if (!this.userInformation$) {
 			this.clientConfiguration$.subscribe(ci => {
 				const url = `https://${ci.domain}/tokeninfo`;
@@ -129,22 +133,26 @@ export class AuthenticationService extends ApiBaseService {
 					id_token: localStorage.getItem('id_token'),
 				};
 
-				this.userInformation$ = this._http.post(url, payload)
-					.map(res => <UserInformation>(res.json()))
-					.do(() => this.redirectIfRequired());
+				if (!this.userInformation$) {
 
-				this.userInformation$.subscribe(
-					userInfo => {
-						this.userInformation = userInfo;
+					this.userInformation$ = this._http.post(url, payload)
+						.map(res => <UserInformation>(res.json()))
+						.do(() => this.redirectIfRequired());
 
-						// when user has no info, these are undefined, so make sure we have some data
-						this.userInformation.groups = this.userInformation.groups || [];
-						this.userInformation.roles = this.userInformation.roles || [];
-						this.userInformation.permissions = this.userInformation.permissions || [];
+					this.userInformation$.subscribe(
+						userInfo => {
+							this.userInformation = userInfo;
 
-						this.userInformation$ = void 0;
-					},
-				);
+							// when user has no info, these are undefined, so make sure we have some data
+							this.userInformation.groups = this.userInformation.groups || [];
+							this.userInformation.roles = this.userInformation.roles || [];
+							this.userInformation.permissions = this.userInformation.permissions || [];
+
+							this.userInformation$ = void 0;
+						},
+					);
+
+				}
 			});
 		}
 	}
