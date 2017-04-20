@@ -44,5 +44,12 @@ namespace CanonnApi.Web.Controllers
 			
 			return Json(await _repository.LoadRuinInfo(id));
 		}
+
+		[HttpGet("brokenobelisks")]
+		public async Task<ActionResult> GetBrokenObelisks()
+		{
+
+			return Json(await _repository.LoadBrokenObelisks());
+		}
 	}
 }

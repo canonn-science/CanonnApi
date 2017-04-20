@@ -45,6 +45,55 @@ namespace CanonnApi.Web.Services.Maps
 			return result;
 		}
 
+		public async Task<object> LoadBrokenObelisks()
+		{
+			var dataGraph = await _ruinsContext.Obelisk
+				.Where(o => o.IsBroken)
+				.OrderBy(o => o.Obeliskgroup.Ruintype.Name)
+					.ThenBy(o => o.Obeliskgroup.Name)
+					.ThenBy(o => o.Number)
+				.Select(o => new
+				{
+					Number = o.Number.ToString(),
+					ObeliskGroup = o.Obeliskgroup.Name.ToLowerInvariant(),
+					RuinType = o.Obeliskgroup.Ruintype.Name.ToLowerInvariant(),
+					IsBroken = o.IsBroken,
+					IsVerified = o.IsVerified,
+				})
+				.ToListAsync();
+
+			// build resulting structure
+			var result = new Dictionary<string, Dictionary<string, Dictionary<string, BrokenObeliskDto>>>();
+
+			foreach (var obeliskInfo in dataGraph)
+			{
+				Dictionary<string, Dictionary<string, BrokenObeliskDto>> obeliskGroupLevel;
+				Dictionary<string, BrokenObeliskDto> obeliskLevel;
+
+				if (!result.TryGetValue(obeliskInfo.RuinType, out obeliskGroupLevel))
+				{
+					obeliskGroupLevel = new Dictionary<string, Dictionary<string, BrokenObeliskDto>>();
+					result.Add(obeliskInfo.RuinType, obeliskGroupLevel);
+				}
+
+				if (!obeliskGroupLevel.TryGetValue(obeliskInfo.ObeliskGroup, out obeliskLevel))
+				{
+					obeliskLevel = new Dictionary<string, BrokenObeliskDto>();
+					obeliskGroupLevel.Add(obeliskInfo.ObeliskGroup, obeliskLevel);
+				}
+
+				var data = new BrokenObeliskDto()
+				{
+					IsBroken = obeliskInfo.IsBroken,
+					IsVerified = obeliskInfo.IsVerified,
+				};
+
+				obeliskLevel.Add(obeliskInfo.Number, data);
+			}
+
+			return result;
+		}
+
 		public async Task<object> LoadScanData()
 		{
 			var dataGraph = await _ruinsContext.Obelisk
@@ -53,15 +102,15 @@ namespace CanonnApi.Web.Services.Maps
 					.ThenBy(o => o.Obeliskgroup.Name)
 					.ThenBy(o => o.Number)
 				.Select(o => new
-					{
-						Number = o.Number.ToString(),
-						PrimaryArtifact = o.Codexdata.Category.Artifact.Name,
-						SecondaryArtifact = (o.Artifact != null) ? o.Artifact.Name : null,
-						CategoryName = o.Codexdata.Category.Name,
-						CodexDataNumber = o.Codexdata.EntryNumber.ToString(),
-						ObeliskGroup = o.Obeliskgroup.Name.ToLowerInvariant(),
-						RuinType = o.Obeliskgroup.Ruintype.Name.ToLowerInvariant(),
-						IsVerified = o.IsVerified,
+				{
+					Number = o.Number.ToString(),
+					PrimaryArtifact = o.Codexdata.Category.Artifact.Name,
+					SecondaryArtifact = (o.Artifact != null) ? o.Artifact.Name : null,
+					CategoryName = o.Codexdata.Category.Name,
+					CodexDataNumber = o.Codexdata.EntryNumber.ToString(),
+					ObeliskGroup = o.Obeliskgroup.Name.ToLowerInvariant(),
+					RuinType = o.Obeliskgroup.Ruintype.Name.ToLowerInvariant(),
+					IsVerified = o.IsVerified,
 				})
 				.ToListAsync();
 
@@ -119,7 +168,7 @@ namespace CanonnApi.Web.Services.Maps
 				RuinId = ruin.Id,
 				BodyName = ruin.Body.Name,
 				RuinTypeName = ruin.Ruintype.Name,
-				Coordinates = new decimal[] {ruin.Latitude, ruin.Longitude},
+				Coordinates = new decimal[] { ruin.Latitude, ruin.Longitude },
 				Obelisks = BuildObeliskData(obeliskGroups, activeObelisks),
 			};
 
