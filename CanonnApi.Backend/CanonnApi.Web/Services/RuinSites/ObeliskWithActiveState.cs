@@ -11,7 +11,6 @@ namespace CanonnApi.Web.Services.RuinSites
 		public ObeliskWithActiveState(Obelisk obelisk)
 		{
 			Id = obelisk.Id;
-			ArtifactId = obelisk.ArtifactId;
 			CodexdataId = obelisk.CodexdataId;
 			IsBroken = obelisk.IsBroken;
 			Number = obelisk.Number;
@@ -19,7 +18,6 @@ namespace CanonnApi.Web.Services.RuinSites
 			Created = obelisk.Created;
 			Updated = obelisk.Updated;
 
-			Artifact = obelisk.Artifact;
 			Codexdata = obelisk.Codexdata;
 			Obeliskgroup = obelisk.Obeliskgroup;
 		}

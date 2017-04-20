@@ -22,8 +22,8 @@
 							<th>Obelisk group</th>
 							<th>Number</th>
 							<th>Broken</th>
-							<th>Secondary artifact</th>
 							<th>Data</th>
+							<th>Artifacts</th>
 							<th>Verified</th>
 							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinbasedata')">Delete</th>
 						</tr>
@@ -39,8 +39,12 @@
 							<td>{{ruinBaseData.obeliskGroupLookup[item.obeliskgroupId]?.name}}</td>
 							<td>{{item.number}}</td>
 							<td>{{item.isBroken ? 'broken' : '' }}</td>
-							<td>{{codexBaseData.artifactLookup[item.artifactId]?.name || (item.codexdataId ? 'any' : '')}}</td>
 							<td>{{codexBaseData.codexCategoryLookup[codexDataLookup[item.codexdataId]?.categoryId]?.name}} {{codexDataLookup[item.codexdataId]?.entryNumber}}</td>
+							<td *ngIf="!item.codexdataId"></td>
+							<td *ngIf="item.codexdataId">
+								{{ codexBaseData.artifactLookup[codexBaseData.codexCategoryLookup[codexDataLookup[item.codexdataId].categoryId].artifactId].name }}
+								& {{codexBaseData.artifactLookup[codexDataLookup[item.codexdataId]?.artifactId]?.name || 'any' }}
+							</td>
 							<td><i class="fa" [ngClass]="{'fa-check-square-o': item.isVerified, 'fa-square-o' : !item.isVerified }"></i></td>
 							<td *ngIf="auth.hasPermission('delete:ruinbasedata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(item)" title="Delete"><i class="fa fa-trash-o"></i></button>
@@ -109,17 +113,6 @@
 
 							<div class="col-xs-4">
 								<div class="form-group">
-									<label for="artifact">Secondary artifact:</label>
-									<select class="form-control" id="artifact" name="artifact" placeholder="Select secondary artifact" [(ngModel)]="editingData.artifactId">
-										<option [ngValue]="null">any / none</option>
-										<option *ngFor="let item of codexBaseData.artifactData" [ngValue]="item.id">{{item.name}}</option>
-									</select>
-								</div>
-							</div>
-
-
-							<div class="col-xs-4">
-								<div class="form-group">
 									<label for="codexdata">Codex data:</label>
 									<select class="form-control" id="codexdata" name="codexdata" placeholder="Select codex data" [(ngModel)]="editingData.codexdataId">
 										<option [ngValue]="null">(none)</option>
@@ -137,9 +130,6 @@
 								</div>
 							</div>
 
-						</div>
-
-						<div class="row">
 							<div class="col-xs-4">
 								<div class="form-group">
 									<label for="isverified">Is verified:</label>
@@ -148,6 +138,7 @@
 									</div>
 								</div>
 							</div>
+
 						</div>
 
 					</form>

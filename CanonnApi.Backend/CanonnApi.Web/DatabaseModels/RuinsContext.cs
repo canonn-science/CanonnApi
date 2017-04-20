@@ -156,11 +156,18 @@ namespace CanonnApi.Web.DatabaseModels
             {
                 entity.ToTable("codex_data");
 
+                entity.HasIndex(e => e.ArtifactId)
+                    .HasName("FK_codexdata_artifact");
+
                 entity.HasIndex(e => e.CategoryId)
                     .HasName("FK_codexdata_codexcategory");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.ArtifactId)
+                    .HasColumnName("artifact_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.CategoryId)
@@ -184,6 +191,11 @@ namespace CanonnApi.Web.DatabaseModels
                     .HasColumnName("updated")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                entity.HasOne(d => d.Artifact)
+                    .WithMany(p => p.CodexData)
+                    .HasForeignKey(d => d.ArtifactId)
+                    .HasConstraintName("FK_codexdata_artifact");
+
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.CodexData)
                     .HasForeignKey(d => d.CategoryId)
@@ -195,9 +207,6 @@ namespace CanonnApi.Web.DatabaseModels
             {
                 entity.ToTable("obelisk");
 
-                entity.HasIndex(e => e.ArtifactId)
-                    .HasName("FK_obelisk_artifact");
-
                 entity.HasIndex(e => e.CodexdataId)
                     .HasName("FK_obelisk_codexdata");
 
@@ -207,10 +216,6 @@ namespace CanonnApi.Web.DatabaseModels
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.ArtifactId)
-                    .HasColumnName("artifact_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.CodexdataId)
@@ -242,11 +247,6 @@ namespace CanonnApi.Web.DatabaseModels
                 entity.Property(e => e.Updated)
                     .HasColumnName("updated")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                entity.HasOne(d => d.Artifact)
-                    .WithMany(p => p.Obelisk)
-                    .HasForeignKey(d => d.ArtifactId)
-                    .HasConstraintName("FK_obelisk_artifact");
 
                 entity.HasOne(d => d.Codexdata)
                     .WithMany(p => p.Obelisk)

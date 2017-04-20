@@ -105,7 +105,7 @@ namespace CanonnApi.Web.Services.Maps
 				{
 					Number = o.Number.ToString(),
 					PrimaryArtifact = o.Codexdata.Category.Artifact.Name,
-					SecondaryArtifact = (o.Artifact != null) ? o.Artifact.Name : null,
+					SecondaryArtifact = (o.Codexdata.Artifact != null) ? o.Codexdata.Artifact.Name : null,
 					CategoryName = o.Codexdata.Category.Name,
 					CodexDataNumber = o.Codexdata.EntryNumber.ToString(),
 					ObeliskGroup = o.Obeliskgroup.Name.ToLowerInvariant(),

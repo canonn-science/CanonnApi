@@ -25,7 +25,6 @@ namespace CanonnApi.Web.Services.DataAccess
 			target.IsBroken = source.IsBroken;
 			target.IsVerified = source.IsVerified;
 			target.CodexdataId = source.CodexdataId;
-			target.ArtifactId = source.ArtifactId;
 		}
 
 		public Task<List<Obelisk>> Search(int ruintypeId, int obeliskgroupId)

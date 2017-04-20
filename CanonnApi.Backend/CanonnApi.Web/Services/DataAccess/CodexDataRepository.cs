@@ -20,6 +20,7 @@ namespace CanonnApi.Web.Services.DataAccess
 			target.CategoryId = source.CategoryId;
 			target.EntryNumber = source.EntryNumber;
 			target.Text = source.Text;
+			target.ArtifactId = source.ArtifactId;
 		}
 	}
 }
