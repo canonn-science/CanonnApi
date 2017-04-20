@@ -19,6 +19,7 @@
 							<th class="column-shrink" *ngIf="auth.hasPermission('edit:systemdata')">Edit</th>
 							<th class="column-shrink">#</th>
 							<th>Name</th>
+							<th>EDSM Coords</th>
 							<th>EDSM Id</th>
 <!--							<th>EDDB Id</th> -->
 							<th class="column-shrink" *ngIf="auth.hasPermission('delete:systemdata')">Delete</th>
@@ -32,7 +33,9 @@
 							</td>
 							<td>{{entry.id}}</td>
 							<td>{{entry.name}}</td>
-							<td *ngIf="!entry.edsmExtId">n/a</td>
+							<td *ngIf="!entry.edsmCoordX">[n/a]</td>
+							<td *ngIf="entry.edsmCoordX">[{{entry.edsmCoordX}}, {{entry.edsmCoordY}}, {{entry.edsmCoordZ}}]</td>
+							<td *ngIf="!entry.edsmExtId">[n/a]</td>
 							<td *ngIf="entry.edsmExtId"><a href="https://www.edsm.net/en/system/id/{{entry.edsmExtId}}/name/{{entry.name}}" target="_blank">{{entry.edsmExtId}}</a></td>
 <!--							<td>{{entry.eddbExtId}}</td> -->
 							<td *ngIf="auth.hasPermission('delete:systemdata')">

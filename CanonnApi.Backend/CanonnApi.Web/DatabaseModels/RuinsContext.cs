@@ -454,6 +454,14 @@ namespace CanonnApi.Web.DatabaseModels
                     .HasColumnName("eddb_ext_id")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.EdsmCoordUpdated).HasColumnName("edsm_coord_updated");
+
+                entity.Property(e => e.EdsmCoordX).HasColumnName("edsm_coord_x");
+
+                entity.Property(e => e.EdsmCoordY).HasColumnName("edsm_coord_y");
+
+                entity.Property(e => e.EdsmCoordZ).HasColumnName("edsm_coord_z");
+
                 entity.Property(e => e.EdsmExtId)
                     .HasColumnName("edsm_ext_id")
                     .HasColumnType("int(11)");

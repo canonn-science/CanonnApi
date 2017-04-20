@@ -49,7 +49,8 @@ namespace CanonnApi.Web.Controllers
 		{
 			var systems = await Repository.GetAll();
 
-			var updatedSystems = await _edsmService.FetchSystemIds(systems.Where(sys => sys.EdsmExtId == null));
+			DateTime maxCoordAge = DateTime.UtcNow - TimeSpan.FromDays(3);
+			var updatedSystems = await _edsmService.FetchSystemIds(systems.Where(sys => sys.EdsmExtId == null || sys.EdsmCoordUpdated == null || sys.EdsmCoordUpdated <= maxCoordAge));
 			await Repository.SaveChanges();
 
 			return updatedSystems;

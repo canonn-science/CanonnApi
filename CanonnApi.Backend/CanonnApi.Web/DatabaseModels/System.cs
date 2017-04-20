@@ -13,6 +13,10 @@ namespace CanonnApi.Web.DatabaseModels
         public int Id { get; set; }
         public DateTime Created { get; set; }
         public int? EddbExtId { get; set; }
+        public DateTime? EdsmCoordUpdated { get; set; }
+        public float? EdsmCoordX { get; set; }
+        public float? EdsmCoordY { get; set; }
+        public float? EdsmCoordZ { get; set; }
         public int? EdsmExtId { get; set; }
         public string Name { get; set; }
         public DateTime Updated { get; set; }
