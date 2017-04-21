@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CanonnApi.Web.DatabaseModels;
 using Microsoft.EntityFrameworkCore;
+using System = CanonnApi.Web.DatabaseModels.System;
 
 namespace CanonnApi.Web.Services.Maps
 {
@@ -126,9 +127,17 @@ namespace CanonnApi.Web.Services.Maps
 			var result = new RuinInfoDto()
 			{
 				RuinId = ruin.Id,
-				BodyName = ruin.Body.Name,
 				RuinTypeName = ruin.Ruintype.Name,
+				BodyId = ruin.BodyId,
+				BodyName = ruin.Body.Name,
+				BodyDistance = ruin.Body.Distance,
 				Coordinates = new decimal[] { ruin.Latitude, ruin.Longitude },
+				SystemId = ruin.Body.SystemId,
+				SystemName = ruin.Body.System.Name,
+				SystemCoordinates = (ruin.Body.System?.EdsmCoordX != null)
+					? new float[] { ruin.Body.System.EdsmCoordX.Value, ruin.Body.System.EdsmCoordY.Value, ruin.Body.System.EdsmCoordZ.Value }
+					: new float[] {},
+
 				Obelisks = BuildObeliskData(obeliskGroups, activeObelisks),
 			};
 
@@ -138,7 +147,7 @@ namespace CanonnApi.Web.Services.Maps
 		private Task<RuinSite> LoadRuinSiteById(int id)
 		{
 			return _ruinsContext.RuinSite
-				.Include(r => r.Body)
+				.Include(r => r.Body.System)
 				.Include(r => r.Ruintype)
 				.SingleAsync(r => r.Id == id);
 		}
