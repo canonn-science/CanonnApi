@@ -17,24 +17,24 @@ namespace CanonnApi.Web.Services.Maps
 			_ruinsContext = ruinsContext ?? throw new ArgumentNullException(nameof(ruinsContext));
 		}
 
-		public async Task<IOrderedEnumerable<SystemDto>> LoadSitesOverview()
+		public async Task<List<MapsSystem>> LoadSitesOverview()
 		{
 			var sitesGraph = await _ruinsContext.RuinSite.Include(rs => rs.Body.System).Include(rs => rs.Ruintype).ToListAsync();
 
 			// build resulting structure
-			Dictionary<int, SystemDto> systems = new Dictionary<int, SystemDto>();
+			Dictionary<int, MapsSystem> systems = new Dictionary<int, MapsSystem>();
 
 			foreach (var site in sitesGraph)
 			{
-				SystemDto system;
+				MapsSystem mapsSystem;
 
-				if (!systems.TryGetValue(site.Body.System.Id, out system))
+				if (!systems.TryGetValue(site.Body.System.Id, out mapsSystem))
 				{
-					system = new SystemDto(site.Body.System);
-					systems.Add(system.SystemId, system);
+					mapsSystem = new MapsSystem(site.Body.System);
+					systems.Add(mapsSystem.SystemId, mapsSystem);
 				}
 
-				system.Ruins.Add(new RuinsDto(site));
+				mapsSystem.Ruins.Add(new MapsRuins(site));
 			}
 
 			var result = systems.Values.OrderBy(s => s.SystemName);
@@ -43,7 +43,7 @@ namespace CanonnApi.Web.Services.Maps
 				sys.Ruins.Sort((a, b) => a.BodyName.CompareTo(b.BodyName));
 			}
 
-			return result;
+			return result.ToList();
 		}
 
 		public async Task<object> LoadScanData()

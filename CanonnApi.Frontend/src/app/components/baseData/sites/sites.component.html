@@ -75,27 +75,17 @@
 					</div>
 					<div class="col-xs-4">
 						<div class="form-group">
-						<label for="system">System:</label>
-							<input [(ngModel)]="editingData.selectedSystem"
-								 [typeahead]="stellarBaseData.systemData"
-								 (typeaheadOnSelect)="systemSelected($event)"
-								 typeaheadOptionField="name"
-								 id="system"
-								 name="system"
-								 class="form-control">
+							<label for="system">System:</label>
+							<select class="form-control" id="system" name="system" placeholder="Select system" [(ngModel)]="selectedSystemId">
+								<option *ngFor="let item of sortedSystemData" [ngValue]="item.id">{{item.name}}</option>
+							</select>
 						</div>
 					</div>
 					<div class="col-xs-4">
-						<div class="form-group" *ngIf="editingData.selectedSystem">
-							<label for="body">Body:</label>
-							<input [(ngModel)]="editingData.selectedBody"
-								 [typeahead]="filteredBodies"
-								(typeaheadOnSelect)="bodySelected($event)"
-								 typeaheadOptionField="name"
-								 id="body"
-								 name="body"
-								 class="form-control">
-						</div>
+						<label for="body">Body:</label>
+						<select class="form-control" id="body" name="body" placeholder="Select body" [(ngModel)]="editingData.bodyId">
+							<option *ngFor="let item of bodiesBySystemId()" [ngValue]="item.id">{{item.name}}</option>
+						</select>
 					</div>
 				</div>
 

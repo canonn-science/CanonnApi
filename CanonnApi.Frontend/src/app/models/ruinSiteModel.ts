@@ -1,5 +1,4 @@
 import {BodyModel} from './bodyModel';
-import {RuinTypeModel} from './ruintypeModel';
 import {ObeliskGroupModel} from './obeliskGroupModel';
 import {ObeliskModel} from './obeliskModel';
 
@@ -14,7 +13,6 @@ export class RuinSiteModel {
 	public updated: string;
 
 	public body: BodyModel;
-	public ruintype: RuinTypeModel;
 
 	// used for site editor exclusively
 	public obeliskGroups: ObeliskGroupModel[];

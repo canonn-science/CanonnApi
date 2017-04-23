@@ -23,17 +23,25 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
-    <DocumentationFile></DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp1.1\CanonnApi.Web.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp1.1\CanonnApi.Web.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
+    <PackageReference Include="AutoMapper" Version="6.0.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Xml" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.0" />
@@ -48,6 +56,10 @@
     <PackageReference Include="Serilog.Sinks.File" Version="3.2.0" />
     <PackageReference Include="Serilog.Sinks.Literate" Version="2.1.0" />
     <PackageReference Include="Serilog.Sinks.Trace" Version="2.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="1.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="1.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="1.0.0" />
     <PackageReference Include="System.ValueTuple" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
@@ -62,5 +74,12 @@
       <Pack>true</Pack>
     </Content>
   </ItemGroup>
+
+  <!-- for dotnet publish command we need to include the documentation .xml file in the publish output -->
+  <Target Name="CopyDocumentationFile" AfterTargets="ComputeFilesToPublish">
+    <ItemGroup>
+      <ResolvedFileToPublish Include="@(FinalDocFile)" RelativePath="@(FinalDocFile->'%(Filename)%(Extension)')" />
+    </ItemGroup>
+  </Target>
 
 </Project>

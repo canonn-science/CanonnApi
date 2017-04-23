@@ -1,7 +1,3 @@
-import {ArtifactModel} from './artifactModel';
-import {CodexDataModel} from './codexDataModel';
-import {ObeliskGroupModel} from './obeliskGroupModel';
-
 export class ObeliskModel {
 	public id: number;
 
@@ -14,10 +10,6 @@ export class ObeliskModel {
 
 	public created: string;
 	public updated: string;
-
-	public obeliskgroup: ObeliskGroupModel;
-	public artifact: ArtifactModel;
-	public codexdata: CodexDataModel;
 
 	public ruintypeId: number; // just for editor
 

@@ -1,5 +1,3 @@
-import {RuinTypeModel} from './ruintypeModel';
-
 export class ObeliskGroupModel {
 	public id: number;
 	public ruintypeId: number;
@@ -8,12 +6,6 @@ export class ObeliskGroupModel {
 	public created: string;
 	public updated: string;
 	public active: boolean;
-
-	/*
-	public obelisks: ObeliskModel[];
-	public ruinLayoutObeliskGroups: RuinLayoutObeliskGroupModel[];
-	*/
-	public ruintype: RuinTypeModel;
 
 	constructor(id?: number) {
 		this.id = id;

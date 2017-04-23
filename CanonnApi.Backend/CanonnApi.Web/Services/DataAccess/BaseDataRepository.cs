@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CanonnApi.Web.DatabaseModels;
+using CanonnApi.Web.Middlewares;
 
 namespace CanonnApi.Web.Services.DataAccess
 {
@@ -74,14 +75,14 @@ namespace CanonnApi.Web.Services.DataAccess
 
 		public async Task<T> Update(int id, T value)
 		{
-			T entry = CreateEntity();
-			entry.Id = value.Id;
+			T entry = await GetById(id);
+			if (entry == null)
+				throw new HttpNotFoundException();
 
 			MapValues(value, entry);
 
-			DbSet().Update(entry);
-
 			await RuinsContext.SaveChangesAsync();
+
 			return entry;
 		}
 
