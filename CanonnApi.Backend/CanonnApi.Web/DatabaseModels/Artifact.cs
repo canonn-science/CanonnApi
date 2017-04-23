@@ -8,7 +8,7 @@ namespace CanonnApi.Web.DatabaseModels
         public Artifact()
         {
             CodexCategory = new HashSet<CodexCategory>();
-            Obelisk = new HashSet<Obelisk>();
+            CodexData = new HashSet<CodexData>();
         }
 
         public int Id { get; set; }
@@ -17,6 +17,6 @@ namespace CanonnApi.Web.DatabaseModels
         public DateTime Updated { get; set; }
 
         public virtual ICollection<CodexCategory> CodexCategory { get; set; }
-        public virtual ICollection<Obelisk> Obelisk { get; set; }
+        public virtual ICollection<CodexData> CodexData { get; set; }
     }
 }

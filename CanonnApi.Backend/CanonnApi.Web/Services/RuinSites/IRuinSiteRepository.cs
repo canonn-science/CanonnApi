@@ -15,5 +15,6 @@ namespace CanonnApi.Web.Services.RuinSites
 
 		Task<bool> SaveObeliskGroupsForSite(int siteId, IEnumerable<ObeliskGroup> obeliskGroups);
 		Task<bool> SaveActiveObelisksForSite(int siteId, IEnumerable<Obelisk> obelisks);
+		Task<List<RuinSite>> SearchSitesForData(string categoryName, int entryNumber);
 	}
 }

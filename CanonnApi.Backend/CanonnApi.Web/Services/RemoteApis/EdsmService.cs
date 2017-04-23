@@ -21,7 +21,7 @@ namespace CanonnApi.Web.Services.RemoteApis
 
 		public async Task<IEnumerable<(DatabaseModels.System System, bool Updated, string ErrorMessage)>> FetchSystemIds(IEnumerable<DatabaseModels.System> systems)
 		{
-			const string baseUrl = "https://www.edsm.net/api-v1/systems?showId=1&systemName=";
+			const string baseUrl = "https://www.edsm.net/api-v1/systems?showId=1&showCoordinates=1&systemName=";
 
 			var result = new List<ValueTuple<DatabaseModels.System, bool, string>>();
 
@@ -47,6 +47,14 @@ namespace CanonnApi.Web.Services.RemoteApis
 						{
 							system.EdsmExtId = edsmSys.Id;
 							result.Add(new ValueTuple<DatabaseModels.System, bool, string>(system, true, null));
+
+							if (edsmSys.Coords != null && edsmSys.Coords.IsValid)
+							{
+								system.EdsmCoordX = edsmSys.Coords.X;
+								system.EdsmCoordY = edsmSys.Coords.Y;
+								system.EdsmCoordZ = edsmSys.Coords.Z;
+								system.EdsmCoordUpdated = DateTime.UtcNow;
+							}
 						}
 						else
 						{
@@ -124,6 +132,8 @@ namespace CanonnApi.Web.Services.RemoteApis
 
 			// ReSharper disable once UnusedAutoPropertyAccessor.Local Justification: Will be set by Json deserialization
 			public string Name { get; set; }
+
+			public EdsmCoordinates Coords { get; set; }
 		}
 
 		// ReSharper disable once ClassNeverInstantiated.Local Justification: Will be instanciated by Json deserialization
@@ -147,6 +157,19 @@ namespace CanonnApi.Web.Services.RemoteApis
 				// ReSharper disable once UnusedAutoPropertyAccessor.Local Justification: Will be set by Json deserialization
 				public int DistanceToArrival { get; set; }
 			}
+		}
+
+		// ReSharper disable once ClassNeverInstantiated.Local Justification: Will be instanciated by Json deserialization
+		private class EdsmCoordinates
+		{
+			// ReSharper disable once UnusedAutoPropertyAccessor.Local Justification: Will be set by Json deserialization
+			public float X { get; set; }
+			// ReSharper disable once UnusedAutoPropertyAccessor.Local Justification: Will be set by Json deserialization
+			public float Y { get; set; }
+			// ReSharper disable once UnusedAutoPropertyAccessor.Local Justification: Will be set by Json deserialization
+			public float Z { get; set; }
+
+			public bool IsValid => Math.Abs(this.X) > 0.001F && Math.Abs(this.Y) > 0.001F && Math.Abs(this.Z) > 0.001F;
 		}
 
 		#endregion

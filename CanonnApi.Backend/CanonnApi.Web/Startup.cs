@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using CanonnApi.Web.Authorization;
-using CanonnApi.Web.Services.DataAccess;
+using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -13,15 +10,22 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.PlatformAbstractions;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
+using Serilog;
+using Swashbuckle.AspNetCore.Swagger;
+using CanonnApi.Web.Authorization;
+using CanonnApi.Web.Automapper;
 using CanonnApi.Web.DatabaseModels;
-using CanonnApi.Web.Json.Serialization;
 using CanonnApi.Web.Middlewares;
 using CanonnApi.Web.Models;
 using CanonnApi.Web.Services;
+using CanonnApi.Web.Services.DataAccess;
 using CanonnApi.Web.Services.Maps;
 using CanonnApi.Web.Services.RemoteApis;
 using CanonnApi.Web.Services.RuinSites;
-using Serilog;
 
 namespace CanonnApi.Web
 {
@@ -63,7 +67,16 @@ namespace CanonnApi.Web
 			}));
 
 			services.AddMvc()
-				.AddJsonOptions(mvcJsonOptions => mvcJsonOptions.SerializerSettings.ContractResolver = new IgnoreEmptyEnumerablesResolver());
+				.AddXmlSerializerFormatters()
+				.AddJsonOptions(mvcJsonOptions =>
+				{
+					mvcJsonOptions.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+				});
+
+			services.AddAutoMapper(config =>
+			{
+				config.AddProfile<MappingProfile>();
+			});
 
 			services.AddLogging();
 			services.AddMemoryCache();
@@ -72,6 +85,36 @@ namespace CanonnApi.Web
 			{
 				var connectionString = Configuration.GetSection("connectionStrings:ruinsDb").Value;
 				ruinsDbOptions.UseMySql(connectionString);
+			});
+
+			services.AddSwaggerGen(swaggerGenOptions =>
+			{
+				swaggerGenOptions.SwaggerDoc("v1", new Info()
+				{
+					Title = "Canonn API",
+					Version = "v1",
+					Description = "API for the Canonn research group.",
+					Contact = new Contact()
+					{
+						Name = "Cmdr. Nopileos",
+						Url = "https://github.com/gingters",
+					},
+					License = new License() { Name = "Licensed under the MIT license.", Url = "https://opensource.org/licenses/MIT" },
+				});
+
+				swaggerGenOptions.AddSecurityDefinition("oauth2", new OAuth2Scheme()
+				{
+					Type = "oauth2",
+					Flow = "implicit",
+					AuthorizationUrl = $"https://{Configuration.GetSection("clientSecrets:clientDomain").Value}/authorize",
+				});
+
+				swaggerGenOptions.OperationFilter<SwaggerSecurityRequirementsOperationFilter>();
+
+				//Set the comments path for the swagger json and ui.
+				var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+				var xmlPath = Path.Combine(basePath, "CanonnApi.Web.xml");
+				swaggerGenOptions.IncludeXmlComments(xmlPath);
 			});
 
 			services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
@@ -108,8 +151,7 @@ namespace CanonnApi.Web
 
 		private void RegisterAutofacDependencies(ContainerBuilder builder)
 		{
-			builder.RegisterType<IdTokenProvider>().AsImplementedInterfaces();
-			builder.RegisterType<CachingUserInformationService>().AsImplementedInterfaces();
+			builder.RegisterType<BearerTokenProvider>().AsImplementedInterfaces();
 
 			// Codex base data
 			builder.RegisterType<ArtifactRepository>().AsImplementedInterfaces();
@@ -125,7 +167,6 @@ namespace CanonnApi.Web
 			// Ruin site data
 			builder.RegisterType<RuinSiteRepository>().AsImplementedInterfaces();
 			builder.RegisterType<MapsRepository>().AsImplementedInterfaces();
-
 			// helper services
 			builder.RegisterType<EdsmService>().AsImplementedInterfaces();
 		}
@@ -134,7 +175,7 @@ namespace CanonnApi.Web
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime, IOptions<SecretConfiguration> settings)
 		{
 			loggerFactory.AddSerilog();
-			Log.Logger.Information("Configuring http request pipeline: {environment}", new { EnvironmentName = env.EnvironmentName, ApplicationName = env.ApplicationName});
+			Log.Logger.Information("Configuring http request pipeline: {environment}", new { EnvironmentName = env.EnvironmentName, ApplicationName = env.ApplicationName });
 
 			if (env.IsDevelopment())
 			{
@@ -146,12 +187,26 @@ namespace CanonnApi.Web
 			SecretConfiguration secretConfiguration = settings.Value;
 			app.UseJwtBearerAuthentication(new JwtBearerOptions()
 			{
-				Audience = secretConfiguration.ClientId,
+				Audience = secretConfiguration.Audience,
 				Authority = $"https://{secretConfiguration.ClientDomain}/",
 			});
 
 			app.UseMiddleware<HttpErrorHandleMiddleware>();
 			app.UseMvc();
+
+			app.UseSwagger(swaggerOptions =>
+			{
+				swaggerOptions.RouteTemplate = "docs/swagger/{documentName}/swagger.json";
+			});
+
+			app.UseSwaggerUI(swaggerUiOptions =>
+			{
+				swaggerUiOptions.RoutePrefix = "docs";
+				swaggerUiOptions.SwaggerEndpoint("swagger/v1/swagger.json", "Canonn API v1");
+				swaggerUiOptions.ConfigureOAuth2(secretConfiguration.ClientId, secretConfiguration.ClientSecret,
+					secretConfiguration.ClientDomain, "Canonn API",
+					additionalQueryStringParameters: new { audience = secretConfiguration.Audience });
+			});
 
 			// Ensure any buffered events are sent at shutdown
 			appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);

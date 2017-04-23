@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SystemModel} from '../../../models/systemModel';
 import {BodyModel} from '../../../models/bodyModel';
-import {TypeaheadMatch} from 'ng2-bootstrap';
 import {ObeliskModel} from '../../../models/obeliskModel';
 import {ObeliskGroupModel} from '../../../models/obeliskGroupModel';
 import {ObeliskApiService} from '../../../services/api/obeliskApi.service';
@@ -20,6 +18,7 @@ export class SitesComponent implements OnInit {
 	public data: RuinSiteModel[];
 	public editingData: RuinSiteModel;
 	public filteredBodies: BodyModel[];
+	public selectedSystemId: number = void 0;
 
 	constructor(
 		public auth: AuthenticationService,
@@ -44,8 +43,7 @@ export class SitesComponent implements OnInit {
 				this.editingData = res;
 			});
 
-		item.selectedSystem = this.stellarBaseData.systemLookup[this.stellarBaseData.bodyLookup[item.bodyId].systemId].name;
-		item.selectedBody = this.stellarBaseData.bodyLookup[item.bodyId].name;
+		this.selectedSystemId = this.stellarBaseData.bodyLookup[item.bodyId].systemId;
 	}
 
 	public createNew() {
@@ -55,6 +53,7 @@ export class SitesComponent implements OnInit {
 	public save() {
 		const data = this.editingData;
 		this.editingData = void 0;
+		this.selectedSystemId = void 0;
 
 		this.ruinSitesApiService.saveSite(data)
 			.do(() => this.loadData())
@@ -63,21 +62,7 @@ export class SitesComponent implements OnInit {
 
 	public discard() {
 		this.editingData = void 0;
-	}
-
-	public systemSelected(match: TypeaheadMatch) {
-		this.editingData.selectedBody = void 0;
-		this.editingData.bodyId = void 0;
-
-		if (!!match.item.id) {
-			this.filteredBodies = this.stellarBaseData.bodyData.filter(obj => obj.systemId === match.item.id);
-		}
-	}
-
-	public bodySelected(match: TypeaheadMatch) {
-		if (match.item) {
-			this.editingData.bodyId = match.item.id;
-		}
+		this.selectedSystemId = void 0;
 	}
 
 	public ruintypeSelected() {
@@ -104,6 +89,14 @@ export class SitesComponent implements OnInit {
 
 	public toggleObelisk(obelisk: ObeliskModel) {
 		obelisk.active = !obelisk.active;
+	}
+
+	public get sortedSystemData() {
+		return this.stellarBaseData.systemData.sort((a, b) => (a.name !== b.name) ? a.name < b.name ? -1 : 1 : 0);
+	}
+
+	public bodiesBySystemId(): BodyModel[] {
+		return this.stellarBaseData.bodyData.filter(obj => obj.systemId === this.selectedSystemId);
 	}
 
 	public obelisksByGroupId(obeliskGroupId: number): ObeliskModel[] {

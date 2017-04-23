@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CanonnApi.Web.DatabaseModels;
 using Microsoft.EntityFrameworkCore;
+using System = CanonnApi.Web.DatabaseModels.System;
 
 namespace CanonnApi.Web.Services.Maps
 {
@@ -16,24 +17,24 @@ namespace CanonnApi.Web.Services.Maps
 			_ruinsContext = ruinsContext ?? throw new ArgumentNullException(nameof(ruinsContext));
 		}
 
-		public async Task<IOrderedEnumerable<SystemDto>> LoadSitesOverview()
+		public async Task<List<MapsSystem>> LoadSitesOverview()
 		{
 			var sitesGraph = await _ruinsContext.RuinSite.Include(rs => rs.Body.System).Include(rs => rs.Ruintype).ToListAsync();
 
 			// build resulting structure
-			Dictionary<int, SystemDto> systems = new Dictionary<int, SystemDto>();
+			Dictionary<int, MapsSystem> systems = new Dictionary<int, MapsSystem>();
 
 			foreach (var site in sitesGraph)
 			{
-				SystemDto system;
+				MapsSystem mapsSystem;
 
-				if (!systems.TryGetValue(site.Body.System.Id, out system))
+				if (!systems.TryGetValue(site.Body.System.Id, out mapsSystem))
 				{
-					system = new SystemDto(site.Body.System);
-					systems.Add(system.SystemId, system);
+					mapsSystem = new MapsSystem(site.Body.System);
+					systems.Add(mapsSystem.SystemId, mapsSystem);
 				}
 
-				system.Ruins.Add(new RuinsDto(site));
+				mapsSystem.Ruins.Add(new MapsRuins(site));
 			}
 
 			var result = systems.Values.OrderBy(s => s.SystemName);
@@ -42,32 +43,37 @@ namespace CanonnApi.Web.Services.Maps
 				sys.Ruins.Sort((a, b) => a.BodyName.CompareTo(b.BodyName));
 			}
 
-			return result;
+			return result.ToList();
 		}
 
 		public async Task<object> LoadScanData()
 		{
 			var dataGraph = await _ruinsContext.Obelisk
-				.Where(o => o.CodexdataId != null)
+				.Include(o => o.Codexdata.Category.Artifact)
+				.Include(o => o.Obeliskgroup.Ruintype)
+				.Where(o => o.IsBroken || o.Codexdata != null)
 				.OrderBy(o => o.Obeliskgroup.Ruintype.Name)
 					.ThenBy(o => o.Obeliskgroup.Name)
 					.ThenBy(o => o.Number)
-				.Select(o => new
-					{
-						Number = o.Number.ToString(),
-						PrimaryArtifact = o.Codexdata.Category.Artifact.Name,
-						SecondaryArtifact = (o.Artifact != null) ? o.Artifact.Name : null,
-						CategoryName = o.Codexdata.Category.Name,
-						CodexDataNumber = o.Codexdata.EntryNumber.ToString(),
-						ObeliskGroup = o.Obeliskgroup.Name.ToLowerInvariant(),
-						RuinType = o.Obeliskgroup.Ruintype.Name.ToLowerInvariant(),
-					})
 				.ToListAsync();
+
+			var projectedData = dataGraph.Select(o => new
+				{
+					Number = o.Number.ToString(),
+					PrimaryArtifact = o.Codexdata?.Category.Artifact.Name,
+					SecondaryArtifact = o.Codexdata?.Artifact?.Name,
+					CategoryName = o.Codexdata?.Category.Name,
+					CodexDataNumber = o.Codexdata?.EntryNumber.ToString(),
+					ObeliskGroup = o.Obeliskgroup.Name.ToLowerInvariant(),
+					RuinType = o.Obeliskgroup.Ruintype.Name.ToLowerInvariant(),
+					IsVerified = o.IsVerified,
+					IsBroken = o.IsBroken,
+				});
 
 			// build resulting structure
 			var result = new Dictionary<string, Dictionary<string, Dictionary<string, ScanDataDto>>>();
 
-			foreach (var scanData in dataGraph)
+			foreach (var scanData in projectedData)
 			{
 				Dictionary<string, Dictionary<string, ScanDataDto>> obeliskGroupLevel;
 				Dictionary<string, ScanDataDto> obeliskLevel;
@@ -86,10 +92,16 @@ namespace CanonnApi.Web.Services.Maps
 
 				var data = new ScanDataDto()
 				{
-					Scan = $"{scanData.CategoryName} {scanData.CodexDataNumber}",
+					Scan = !String.IsNullOrWhiteSpace(scanData.CodexDataNumber) ? $"{scanData.CategoryName} {scanData.CodexDataNumber}" : null,
+					IsVerified = scanData.IsVerified,
+					IsBroken = scanData.IsBroken,
 				};
 
-				data.Items.Add(scanData.PrimaryArtifact);
+				if (scanData.PrimaryArtifact != null)
+				{
+					data.Items.Add(scanData.PrimaryArtifact);
+				}
+
 				if (scanData.SecondaryArtifact != null)
 				{
 					data.Items.Add(scanData.SecondaryArtifact);
@@ -115,9 +127,17 @@ namespace CanonnApi.Web.Services.Maps
 			var result = new RuinInfoDto()
 			{
 				RuinId = ruin.Id,
-				BodyName = ruin.Body.Name,
 				RuinTypeName = ruin.Ruintype.Name,
-				Coordinates = new decimal[] {ruin.Latitude, ruin.Longitude},
+				BodyId = ruin.BodyId,
+				BodyName = ruin.Body.Name,
+				BodyDistance = ruin.Body.Distance,
+				Coordinates = new decimal[] { ruin.Latitude, ruin.Longitude },
+				SystemId = ruin.Body.SystemId,
+				SystemName = ruin.Body.System.Name,
+				SystemCoordinates = (ruin.Body.System?.EdsmCoordX != null)
+					? new float[] { ruin.Body.System.EdsmCoordX.Value, ruin.Body.System.EdsmCoordY.Value, ruin.Body.System.EdsmCoordZ.Value }
+					: new float[] {},
+
 				Obelisks = BuildObeliskData(obeliskGroups, activeObelisks),
 			};
 
@@ -127,7 +147,7 @@ namespace CanonnApi.Web.Services.Maps
 		private Task<RuinSite> LoadRuinSiteById(int id)
 		{
 			return _ruinsContext.RuinSite
-				.Include(r => r.Body)
+				.Include(r => r.Body.System)
 				.Include(r => r.Ruintype)
 				.SingleAsync(r => r.Id == id);
 		}

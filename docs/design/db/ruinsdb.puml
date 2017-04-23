@@ -21,12 +21,13 @@ object codex_data
 codex_data : id = INT
 codex_data : category_id, INT
 codex_data : entry_number = INT
+codex_data : artifact_id = INT
 codex_data : text = TEXT
 codex_data : created = DATETIME
 codex_data : updated = DATETIME
 
 codex_data "1..n" -- "1" codex_category
-
+codex_data "0..n" -- "0..1" artifact
 
 object ruin_type
 ruin_type : id = INT
@@ -51,19 +52,22 @@ obelisk : id = INT
 obelisk : obeliskgroup_id = INT
 obelisk : number = INT
 obelisk : is_broken = BOOL
-obelisk : artifact_id = INT
+obelisk : is_verified = BOOL
 obelisk : codexdata_id = INT
 obelisk : created = DATETIME
 obelisk : updated = DATETIME
 
 obelisk "1..n" -- "1" obelisk_group
-obelisk "0..n" -- "0..1" artifact
 obelisk "0..1" -- "0..1" codex_data
 
 
 object system
 system : id = INT
 system : name = VARCHAR(150)
+system : edsm_coord_x = FLOAT
+system : edsm_coord_y = FLOAT
+system : edsm_coord_z = FLOAT
+system : edsm_coord_updated = DATETIME
 system : edsm_ext_id = INT (id from EDSM)
 system : eddb_ext_id = INT (id from EDDB)
 system : created = DATETIME
@@ -74,6 +78,7 @@ object body
 body : id = INT
 body : system_id = INT
 body : name = VARCHAR(150)
+body : distance = INT (from EDSM)
 body : edsm_ext_id = INT (id from EDSM)
 body : eddb_ext_id = INT (id from EDDB)
 body : created = DATETIME
@@ -85,7 +90,7 @@ body "0..n" -- "1" system
 object ruin_site
 ruin_site : id = INT
 ruin_site : body_id = INT
-ruin_site : latitude = DECIMAL(7,4)
+ruin_site : latitude = DECIMAL(6,4)
 ruin_site : longitude = DECIMAL(7,4)
 ruin_site : ruintype_id = INT
 ruin_site : created = DATETIME

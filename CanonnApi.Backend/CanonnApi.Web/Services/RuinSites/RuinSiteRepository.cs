@@ -183,6 +183,25 @@ namespace CanonnApi.Web.Services.RuinSites
 			return true;
 		}
 
+		public async Task<List<RuinSite>> SearchSitesForData(string categoryName, int entryNumber)
+		{
+			var siteIds = (IEnumerable<int>)await RuinsContext.Obelisk
+				.Where(o => o.Codexdata.Category.Name == categoryName && o.Codexdata.EntryNumber == entryNumber)
+				.SelectMany(o => o.RuinsiteActiveobelisks)
+				.Select(rsao => rsao.RuinsiteId)
+				.ToArrayAsync();
+
+			siteIds = siteIds
+				.Where(id => id < 99997) // exclude reference sites
+				.ToImmutableHashSet();
+
+			return await RuinsContext.RuinSite
+				.Include(site => site.Body.System)
+				.Include(site => site.Ruintype)
+				.Where(site => siteIds.Contains(site.Id))
+				.ToListAsync();
+		}
+
 		public override Task<bool> DeleteById(int id)
 		{
 			RuinsContext.RemoveRange(RuinsContext.RuinsiteObeliskgroups.Where(rsog => rsog.RuinsiteId == id));

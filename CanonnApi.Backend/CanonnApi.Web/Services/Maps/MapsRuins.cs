@@ -2,14 +2,14 @@
 
 namespace CanonnApi.Web.Services.Maps
 {
-	public class RuinsDto
+	public class MapsRuins
 	{
 		public int RuinId { get; set; }
 		public string BodyName { get; set; }
 		public string RuinTypeName { get; set; }
 		public decimal[] Coordinates { get; set; } = new decimal[2];
 
-		public RuinsDto(RuinSite site)
+		public MapsRuins(RuinSite site)
 		{
 			RuinId = site.Id;
 			BodyName = site.Body.Name;

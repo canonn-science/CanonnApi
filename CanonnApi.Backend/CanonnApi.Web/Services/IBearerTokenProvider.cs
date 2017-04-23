@@ -3,9 +3,9 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace CanonnApi.Web.Services
 {
-	public interface IIdTokenProvider
+	public interface IBearerTokenProvider
 	{
-		string GetIdToken();
+		string GetBearerToken();
 
 		JwtSecurityToken GetParsedToken();
 		JwtSecurityToken GetParsedToken(string idToken);

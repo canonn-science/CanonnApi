@@ -1,6 +1,8 @@
 -- due to a bug in DbUp, 'delimiter' may not start at the very first character in a line...
  delimiter $$
 
+DROP PROCEDURE IF EXISTS `up`$$
+
 CREATE PROCEDURE up()
 BEGIN
 

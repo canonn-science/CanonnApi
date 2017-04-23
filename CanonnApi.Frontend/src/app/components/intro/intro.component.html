@@ -13,15 +13,52 @@
 		<div class="box-body">
 			<p>This is the Canonn Science API system. The API will allow you to easily consume the data that <a href="http://canonn.science" target="new"><i>Canonn.science</i></a> gathers during its research.</p>
 			<p><b>General information:</b>
-				There is no need to sign in if you just want to browse the data. Unless you know you should be able to edit the data, and have been granted permission to do so (ask the Canonn Science R&D team for that),
-				there will be no difference for you even if you sign in.</p>
-			<p>This system is work in progress. And we need to come up with a bit more content ;-)</p>
+				If you just want to browse the data, you do not need to sign in.<br/>
+				Unless you know you should be able to edit the data, and have been granted
+				permission to do so (ask the Canonn Science R&D team for that),
+				there will be no difference for you if you sign in.</p>
 			<p>Geeky / technical information: This administration interface is build with Angular 4.0. The API backend is build on top of .NET Core. You can find the source at <a href="https://github.com/canonn-science/CanonnApi" target="_blank"><i class="fa fa-github"></i> Github</a></p>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="col-md-9 col-sm-6 col-xs-12">
+			<div class="box box-solid box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title"><i class="fa fa-book "></i> API documentation</h3>
+				</div>
+				<div class="box-body">
+					<p>You can find the api documentation in an explorable way here on our <a href="{{apiBaseUrl}}/docs" target="new"><i class="fa fa-book "></i> API documentation website</a>.</p>
+					<p>We are using <a href="http://swagger.io/" target="new">swagger</a> to provide you with
+						all information you need about our API, so you can use the
+						<a href="{{apiBaseUrl}}/docs" target="new">swagger ui</a> to learn and experiment with
+						our API. You can also use the swagger files shown there to automatically create
+						clients for our API.</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- version box -->
+		<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="box box-success box-solid">
+				<div class="box-header with-border">
+					<h3 class="box-title"><i class="fa fa-info"></i>&nbsp;&nbsp;Version information</h3>
+				</div>
+				<div class="box-body">
+					<div class="clearfix">
+						Frontend: <span class="info-box-number pull-right">{{version}}</span>
+					</div>
+					<div class="clearfix">
+						API: <span class="info-box-number pull-right">{{apiVersion}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-md-6 col-sm-6 col-xs-12">
 			<div class="box box-solid box-info">
 				<div class="box-header with-border">
 					<h3 class="box-title"><i class="fa fa-phone-square"></i>&nbsp;&nbsp;Contact information</h3>
@@ -56,24 +93,6 @@
 					</ul>
 				</div>
 			</div>
-		</div>
-
-		<div class="col-md-3 col-sm-6 col-xs-12">
-		<div class="box box-success box-solid">
-			<div class="box-header with-border">
-				<h3 class="box-title"><i class="fa fa-info"></i>&nbsp;&nbsp;Version information</h3>
-			</div>
-			<!-- /.box-header -->
-			<div class="box-body">
-				<div class="clearfix">
-				Frontend: <span class="info-box-number pull-right">{{version}}</span>
-				</div>
-				<div class="clearfix">
-					API: <span class="info-box-number pull-right">{{apiVersion}}</span>
-				</div>
-			</div>
-			<!-- /.box-body -->
-		</div>
 		</div>
 
 	</div>

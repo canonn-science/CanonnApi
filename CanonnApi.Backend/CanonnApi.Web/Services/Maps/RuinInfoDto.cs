@@ -9,5 +9,10 @@ namespace CanonnApi.Web.Services.Maps
 		public string RuinTypeName { get; set; }
 		public decimal[] Coordinates { get; set; } = new decimal[0];
 		public Dictionary<string, Dictionary<string, int>> Obelisks { get; set; } = new Dictionary<string, Dictionary<string, int>>();
+		public int BodyId { get; set; }
+		public int? BodyDistance { get; set; }
+		public int SystemId { get; set; }
+		public string SystemName { get; set; }
+		public float[] SystemCoordinates { get; set; }
 	}
 }

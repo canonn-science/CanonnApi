@@ -11,16 +11,15 @@ namespace CanonnApi.Web.DatabaseModels
         }
 
         public int Id { get; set; }
-        public int? ArtifactId { get; set; }
         public int? CodexdataId { get; set; }
         public DateTime Created { get; set; }
         public bool IsBroken { get; set; }
+        public bool IsVerified { get; set; }
         public int Number { get; set; }
         public int ObeliskgroupId { get; set; }
         public DateTime Updated { get; set; }
 
         public virtual ICollection<RuinsiteActiveobelisks> RuinsiteActiveobelisks { get; set; }
-        public virtual Artifact Artifact { get; set; }
         public virtual CodexData Codexdata { get; set; }
         public virtual ObeliskGroup Obeliskgroup { get; set; }
     }

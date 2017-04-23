@@ -4,7 +4,7 @@ The database layout is currently designed as follows.
 
 Please note the currently implemented elements already reflect the maria db DML. The not yet DML-like entries are not implemented and this is preliminary design.
 
-![Ruins-DB](http://www.plantuml.com/plantuml/svg/9Ot12SCm303_cI8Te1RqMIZ9AhOa4e4Z6qjArsz2VtVSurRpF3oEEZr4iGPnZ3hlxjtU02D_qoQ-HmdZWKsTrHEs0p1hKtqQ2YioZ10r83wvjWxKy1QJJO7AFr99_Teiv-SrhQnqyGy0.svg)
+![Ruins-DB](http://www.plantuml.com/plantuml/svg/7St12SCm3030VwPe1wX5leNIb4uIIo8HEBAnf6JzcZxlTOlvsZsECjr5iGHnz7BRtPiz0VfwfKryZnp67QiwgoUi1-2gLVLXAAp8yFtpqmI8Jowr0LMq0PDDWJBq43NAgOtgVRxcULfOQU07.svg)
 
 _Hint: When updating the PUML file, change this link to include a new version parameter, because github is cacheing aggressively._
 

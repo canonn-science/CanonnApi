@@ -17,6 +17,7 @@
 					<table class="table table-striped">
 						<thead>
 						<tr>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinsitedata')">Edit</th>
 							<th class="column-shrink">#</th>
 							<th>Map</th>
 							<th>System</th>
@@ -24,13 +25,15 @@
 							<th class="column-shrink">Latitude</th>
 							<th class="column-shrink">Longitude</th>
 							<th class="column-shrink">Ruin Type</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinsitedata')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinsitedata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinsitedata')">Delete</th>
 						</tr>
 						</thead>
 						<tbody>
 
 						<tr role="row" *ngFor="let item of data">
+							<td *ngIf="auth.hasPermission('edit:ruinsitedata')">
+								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(item)" title="Edit"><i class="fa fa-edit"></i></button>
+							</td>
 							<td>GS{{item.id}}</td>
 							<td><a href="https://ruins.canonn.technology/#GS{{item.id}}" target="_blank">Map</a></td>
 							<td>{{stellarBaseData.systemLookup[stellarBaseData.bodyLookup[item.bodyId]?.systemId || 0]?.name}}</td>
@@ -38,9 +41,6 @@
 							<td>{{item.latitude | number:'.2-4'}}</td>
 							<td>{{item.longitude | number:'.2-4'}}</td>
 							<td>{{ruinBaseData.ruinTypeLookup[item.ruintypeId]?.name}}</td>
-							<td *ngIf="auth.hasPermission('edit:ruinsitedata')">
-								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(item)" title="Edit"><i class="fa fa-edit"></i></button>
-							</td>
 							<td *ngIf="auth.hasPermission('delete:ruinsitedata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(item)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>
@@ -75,27 +75,17 @@
 					</div>
 					<div class="col-xs-4">
 						<div class="form-group">
-						<label for="system">System:</label>
-							<input [(ngModel)]="editingData.selectedSystem"
-								 [typeahead]="stellarBaseData.systemData"
-								 (typeaheadOnSelect)="systemSelected($event)"
-								 typeaheadOptionField="name"
-								 id="system"
-								 name="system"
-								 class="form-control">
+							<label for="system">System:</label>
+							<select class="form-control" id="system" name="system" placeholder="Select system" [(ngModel)]="selectedSystemId">
+								<option *ngFor="let item of sortedSystemData" [ngValue]="item.id">{{item.name}}</option>
+							</select>
 						</div>
 					</div>
 					<div class="col-xs-4">
-						<div class="form-group" *ngIf="editingData.selectedSystem">
-							<label for="body">Body:</label>
-							<input [(ngModel)]="editingData.selectedBody"
-								 [typeahead]="filteredBodies"
-								(typeaheadOnSelect)="bodySelected($event)"
-								 typeaheadOptionField="name"
-								 id="body"
-								 name="body"
-								 class="form-control">
-						</div>
+						<label for="body">Body:</label>
+						<select class="form-control" id="body" name="body" placeholder="Select body" [(ngModel)]="editingData.bodyId">
+							<option *ngFor="let item of bodiesBySystemId()" [ngValue]="item.id">{{item.name}}</option>
+						</select>
 					</div>
 				</div>
 

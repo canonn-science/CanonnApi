@@ -16,20 +16,20 @@
 					<table class="table table-striped">
 						<thead>
 						<tr>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinbasedata')">Edit</th>
 							<th class="column-shrink">#</th>
 							<th>Type name</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinbasedata')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:ruinbasedata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:ruinbasedata')">Delete</th>
 						</tr>
 						</thead>
 						<tbody>
 
 						<tr role="row" *ngFor="let item of data">
-							<td>{{item.id}}</td>
-							<td>{{item.name}}</td>
 							<td *ngIf="auth.hasPermission('edit:ruinbasedata')">
 								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(item)" title="Edit"><i class="fa fa-edit"></i></button>
 							</td>
+							<td>{{item.id}}</td>
+							<td>{{item.name}}</td>
 							<td *ngIf="auth.hasPermission('delete:ruinbasedata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(item)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>
@@ -79,18 +79,4 @@
 
 	</div>
 
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="box">
-				<div class="box-header with-border">
-					<h3 class="box-title">Public API description</h3>
-				</div>
-				<div class="box-body">
-					<p><code><span class="label label-success">HTTP GET</span> /api/v1/ruins/types</code><p>
-					<p>Returns:</p>
-					<pre>{{format(data?.slice(1, 5))}}</pre>
-				</div>
-			</div>
-		</div>
-	</div>
 </section>

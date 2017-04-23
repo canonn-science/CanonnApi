@@ -7,7 +7,7 @@ namespace CanonnApi.Web.DatabaseModels
     {
         public Body()
         {
-            RuinSites = new HashSet<RuinSite>();
+            RuinSite = new HashSet<RuinSite>();
         }
 
         public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace CanonnApi.Web.DatabaseModels
         public int SystemId { get; set; }
         public DateTime Updated { get; set; }
 
-        public virtual ICollection<RuinSite> RuinSites { get; set; }
+        public virtual ICollection<RuinSite> RuinSite { get; set; }
         public virtual System System { get; set; }
     }
 }

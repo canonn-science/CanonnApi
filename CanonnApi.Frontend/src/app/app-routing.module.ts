@@ -4,6 +4,7 @@ import {environment} from '../environments/environment';
 import {ArtifactComponent} from './components/baseData/codex/artifact.component';
 import {CodexCategoryComponent} from './components/baseData/codex/codexCategory.component';
 import {CodexDataComponent} from './components/baseData/codex/codexData.component';
+import {AboutComponent} from './components/intro/about.component';
 import {IntroComponent} from './components/intro/intro.component';
 import {RuinTypeComponent} from './components/baseData/ruins/ruintype.component';
 import {ObeliskGroupComponent} from './components/baseData/ruins/obeliskGroup.component';
@@ -16,6 +17,10 @@ const routes: Routes = [
 	{
 		path: '',
 		component: IntroComponent,
+	},
+	{
+		path: 'about',
+		component: AboutComponent,
 	},
 	{
 		path: 'basedata',

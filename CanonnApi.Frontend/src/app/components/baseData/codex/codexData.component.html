@@ -17,25 +17,29 @@
 
 						<thead>
 						<tr>
+							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexdata')">Edit</th>
 							<th class="column-shrink">#</th>
 							<th>Category</th>
-							<th>Entry No.</th>
+							<th>1.&nbsp;Artifact</th>
+							<th>2.&nbsp;Artifact</th>
+							<th>No.</th>
 							<th class="column-expand">Text</th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('edit:codexdata')"></th>
-							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexdata')"></th>
+							<th class="column-shrink" *ngIf="auth.hasPermission('delete:codexdata')">Delete</th>
 						</tr>
 
 						</thead>
 						<tbody>
 
 						<tr role="row" *ngFor="let entry of data">
-							<td>{{entry.id}}</td>
-							<td>{{baseData.codexCategoryLookup[entry.categoryId]?.name || 'n/a'}}</td>
-							<td>{{entry.entryNumber}}</td>
-							<td>{{entry.text}}</td>
 							<td *ngIf="auth.hasPermission('edit:codexdata')">
 								<button class="btn btn-xs" [disabled]="editingData" (click)="edit(entry)" title="Edit"><i class="fa fa-edit"></i></button>
 							</td>
+							<td>{{entry.id}}</td>
+							<td>{{baseData.codexCategoryLookup[entry.categoryId]?.name || 'n/a'}}</td>
+							<td>{{baseData.artifactLookup[baseData.codexCategoryLookup[entry.categoryId]?.artifactId || 0]?.name}}</td>
+							<td>{{baseData.artifactLookup[entry.artifactId]?.name || '[any]'}}</td>
+							<td>{{entry.entryNumber}}</td>
+							<td>{{entry.text}}</td>
 							<td *ngIf="auth.hasPermission('delete:codexdata')">
 								<button class="btn btn-xs btn-danger" [disabled]="editingData" (click)="delete(entry)" title="Delete"><i class="fa fa-trash-o"></i></button>
 							</td>
@@ -70,16 +74,28 @@
 							<label class="col-sm-3 control-label" for="entrycategory">Category:</label>
 							<div class="col-sm-9">
 								<select class="form-control" id="entrycategory" name="entrycategory" placeholder="Select category" [(ngModel)]="editingData.categoryId">
-									<option *ngFor="let category of baseData.codexCategoryData" [ngValue]="category.id">{{category.name}}</option>
+									<option *ngFor="let category of baseData.codexCategoryData" [ngValue]="category.id">{{category.name}} ({{baseData.artifactLookup[category.artifactId]?.name}})</option>
 								</select>
 							</div>
 						</div>
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="artifact">Secondary artifact:</label>
+							<div class="col-sm-9">
+								<select class="form-control" id="artifact" name="artifact" placeholder="Select secondary artifact" [(ngModel)]="editingData.artifactId">
+									<option [ngValue]="null">any / none</option>
+									<option *ngFor="let item of baseData.artifactData" [ngValue]="item.id">{{item.name}}</option>
+								</select>
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="entryno">Entry number:</label>
 							<div class="col-sm-9">
 								<input class="form-control" id="entryno" type="number" name="entryno" [(ngModel)]="editingData.entryNumber" />
 							</div>
 						</div>
+
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="text">Text:</label>
 							<div class="col-sm-9">
@@ -100,18 +116,4 @@
 
 	</div>
 
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="box">
-				<div class="box-header with-border">
-					<h3 class="box-title">Public API description</h3>
-				</div>
-				<div class="box-body">
-					<p><code><span class="label label-success">HTTP GET</span> /api/v1/codex/data</code><p>
-					<p>Returns:</p>
-					<pre>{{format(data?.slice(1, 5))}}</pre>
-				</div>
-			</div>
-		</div>
-	</div>
 </section>

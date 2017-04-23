@@ -7,16 +7,20 @@ namespace CanonnApi.Web.DatabaseModels
     {
         public System()
         {
-            Bodies = new HashSet<Body>();
+            Body = new HashSet<Body>();
         }
 
         public int Id { get; set; }
         public DateTime Created { get; set; }
         public int? EddbExtId { get; set; }
+        public DateTime? EdsmCoordUpdated { get; set; }
+        public float? EdsmCoordX { get; set; }
+        public float? EdsmCoordY { get; set; }
+        public float? EdsmCoordZ { get; set; }
         public int? EdsmExtId { get; set; }
         public string Name { get; set; }
         public DateTime Updated { get; set; }
 
-        public virtual ICollection<Body> Bodies { get; set; }
+        public virtual ICollection<Body> Body { get; set; }
     }
 }

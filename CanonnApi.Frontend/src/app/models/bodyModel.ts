@@ -1,5 +1,3 @@
-import {SystemModel} from './systemModel';
-
 export class BodyModel {
 	public id: number;
 	public name: string;
@@ -9,8 +7,6 @@ export class BodyModel {
 	public eddbExtId: number;
 	public created: string;
 	public updated: string;
-
-	public system: SystemModel;
 
 	constructor(id?: number) {
 		this.id = id;

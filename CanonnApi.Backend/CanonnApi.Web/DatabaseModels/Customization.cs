@@ -11,8 +11,6 @@ namespace CanonnApi.Web.DatabaseModels
 			: base(options)
 		{ }
 
-		
-
 		private void AmendModel(ModelBuilder modelBuilder)
 		{
 			// make all Created and Updated properties readonly
