@@ -21,18 +21,4 @@ export class AppComponent implements OnInit {
 
 	ngOnInit() {
 	}
-
-/*
-      const o = $.AdminLTE.options;
-		// Activate the layout maker
-		$.AdminLTE.layout.activate();
-
-		// Enable sidebar tree view controls
-		$.AdminLTE.tree('.sidebar');
-
-		// Enable control sidebar
-		if (o.enableControlSidebar) {
-			$.AdminLTE.controlSidebar.activate();
-		}
-*/
 }

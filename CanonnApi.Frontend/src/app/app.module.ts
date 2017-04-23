@@ -4,7 +4,6 @@ import {FormsModule} from '@angular/forms';
 import {Http, HttpModule, RequestOptions} from '@angular/http';
 import {AppRoutingModule} from './app-routing.module';
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
-import {environment} from '../environments/environment';
 import {AuthenticationService} from './services/api/authentication.service';
 import {AlertModule, TypeaheadModule} from 'ng2-bootstrap';
 // components
@@ -16,6 +15,7 @@ import {CodexCategoryComponent} from './components/baseData/codex/codexCategory.
 import {CodexDataComponent} from './components/baseData/codex/codexData.component';
 import {AppHeaderComponent} from './components/app-header/app-header.component';
 import {IntroComponent} from './components/intro/intro.component';
+import {AboutComponent} from './components/intro/about.component';
 import {ObeliskGroupComponent} from './components/baseData/ruins/obeliskGroup.component';
 import {SystemComponent} from './components/baseData/stellar/system.component';
 import {BodyComponent} from './components/baseData/stellar/body.component';
@@ -53,6 +53,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		MainSidebarComponent,
 		LoginComponent,
 		IntroComponent,
+		AboutComponent,
 		// Base data components
 		ArtifactComponent,
 		CodexCategoryComponent,
