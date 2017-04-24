@@ -18,6 +18,7 @@ using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 using CanonnApi.Web.Authorization;
 using CanonnApi.Web.Automapper;
+using CanonnApi.Web.Controllers;
 using CanonnApi.Web.DatabaseModels;
 using CanonnApi.Web.Middlewares;
 using CanonnApi.Web.Models;
@@ -155,6 +156,8 @@ namespace CanonnApi.Web
 			// Ruin site data
 			builder.RegisterType<RuinSiteRepository>().AsImplementedInterfaces();
 			builder.RegisterType<MapsRepository>().AsImplementedInterfaces();
+			builder.RegisterType<GalacticMapRepository>().AsImplementedInterfaces();
+
 			// helper services
 			builder.RegisterType<EdsmService>().AsImplementedInterfaces();
 		}
