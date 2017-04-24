@@ -49,6 +49,7 @@ namespace CanonnApi.Web.Services.Maps
 		public async Task<object> LoadScanData()
 		{
 			var dataGraph = await _ruinsContext.Obelisk
+				.Include(o => o.Codexdata.Artifact)
 				.Include(o => o.Codexdata.Category.Artifact)
 				.Include(o => o.Obeliskgroup.Ruintype)
 				.Where(o => o.IsBroken || o.Codexdata != null)
