@@ -277,5 +277,34 @@ namespace CanonnApi.Web.Controllers
 
 			return _mapper.Map<List<RuinSite>, List<RuinSiteDto>>(result);
 		}
+
+		/// <summary>
+		/// Searches for specific data entries and returns all sites that have an available and active obelisk yielding one of the data entries
+		/// </summary>
+		/// <param name="searchData">A structure defining the data entries to search for</param>
+		/// <returns>A structure of located ruin sites for each searched combination</returns>
+		[HttpPost("searchdata")]
+		[SwaggerResponse(200, Type = typeof(RuinSiteDto))]  // TODO: When SwaggerUI is updated to 3.x make this return the array again.
+		[SwaggerResponse(404, Description = "Not found")]
+		public async Task<Dictionary<string, Dictionary<int, List<RuinSiteDto>>>> SearchForDataEntries([FromBody] Dictionary<string, int[]> searchData)
+		{
+			var result = new Dictionary<string, Dictionary<int, List<RuinSiteDto>>>();
+
+			foreach (var categoryName in searchData.Keys)
+			{
+				result.Add(categoryName, new Dictionary<int, List<RuinSiteDto>>());
+				foreach (var entryNumber in searchData[categoryName])
+				{
+					var currentResult = await _repository.SearchSitesForData(categoryName, entryNumber);
+					var tempList = _mapper.Map<List<RuinSite>, List<RuinSiteDto>>(currentResult);
+					if (tempList.Any())
+					{
+						result[categoryName].Add(entryNumber, tempList);
+					}
+				}
+			}
+
+			return result;
+		}
 	}
 }
