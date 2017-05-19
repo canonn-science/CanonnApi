@@ -289,6 +289,7 @@ namespace CanonnApi.Web.Controllers
 		public async Task<Dictionary<string, Dictionary<int, List<RuinSiteDto>>>> SearchForDataEntries([FromBody] Dictionary<string, int[]> searchData)
 		{
 			var result = new Dictionary<string, Dictionary<int, List<RuinSiteDto>>>();
+			var merger = new List<List<RuinSiteDto>>();
 
 			foreach (var categoryName in searchData.Keys)
 			{
@@ -297,12 +298,25 @@ namespace CanonnApi.Web.Controllers
 				{
 					var currentResult = await _repository.SearchSitesForData(categoryName, entryNumber);
 					var tempList = _mapper.Map<List<RuinSite>, List<RuinSiteDto>>(currentResult);
+
+					merger.Add(tempList);
+
 					if (tempList.Any())
 					{
 						result[categoryName].Add(entryNumber, tempList);
 					}
 				}
 			}
+
+			IEnumerable<RuinSiteDto> merged = null;
+			foreach (var list in merger)
+			{
+				merged = (merged == null)
+					? list
+					: merged.Intersect(list, new System.EqualityComparer<RuinSiteDto>((a, b) => a.Id == b.Id));
+			}
+
+			result.Add("COMBINED", new Dictionary<int, List<RuinSiteDto>>() {{ 0, merged.ToList() }});
 
 			return result;
 		}
