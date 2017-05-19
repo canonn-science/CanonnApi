@@ -1,10 +1,11 @@
 # IDE stuff
 .idea/
 .vscode/
+.vs/
 
 # node stuff
 
 debug.log*
-RuinsApi/RuinsApi/appsettings.Secrets.json
+appsettings.Secrets.json
 *.zip
 *.secrets.*

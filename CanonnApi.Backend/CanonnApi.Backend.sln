@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanonnApi.Web", "CanonnApi.Web\CanonnApi.Web.csproj", "{3EF1B353-E50C-4A4F-B9C3-F7EB90EA9809}"
 EndProject
@@ -42,6 +42,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "auth0", "auth0", "{2C374678
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Canonn.Database.AutoUpdater", "CanonnApi.Database.AutoUpdater\Canonn.Database.AutoUpdater.csproj", "{8B78577C-E074-4B6F-AD46-9A6E79D96397}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{41D7615C-5A0E-47BE-B15F-460DCA804791}"
+	ProjectSection(SolutionItems) = preProject
+		..\docs\configuration\api\appsetting.Secrets.json = ..\docs\configuration\api\appsetting.Secrets.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,5 +93,6 @@ Global
 		{CFEC7D1D-0C90-462E-8A1C-ECFC11311C8D} = {3FCCEF11-B327-4AD2-9505-635884EF7610}
 		{DD43E3F0-1F87-48F7-9DE1-0695F1EE9D23} = {4EB46077-5E09-4BF5-874D-780C304FD899}
 		{2C374678-F3D9-45EC-A255-BDAE652D3DBD} = {DD43E3F0-1F87-48F7-9DE1-0695F1EE9D23}
+		{41D7615C-5A0E-47BE-B15F-460DCA804791} = {DD43E3F0-1F87-48F7-9DE1-0695F1EE9D23}
 	EndGlobalSection
 EndGlobal

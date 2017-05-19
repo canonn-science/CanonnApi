@@ -13,168 +13,164 @@
       "_id": "v1"
     }
   ],
-  "roles": [
-    {
-      "_id": "a105f1ee-7794-4e39-b7b0-918feef3af20",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May add and edit stellar system data for Canonn",
-      "name": "System data maintainer",
-      "permissions": [
-        "65d4ea0f-61fd-422e-9559-903f30b75f3a",
-        "951dbf66-1793-4c96-881d-e2b1e38df4d2"
-      ],
-      "users": []
-    },
-    {
-      "_id": "1441182d-54e0-40e3-9206-8c0398b7873d",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "Admin for Canonn API - Full permissions",
-      "name": "Administrator",
-      "permissions": [
-        "5b59bf13-fc6d-4e37-98e5-c674a49f38cb",
-        "85dfb2ae-fa49-4f6e-bcb8-d89fd717131d",
-        "7acd48c0-0c03-486d-9dda-adadf2e12291",
-        "6064a288-f5f8-46a2-b2d1-1857be42f1c7",
-        "8f8775f2-6921-42eb-845f-a4c36e42f085",
-        "e7f20ee6-2d91-401a-80ae-fccd6d836c0a",
-        "d63411ea-1b6f-4966-8e90-84cec6d97b16",
-        "535b7878-7afb-4e24-8c96-70685c157524",
-        "951dbf66-1793-4c96-881d-e2b1e38df4d2",
-        "658ab948-ec61-4f1b-8375-c7d2b8a1b8da",
-        "7d40c189-bc7b-4c24-81bf-41a8e9634620",
-        "65d4ea0f-61fd-422e-9559-903f30b75f3a"
-      ]
-    },
-    {
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May add or edit ruin data (codex, ruin base and site data)",
-      "name": "Ruin data maintainer",
-      "permissions": [
-        "5b59bf13-fc6d-4e37-98e5-c674a49f38cb",
-        "85dfb2ae-fa49-4f6e-bcb8-d89fd717131d",
-        "e7f20ee6-2d91-401a-80ae-fccd6d836c0a",
-        "8f8775f2-6921-42eb-845f-a4c36e42f085",
-        "6064a288-f5f8-46a2-b2d1-1857be42f1c7",
-        "d63411ea-1b6f-4966-8e90-84cec6d97b16"
-      ],
-      "_id": "420de79f-b2d3-4142-b5f9-b5ba89da499a"
-    }
-  ],
-  "permissions": [
-    {
-      "_id": "5b59bf13-fc6d-4e37-98e5-c674a49f38cb",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May add codex data (artifacts, codex categories, codex entries)",
-      "name": "add:codexdata"
-    },
-    {
-      "_id": "85dfb2ae-fa49-4f6e-bcb8-d89fd717131d",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May edit codex data (artifacts, codex categories, codex entries)",
-      "name": "edit:codexdata"
-    },
-    {
-      "_id": "7acd48c0-0c03-486d-9dda-adadf2e12291",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May delete codex data (artifacts, codex categories, codex entries)",
-      "name": "delete:codexdata"
-    },
-    {
-      "_id": "e7f20ee6-2d91-401a-80ae-fccd6d836c0a",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May add ruin base data (types, obelisk groups, obelisks)",
-      "name": "add:ruinbasedata"
-    },
-    {
-      "_id": "8f8775f2-6921-42eb-845f-a4c36e42f085",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May edit ruin base data (types, obelisk groups, obelisks)",
-      "name": "edit:ruinbasedata"
-    },
-    {
-      "_id": "6064a288-f5f8-46a2-b2d1-1857be42f1c7",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May add ruin sites",
-      "name": "add:ruinsitedata"
-    },
-    {
-      "_id": "d63411ea-1b6f-4966-8e90-84cec6d97b16",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May edit ruin sites",
-      "name": "edit:ruinsitedata"
-    },
-    {
-      "_id": "535b7878-7afb-4e24-8c96-70685c157524",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May delete ruin sites",
-      "name": "delete:ruinsitedata"
-    },
-    {
-      "_id": "951dbf66-1793-4c96-881d-e2b1e38df4d2",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May add solar system data",
-      "name": "add:systemdata"
-    },
-    {
-      "_id": "65d4ea0f-61fd-422e-9559-903f30b75f3a",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May edit solar system data",
-      "name": "edit:systemdata"
-    },
-    {
-      "_id": "7d40c189-bc7b-4c24-81bf-41a8e9634620",
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May delete solar system data",
-      "name": "delete:systemdata"
-    },
-    {
-      "applicationType": "client",
-      "applicationId": "YOUR_APPLICATION_ID_HERE",
-      "description": "May delete ruin base data (types, obelisk groups, obelisks)",
-      "name": "delete:ruinbasedata",
-      "_id": "658ab948-ec61-4f1b-8375-c7d2b8a1b8da"
-    }
-  ],
   "groups": [
     {
       "_id": "9008db50-6a7d-4ee5-a73b-c2e45f0223fb",
       "name": "CanonnAdmins",
       "description": "Administrators of Canonn",
-      "members": [
-        "auth0|58b0cea1bfd38107bc46ff72",
-        "google-oauth2|104545570574630216515",
-        "google-oauth2|110235718671102344371"
-      ],
+      "members": [],
       "roles": [
-        "a105f1ee-7794-4e39-b7b0-918feef3af20",
-        "1441182d-54e0-40e3-9206-8c0398b7873d"
+        "4656414f-d851-49f8-94bc-ca900398cbe4",
+        "ffd8b8ee-68ca-409c-b421-3a36a666c1d1",
+        "19c9d4a1-c48b-4501-b6a4-5d484d120467",
+        "8c3de8f5-82fa-488a-baf4-2d2ca46813e0",
+        "6b0ee569-f094-4593-9e92-ac134ddb385d"
+      ]
+    }
+  ],
+  "permissions": [
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May add codex data (artifacts, codex catgeories, codex entries)",
+      "name": "add:codexdata",
+      "_id": "9fdb6c30-e7cc-498c-b617-0a696bd9dadc"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May edit codex data",
+      "name": "edit:codexdata",
+      "_id": "e969c4f3-7885-4ca4-8796-507bd9542154"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May delete codex data",
+      "name": "delete:codexdata",
+      "_id": "dbb476d7-eff1-4e9b-8baa-ee5e0abf789e"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May add ruin base data",
+      "name": "add:ruinbasedata",
+      "_id": "a3d26272-cdb8-454a-8915-328aa5fda72c"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May edit ruin base data",
+      "name": "edit:ruinbasedata",
+      "_id": "fb7e6bdd-59c8-434f-9ab3-9013ebf0b215"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May delte ruin base data",
+      "name": "delete:ruinbasedata",
+      "_id": "ece486f0-f012-4692-a5bd-d4e6042ec68e"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May add ruin site data",
+      "name": "add:ruinsitedata",
+      "_id": "4ef3da5b-af76-4dc1-b225-d2538dff010e"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May edit ruin site data",
+      "name": "edit:ruinsitedata",
+      "_id": "a0c95bad-7be2-4be2-ba58-5d88ef83e743"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May delete ruin site data",
+      "name": "delete:ruinsitedata",
+      "_id": "b3532654-924a-4c94-8504-6dbcb80d555f"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May add stellar data",
+      "name": "add:systemdata",
+      "_id": "4a3a3e5e-6691-4391-bdf9-3a95ece88920"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May edit stellar data",
+      "name": "edit:systemdata",
+      "_id": "4e2f374d-652f-4be6-97e2-4999f669adea"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May delete stellar data",
+      "name": "delete:systemdata",
+      "_id": "0b27ba32-4c9c-4eeb-af46-06042dde06b8"
+    }
+  ],
+  "roles": [
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "Maintains codex data",
+      "name": "Codex data maintainer",
+      "permissions": [
+        "9fdb6c30-e7cc-498c-b617-0a696bd9dadc",
+        "e969c4f3-7885-4ca4-8796-507bd9542154"
+      ],
+      "_id": "4656414f-d851-49f8-94bc-ca900398cbe4"
+    },
+    {
+      "_id": "ffd8b8ee-68ca-409c-b421-3a36a666c1d1",
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May delete all data types",
+      "name": "Data deleter",
+      "permissions": [
+        "dbb476d7-eff1-4e9b-8baa-ee5e0abf789e",
+        "0b27ba32-4c9c-4eeb-af46-06042dde06b8",
+        "b3532654-924a-4c94-8504-6dbcb80d555f",
+        "ece486f0-f012-4692-a5bd-d4e6042ec68e"
       ]
     },
     {
-      "_id": "94cd2bac-405b-4b12-86b0-1ed8f8897230",
-      "name": "CanonnMaintainers",
-      "description": "Maintain global data for Canonn",
-      "roles": [
-        "a105f1ee-7794-4e39-b7b0-918feef3af20",
-        "420de79f-b2d3-4142-b5f9-b5ba89da499a"
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "May edit ruin site data",
+      "name": "Ruin site data maintainer",
+      "permissions": [
+        "4ef3da5b-af76-4dc1-b225-d2538dff010e",
+        "a0c95bad-7be2-4be2-ba58-5d88ef83e743"
       ],
-      "members": [
-        "twitter|16649999"
-      ]
+      "_id": "8c3de8f5-82fa-488a-baf4-2d2ca46813e0"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "Maintains ruin base data",
+      "name": "Ruin base data maintainer",
+      "permissions": [
+        "a3d26272-cdb8-454a-8915-328aa5fda72c",
+        "fb7e6bdd-59c8-434f-9ab3-9013ebf0b215"
+      ],
+      "_id": "19c9d4a1-c48b-4501-b6a4-5d484d120467"
+    },
+    {
+      "applicationType": "client",
+      "applicationId": "YOUR_APPLICATION_ID_HERE",
+      "description": "Maintains stellar data",
+      "name": "Stellar data maintainer",
+      "permissions": [
+        "4e2f374d-652f-4be6-97e2-4999f669adea",
+        "4a3a3e5e-6691-4391-bdf9-3a95ece88920"
+      ],
+      "_id": "6b0ee569-f094-4593-9e92-ac134ddb385d"
     }
   ]
 }
