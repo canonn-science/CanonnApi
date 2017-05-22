@@ -40,5 +40,28 @@ namespace CanonnApi.Web.Controllers.Models
 		/// When the entry of this ruin site was updated the last time. Set by server
 		/// </summary>
 		public DateTime Updated { get; set; }
+
+		public override int GetHashCode()
+		{
+			return Id.GetHashCode();
+		}
+
+		public override bool Equals(object obj)
+		{
+			RuinSiteDto other = obj as RuinSiteDto;
+
+			if ((object) other == null)
+				return false;
+
+			return (other.Id == Id);
+		}
+
+		public bool Equals(RuinSiteDto other)
+		{
+			if ((object)other == null)
+				return false;
+
+			return (other.Id == Id);
+		}
 	}
 }

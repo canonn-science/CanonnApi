@@ -1,9 +1,8 @@
-# Ruins documentation
+# Canonn API documentation
 
 ## Database
 
-The canonn api database contains all data for ruin layouts, their variants, obelisks, their status and actual ruins sites.
-
+The canonn api database contains all science data for the Canonn Research group.  
 For details see the [database documentation](./design/db/index.md).
 
 ## API
@@ -17,7 +16,7 @@ The frontend is an Angular 4 SPA (single page application). It offers two modes:
 1. Readonly website, presenting public data from the database
 2. Admin-interface after login, to alter data in the system
 
-See [RuinsApp](../RuinsApp/README.md) for details.
+See [CanonnAPI Frontend](../CanonnApi.Frontend/README.md) for details.
 
 ## Authentication
 
@@ -26,6 +25,7 @@ See [Auth0 Setup](./configuration/auth0/auth0-setup.md) for details on how Auth0
 
 ## Versioning
 
-The API and the Frontend are versioned independently.
+The API and the Frontend are versioned independently.  
 Locally, no version information will be applied to the actual projects. For development, both are always a 1.0.0.
+
 It is intended to maintain the version number in the file `version.txt` for each project. The actual build and deployment process will make use of the Canonn TeamCity / Octopus Deploy and here the version information will be included in the actual projects, based on the version.txt information as well as branch and build number info.
