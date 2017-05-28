@@ -21,7 +21,7 @@ namespace CanonnApi.Web.Controllers.Models
 		/// <summary>
 		/// The id of the secondary artifact used to unlock this codex data entry
 		/// </summary>
-		public int ArtifactId { get; set; }
+		public int? ArtifactId { get; set; }
 		/// <summary>
 		/// The number of this codex data entry within the category
 		/// </summary>
