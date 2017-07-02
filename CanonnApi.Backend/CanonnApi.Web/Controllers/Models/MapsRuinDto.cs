@@ -21,5 +21,9 @@
 		/// The coordinates of this ruin on the body
 		/// </summary>
 		public decimal[] Coordinates { get; set; }
+		/// <summary>
+		/// A link to this body in EDSM
+		/// </summary>
+		public string EdsmBodyLink { get; set; }
 	}
 }

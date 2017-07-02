@@ -73,10 +73,8 @@ namespace CanonnApi.Web
 					mvcJsonOptions.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 				});
 
-			services.AddAutoMapper(config =>
-			{
-				config.AddProfile<MappingProfile>();
-			});
+			var automapperConfiguration = new MappingConfiguration(Configuration);
+			services.AddAutoMapper(config => automapperConfiguration.Configure(config));
 
 			services.AddLogging();
 			services.AddMemoryCache();
@@ -151,6 +149,7 @@ namespace CanonnApi.Web
 
 		private void RegisterAutofacDependencies(ContainerBuilder builder)
 		{
+			builder.RegisterInstance(Configuration).AsImplementedInterfaces();
 			builder.RegisterType<BearerTokenProvider>().AsImplementedInterfaces();
 
 			// Codex base data
@@ -236,4 +235,5 @@ namespace CanonnApi.Web
 			};
 		}
 	}
+
 }

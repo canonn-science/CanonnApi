@@ -14,5 +14,7 @@ namespace CanonnApi.Web.Services.Maps
 		public int SystemId { get; set; }
 		public string SystemName { get; set; }
 		public float[] SystemCoordinates { get; set; }
+		public string EdsmSystemLink { get; set; }
+		public string EdsmBodyLink { get; set; }
 	}
 }
