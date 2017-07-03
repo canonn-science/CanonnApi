@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using CanonnApi.Web.DatabaseModels;
 using Microsoft.EntityFrameworkCore;
-using System = CanonnApi.Web.DatabaseModels.System;
+using Microsoft.Extensions.Configuration;
 
 namespace CanonnApi.Web.Services.Maps
 {
 	public class MapsRepository : IMapsRepository
 	{
+		private readonly IConfiguration _configuration;
+		private readonly IMapper _mapper;
 		private readonly RuinsContext _ruinsContext;
 
-		public MapsRepository(RuinsContext ruinsContext)
+		public MapsRepository(IConfiguration configuration, IMapper mapper, RuinsContext ruinsContext)
 		{
+			_configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 			_ruinsContext = ruinsContext ?? throw new ArgumentNullException(nameof(ruinsContext));
 		}
 
@@ -30,11 +36,11 @@ namespace CanonnApi.Web.Services.Maps
 
 				if (!systems.TryGetValue(site.Body.System.Id, out mapsSystem))
 				{
-					mapsSystem = new MapsSystem(site.Body.System);
+					mapsSystem = _mapper.Map<DatabaseModels.System, MapsSystem>(site.Body.System);
 					systems.Add(mapsSystem.SystemId, mapsSystem);
 				}
 
-				mapsSystem.Ruins.Add(new MapsRuins(site));
+				mapsSystem.Ruins.Add(_mapper.Map<RuinSite, MapsRuins>(site));
 			}
 
 			var result = systems.Values.OrderBy(s => s.SystemName);
@@ -125,6 +131,7 @@ namespace CanonnApi.Web.Services.Maps
 			var obeliskGroups = await obeliskGroupTask;
 			var activeObelisks = await activeObelisksTask;
 
+			// TODO: Move to mapping configuration
 			var result = new RuinInfoDto()
 			{
 				RuinId = ruin.Id,
@@ -138,7 +145,12 @@ namespace CanonnApi.Web.Services.Maps
 				SystemCoordinates = (ruin.Body.System?.EdsmCoordX != null)
 					? new float[] { ruin.Body.System.EdsmCoordX.Value, ruin.Body.System.EdsmCoordY.Value, ruin.Body.System.EdsmCoordZ.Value }
 					: new float[] {},
-
+				EdsmSystemLink = (ruin.Body.System.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(ruin.Body.System.Name))
+					? String.Format(_configuration.GetSection("externalLinks:edsmSystem").Value, ruin.Body.System.EdsmExtId, WebUtility.UrlEncode(ruin.Body.System.Name))
+					: null,
+				EdsmBodyLink = (ruin.Body.System.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(ruin.Body.System.Name) && ruin.Body.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(ruin.Body.Name))
+					? String.Format(_configuration.GetSection("externalLinks:edsmBody").Value, ruin.Body.System.EdsmExtId, WebUtility.UrlEncode(ruin.Body.System.Name), ruin.Body.EdsmExtId, WebUtility.UrlEncode(ruin.Body.Name))
+					: null,
 				Obelisks = BuildObeliskData(obeliskGroups, activeObelisks),
 			};
 

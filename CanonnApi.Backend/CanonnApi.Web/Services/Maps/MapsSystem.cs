@@ -6,12 +6,7 @@ namespace CanonnApi.Web.Services.Maps
 	{
 		public int SystemId { get; set; }
 		public string SystemName { get; set; }
+		public int? EdsmExtId { get; set; }
 		public List<MapsRuins> Ruins { get; set; } = new List<MapsRuins>();
-
-		public MapsSystem(DatabaseModels.System system)
-		{
-			SystemId = system.Id;
-			SystemName = system.Name;
-		}
 	}
 }

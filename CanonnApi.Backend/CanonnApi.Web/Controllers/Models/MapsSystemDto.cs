@@ -14,6 +14,10 @@
 		/// </summary>
 		public string SystemName { get; set; }
 		/// <summary>
+		/// A link to this system in EDSM
+		/// </summary>
+		public string EdsmSystemLink { get; set; }
+		/// <summary>
 		/// A collection of all ruins within this system
 		/// </summary>
 		public MapsRuinDto[] Ruins { get; set; }
