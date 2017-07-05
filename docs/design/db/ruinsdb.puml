@@ -1,16 +1,16 @@
 @startuml
 
 object artifact
-artifact : id = INT
-artifact : name = VARCHAR(50)
+artifact : id = INT, PK
+artifact : name = VARCHAR(50), NOT NULL
 artifact : created = DATETIME
 artifact : updated = DATETIME
 
 
 object codex_category
-codex_category : id = INT
-codex_category : artifact_id = INT
-codex_category : name = VARCHAR(50)
+codex_category : id = INT, PK
+codex_category : artifact_id = INT, NOT NULL
+codex_category : name = VARCHAR(50), NOT NULL
 codex_category : created = DATETIME
 codex_category : updated = DATETIME
 
@@ -18,29 +18,30 @@ codex_category "0..1" -- "1" artifact
 
 
 object codex_data
-codex_data : id = INT
-codex_data : category_id, INT
-codex_data : entry_number = INT
-codex_data : artifact_id = INT
-codex_data : text = TEXT
+codex_data : id = INT, PK
+codex_data : category_id, INT, FK
+codex_data : entry_number = INT, NOT NULL
+codex_data : artifact_id = INT, NULL
+codex_data : text = TEXT, NOT NULL
 codex_data : created = DATETIME
 codex_data : updated = DATETIME
 
 codex_data "1..n" -- "1" codex_category
 codex_data "0..n" -- "0..1" artifact
 
+
 object ruin_type
-ruin_type : id = INT
-ruin_type : name = VARCHAR(50)
+ruin_type : id = INT, PK
+ruin_type : name = VARCHAR(50), NOT NULL
 ruin_type : created = DATETIME
 ruin_type : updated = DATETIME
 
 
 object obelisk_group
-obelisk_group : id = INT
-obelisk_group : ruintype_id = INT
-obelisk_group : name = VARCHAR(50)
-obelisk_group : count = INT
+obelisk_group : id = INT, PK
+obelisk_group : ruintype_id = INT, FK
+obelisk_group : name = VARCHAR(50), NOT NULL
+obelisk_group : count = INT, NOT NULL
 obelisk_group : created = DATETIME
 obelisk_group : updated = DATETIME
 
@@ -48,12 +49,12 @@ obelisk_group "0..n" -- "1" ruin_type
 
 
 object obelisk
-obelisk : id = INT
-obelisk : obeliskgroup_id = INT
-obelisk : number = INT
-obelisk : is_broken = BOOL
-obelisk : is_verified = BOOL
-obelisk : codexdata_id = INT
+obelisk : id = INT, PK
+obelisk : obeliskgroup_id = INT, FK
+obelisk : number = INT, NOT NULL
+obelisk : is_broken = BOOL, NOT NULL
+obelisk : is_verified = BOOL, NOT NULL
+obelisk : codexdata_id = INT, FK
 obelisk : created = DATETIME
 obelisk : updated = DATETIME
 
@@ -62,41 +63,73 @@ obelisk "0..1" -- "0..1" codex_data
 
 
 object system
-system : id = INT
-system : name = VARCHAR(150)
-system : edsm_coord_x = FLOAT
-system : edsm_coord_y = FLOAT
-system : edsm_coord_z = FLOAT
-system : edsm_coord_updated = DATETIME
-system : edsm_ext_id = INT (id from EDSM)
-system : eddb_ext_id = INT (id from EDDB)
+system : id = INT, PK
+system : name = VARCHAR(150), NOT NULL
+system : edsm_coord_x = FLOAT, NULL
+system : edsm_coord_y = FLOAT, NULL
+system : edsm_coord_z = FLOAT, NULL
+system : edsm_coord_updated = DATETIME, NULL
+system : edsm_ext_id = INT, NULL (id from EDSM)
+system : eddb_ext_id = INT, NULL (id from EDDB)
 system : created = DATETIME
 system : updated = DATETIME
 
 
 object body
-body : id = INT
-body : system_id = INT
-body : name = VARCHAR(150)
-body : distance = INT (from EDSM)
-body : edsm_ext_id = INT (id from EDSM)
-body : eddb_ext_id = INT (id from EDDB)
+body : id = INT, PK
+body : system_id = INT, FK
+body : name = VARCHAR(150), NOT NULL
+body : distance = INT, NULL (edsm)
+body : is_landable = BOOL, NULL (edsm)
+body : gravity = DOUBLE, NULL (edsm)
+body : earth_masses = DOUBLE, NULL (edsm)
+body : radius = DOUBLE, NULL (edsm)
+body : edsm_ext_id = INT, NULL (id from EDSM)
+body : eddb_ext_id = INT, NULL (id from EDDB)
+body : edsm_last_update = DATETIME, NULL
 body : created = DATETIME
 body : updated = DATETIME
+
 
 body "0..n" -- "1" system
 
 
+object location_type
+location_type : id = INT, PK
+location_type : short_name = VARCHAR(10), NOT NULL
+location_type : name = VARCHAR(50), NOT NULL
+location_type : is_surface, BOOL, NOT NULL
+location_type : created = DATETIME
+location_type : updated = DATETIME
+
+
+object location
+location : id = INT, PK
+location : locationtype_id, INT, FK
+location : is_visible, BIT
+location : system_id = INT, FK (might be redundant)
+location : body_id = INT, FK, NULL
+location : latitude = DECIMAL(6,4), NULL
+location : longitude = DECIMAL(7,4), NULL
+location : direction_system_id, FK, NULL
+location : distance, INT, NULL (in ls)
+location : created = DATETIME
+location : updated = DATETIME
+
+location "0..n" -- "1" location_type
+location "0..n" -- "1" system
+location "0..n" -- "1" body
+
+
+
 object ruin_site
-ruin_site : id = INT
-ruin_site : body_id = INT
-ruin_site : latitude = DECIMAL(6,4)
-ruin_site : longitude = DECIMAL(7,4)
-ruin_site : ruintype_id = INT
+ruin_site : id = INT, PK
+ruin_site : location_id = INT, FK
+ruin_site : ruintype_id = INT, FK
 ruin_site : created = DATETIME
 ruin_site : updated = DATETIME
 
-ruin_site "0..n" -- "1" body
+ruin_site "0..n" -- "1" location
 ruin_site "0..n" -- "1" ruin_type
 
 

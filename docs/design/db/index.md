@@ -4,7 +4,7 @@ The database layout is currently designed as follows.
 
 Please note the currently implemented elements already reflect the maria db DML. The not yet DML-like entries are not implemented and this is preliminary design.
 
-![CanonnAPI DP](http://www.plantuml.com/plantuml/svg/7St12SCm3030VwPe1wX5leNIb4uIIo8HEBAnf6JzcZxlTOlvsZsECjr5iGHnz7BRtPiz0VfwfKryZnp67QiwgoUi1-2gLVLXAAp8yFtpqmI8Jowr0LMq0PDDWJBq43NAgOtgVRxcULfOQU07.svg)
+![CanonnAPI DP](http://www.plantuml.com/plantuml/svg/7St13S8m3030VwU00OW5JoH44PCajjLQIfqejjlrgNZUwsRpF3osEbr5iGPnZ7fPtRiz0KO-qYA-HWdZWKsTrHEs3J1hKxqP2YioVF_yT07YdMlhG0tjXCcYG0L6Y1gLrC_glR_kZsbcfHC_.svg)
 
 _Hint: When updating the PUML file, change this link to include a new version parameter, because github is cacheing aggressively._
 
