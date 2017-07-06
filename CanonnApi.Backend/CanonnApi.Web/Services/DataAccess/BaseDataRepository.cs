@@ -9,7 +9,7 @@ using CanonnApi.Web.Middlewares;
 namespace CanonnApi.Web.Services.DataAccess
 {
 	public abstract class BaseDataRepository<T> : IBaseDataRepository<T>
-		where T: class, IEntity, new()
+		 where T : class, IEntity, new()
 	{
 		protected readonly RuinsContext RuinsContext;
 
