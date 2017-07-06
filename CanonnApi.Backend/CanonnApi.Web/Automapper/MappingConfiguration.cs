@@ -49,35 +49,35 @@ namespace CanonnApi.Web.Automapper
 			config.CreateMap<DatabaseModels.System, SystemDto>().ReverseMap();
 			config.CreateMap<DatabaseModels.System, EdsmUpdatedSystem>();
 			config.CreateMap<DatabaseModels.System, MapsSystem>()
-				.ForMember(ms => ms.SystemId, sys => sys.MapFrom(o => o.Id))
-				.ForMember(ms => ms.SystemName, sys => sys.MapFrom(o => o.Name));
+				 .ForMember(ms => ms.SystemId, sys => sys.MapFrom(o => o.Id))
+				 .ForMember(ms => ms.SystemName, sys => sys.MapFrom(o => o.Name));
 
 			config.CreateMap<RuinSite, MapsRuins>()
-				.ForMember(rs => rs.RuinId, mr => mr.MapFrom(r => r.Id))
-				.ForMember(rs => rs.BodyName, mr => mr.MapFrom(r => r.Body.Name))
-				.ForMember(rs => rs.RuinTypeName, mr => mr.MapFrom(r => r.Ruintype.Name))
-				.ForMember(rs => rs.Coordinates, mr => mr.MapFrom(r => new[] { r.Latitude, r.Longitude }))
-				.ForMember(rs => rs.EdsmBodyLink, mr => mr.MapFrom(r => r.Body.EdsmExtId.HasValue && r.Body.System.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(r.Body.Name) && !String.IsNullOrWhiteSpace(r.Body.System.Name)
-					? String.Format(_configuration.GetSection("externalLinks:edsmBody").Value, r.Body.System.EdsmExtId, WebUtility.UrlEncode(r.Body.System.Name), r.Body.EdsmExtId, WebUtility.UrlEncode(r.Body.Name))
-					: null)
-				);
+				 .ForMember(rs => rs.RuinId, mr => mr.MapFrom(r => r.Id))
+				 .ForMember(rs => rs.BodyName, mr => mr.MapFrom(r => r.Location.Body.Name))
+				 .ForMember(rs => rs.RuinTypeName, mr => mr.MapFrom(r => r.Ruintype.Name))
+				 .ForMember(rs => rs.Coordinates, mr => mr.MapFrom(r => new[] { r.Location.Latitude, r.Location.Longitude }))
+				 .ForMember(rs => rs.EdsmBodyLink, mr => mr.MapFrom(r => r.Location.Body.EdsmExtId.HasValue && r.Location.System.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(r.Location.Body.Name) && !String.IsNullOrWhiteSpace(r.Location.System.Name)
+					  ? String.Format(_configuration.GetSection("externalLinks:edsmBody").Value, r.Location.System.EdsmExtId, WebUtility.UrlEncode(r.Location.System.Name), r.Location.Body.EdsmExtId, WebUtility.UrlEncode(r.Location.Body.Name))
+					  : null)
+				 );
 
 			config.CreateMap<RuinSite, RuinSiteDto>().ReverseMap();
 			config.CreateMap<ObeliskWithActiveState, ObeliskWithActiveStateDto>().ReverseMap();
 			config.CreateMap<ObeliskGroupWithActiveState, ObeliskGroupWithActiveStateDto>().ReverseMap();
 			config.CreateMap<RuinSiteWithObeliskData, RuinSiteWithObeliskDataDto>()
-				.ForMember(dto => dto.ObeliskGroups, c => c.MapFrom(m => m.ObeliskGroups))
-				.ForMember(dto => dto.Obelisks, c => c.MapFrom(m => m.Obelisks))
-				.ReverseMap();
+				 .ForMember(dto => dto.ObeliskGroups, c => c.MapFrom(m => m.ObeliskGroups))
+				 .ForMember(dto => dto.Obelisks, c => c.MapFrom(m => m.Obelisks))
+				 .ReverseMap();
 
 			config.CreateMap<MapsRuins, MapsRuinDto>();
-			
+
 			config.CreateMap<MapsSystem, MapsSystemDto>()
-				.ForMember(dto => dto.Ruins, c => c.MapFrom(m => m.Ruins))
-				.ForMember(dto => dto.EdsmSystemLink, record => record.MapFrom(src => (src.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(src.SystemName))
-					? String.Format(_configuration.GetSection("externalLinks:edsmSystem").Value, src.EdsmExtId, WebUtility.UrlEncode(src.SystemName))
-					: null)
-				);
+				 .ForMember(dto => dto.Ruins, c => c.MapFrom(m => m.Ruins))
+				 .ForMember(dto => dto.EdsmSystemLink, record => record.MapFrom(src => (src.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(src.SystemName))
+					  ? String.Format(_configuration.GetSection("externalLinks:edsmSystem").Value, src.EdsmExtId, WebUtility.UrlEncode(src.SystemName))
+					  : null)
+				 );
 		}
 	}
 }

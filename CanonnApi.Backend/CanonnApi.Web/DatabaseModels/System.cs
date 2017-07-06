@@ -8,6 +8,8 @@ namespace CanonnApi.Web.DatabaseModels
         public System()
         {
             Body = new HashSet<Body>();
+            LocationDirectionSystem = new HashSet<Location>();
+            LocationSystem = new HashSet<Location>();
         }
 
         public int Id { get; set; }
@@ -22,5 +24,7 @@ namespace CanonnApi.Web.DatabaseModels
         public DateTime Updated { get; set; }
 
         public virtual ICollection<Body> Body { get; set; }
+        public virtual ICollection<Location> LocationDirectionSystem { get; set; }
+        public virtual ICollection<Location> LocationSystem { get; set; }
     }
 }

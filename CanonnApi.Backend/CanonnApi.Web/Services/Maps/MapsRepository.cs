@@ -25,7 +25,7 @@ namespace CanonnApi.Web.Services.Maps
 
 		public async Task<List<MapsSystem>> LoadSitesOverview()
 		{
-			var sitesGraph = await _ruinsContext.RuinSite.Include(rs => rs.Body.System).Include(rs => rs.Ruintype).ToListAsync();
+			var sitesGraph = await _ruinsContext.RuinSite.Include(rs => rs.Location.System).Include(rs => rs.Ruintype).ToListAsync();
 
 			// build resulting structure
 			Dictionary<int, MapsSystem> systems = new Dictionary<int, MapsSystem>();
@@ -34,9 +34,9 @@ namespace CanonnApi.Web.Services.Maps
 			{
 				MapsSystem mapsSystem;
 
-				if (!systems.TryGetValue(site.Body.System.Id, out mapsSystem))
+				if (!systems.TryGetValue(site.Location.SystemId, out mapsSystem))
 				{
-					mapsSystem = _mapper.Map<DatabaseModels.System, MapsSystem>(site.Body.System);
+					mapsSystem = _mapper.Map<DatabaseModels.System, MapsSystem>(site.Location.System);
 					systems.Add(mapsSystem.SystemId, mapsSystem);
 				}
 
@@ -136,20 +136,20 @@ namespace CanonnApi.Web.Services.Maps
 			{
 				RuinId = ruin.Id,
 				RuinTypeName = ruin.Ruintype.Name,
-				BodyId = ruin.BodyId,
-				BodyName = ruin.Body.Name,
-				BodyDistance = ruin.Body.Distance,
-				Coordinates = new decimal[] { ruin.Latitude, ruin.Longitude },
-				SystemId = ruin.Body.SystemId,
-				SystemName = ruin.Body.System.Name,
-				SystemCoordinates = (ruin.Body.System?.EdsmCoordX != null)
-					? new float[] { ruin.Body.System.EdsmCoordX.Value, ruin.Body.System.EdsmCoordY.Value, ruin.Body.System.EdsmCoordZ.Value }
+				BodyId = ruin.Location.BodyId.Value,
+				BodyName = ruin.Location.Body.Name,
+				BodyDistance = ruin.Location.Body.Distance,
+				Coordinates = new decimal[] { ruin.Location.Latitude.Value, ruin.Location.Longitude.Value },
+				SystemId = ruin.Location.SystemId,
+				SystemName = ruin.Location.System.Name,
+				SystemCoordinates = (ruin.Location.System?.EdsmCoordX != null)
+					? new float[] { ruin.Location.System.EdsmCoordX.Value, ruin.Location.System.EdsmCoordY.Value, ruin.Location.System.EdsmCoordZ.Value }
 					: new float[] {},
-				EdsmSystemLink = (ruin.Body.System.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(ruin.Body.System.Name))
-					? String.Format(_configuration.GetSection("externalLinks:edsmSystem").Value, ruin.Body.System.EdsmExtId, WebUtility.UrlEncode(ruin.Body.System.Name))
+				EdsmSystemLink = (ruin.Location.System.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(ruin.Location.System.Name))
+					? String.Format(_configuration.GetSection("externalLinks:edsmSystem").Value, ruin.Location.System.EdsmExtId, WebUtility.UrlEncode(ruin.Location.System.Name))
 					: null,
-				EdsmBodyLink = (ruin.Body.System.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(ruin.Body.System.Name) && ruin.Body.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(ruin.Body.Name))
-					? String.Format(_configuration.GetSection("externalLinks:edsmBody").Value, ruin.Body.System.EdsmExtId, WebUtility.UrlEncode(ruin.Body.System.Name), ruin.Body.EdsmExtId, WebUtility.UrlEncode(ruin.Body.Name))
+				EdsmBodyLink = (ruin.Location.System.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(ruin.Location.System.Name) && ruin.Location.Body.EdsmExtId.HasValue && !String.IsNullOrWhiteSpace(ruin.Location.Body.Name))
+					? String.Format(_configuration.GetSection("externalLinks:edsmBody").Value, ruin.Location.System.EdsmExtId, WebUtility.UrlEncode(ruin.Location.System.Name), ruin.Location.Body.EdsmExtId, WebUtility.UrlEncode(ruin.Location.Body.Name))
 					: null,
 				Obelisks = BuildObeliskData(obeliskGroups, activeObelisks),
 			};
@@ -160,7 +160,8 @@ namespace CanonnApi.Web.Services.Maps
 		private Task<RuinSite> LoadRuinSiteById(int id)
 		{
 			return _ruinsContext.RuinSite
-				.Include(r => r.Body.System)
+				.Include(r => r.Location.Body)
+				.Include(r => r.Location.System)
 				.Include(r => r.Ruintype)
 				.SingleAsync(r => r.Id == id);
 		}

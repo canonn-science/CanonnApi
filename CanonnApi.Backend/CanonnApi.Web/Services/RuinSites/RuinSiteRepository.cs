@@ -11,7 +11,7 @@ namespace CanonnApi.Web.Services.RuinSites
 	public class RuinSiteRepository : BaseDataRepository<RuinSite>, IRuinSiteRepository
 	{
 		public RuinSiteRepository(RuinsContext context)
-			: base (context)
+			: base(context)
 		{
 		}
 
@@ -22,9 +22,7 @@ namespace CanonnApi.Web.Services.RuinSites
 
 		protected override void MapValues(RuinSite source, RuinSite target)
 		{
-			target.BodyId = source.BodyId;
-			target.Latitude = source.Latitude;
-			target.Longitude = source.Longitude;
+			target.LocationId = source.LocationId;
 			target.RuintypeId = source.RuintypeId;
 		}
 
@@ -33,7 +31,8 @@ namespace CanonnApi.Web.Services.RuinSites
 			var siteTask = RuinsContext
 				.RuinSite
 				.AsNoTracking()
-				.Include(rs => rs.Body.System)
+				.Include(rs => rs.Location.Body)
+				.Include(rs => rs.Location.System)
 				.SingleAsync(s => s.Id == siteId);
 
 			var obeliskGroupTask = RuinsContext
@@ -67,16 +66,15 @@ namespace CanonnApi.Web.Services.RuinSites
 
 			var result = new RuinSiteWithObeliskData(await siteTask)
 			{
-				Body = null,  // prevent cyclic reference in serializable data, and we don't need the actual body instance here
+				Location = null, // prevent cyclic reference in serializable data, and we don't need the actual location instance here
 			};
 
 			// prevent cyclic reference in data:
-
 			var availableGroups = new HashSet<int>(await availableObeliskGroupsTask);
 			result.ObeliskGroups.AddRange((await obeliskGroupTask).Select(og => new ObeliskGroupWithActiveState(og) { Active = availableGroups.Contains(og.Id) }));
 
 			var activeObelisks = new HashSet<int>(await activeObeliskTask);
-			result.Obelisks.AddRange((await obeliskTasks).Select(o => new ObeliskWithActiveState(o) { Active = activeObelisks.Contains(o.Id) } ));
+			result.Obelisks.AddRange((await obeliskTasks).Select(o => new ObeliskWithActiveState(o) { Active = activeObelisks.Contains(o.Id) }));
 
 			return result;
 		}
@@ -196,7 +194,8 @@ namespace CanonnApi.Web.Services.RuinSites
 				.ToImmutableHashSet();
 
 			return await RuinsContext.RuinSite
-				.Include(site => site.Body.System)
+				.Include(site => site.Location.Body)
+				.Include(site => site.Location.System)
 				.Include(site => site.Ruintype)
 				.Where(site => siteIds.Contains(site.Id))
 				.ToListAsync();

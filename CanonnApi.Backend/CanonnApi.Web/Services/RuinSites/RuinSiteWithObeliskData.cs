@@ -5,6 +5,14 @@ namespace CanonnApi.Web.Services.RuinSites
 {
 	public class RuinSiteWithObeliskData : RuinSite
 	{
+		// BACKWARDS COMPATIBILITY
+		// these properties were removed from RuinSite with the POI refactoring, but we need them for the clients
+		public int? BodyId { get; set; }
+		public decimal? Latitude { get; set; }
+		public decimal? Longitude { get; set; }
+		public Body Body { get; set; }
+		// BACKWARDS COMPATIBILITY
+
 		public List<ObeliskWithActiveState> Obelisks { get; set; }
 		public List<ObeliskGroupWithActiveState> ObeliskGroups { get; set; }
 
@@ -21,14 +29,14 @@ namespace CanonnApi.Web.Services.RuinSites
 			: this()
 		{
 			Id = site.Id;
-			BodyId = site.BodyId;
-			Latitude = site.Latitude;
-			Longitude = site.Longitude;
+			BodyId = site.Location.BodyId;
+			Latitude = site.Location.Latitude;
+			Longitude = site.Location.Longitude;
 			RuintypeId = site.RuintypeId;
 			Created = site.Created;
 			Updated = site.Updated;
 
-			Body = site.Body;
+			Body = site.Location.Body;
 			Ruintype = site.Ruintype;
 
 			SelectedBody = Body?.Name;
