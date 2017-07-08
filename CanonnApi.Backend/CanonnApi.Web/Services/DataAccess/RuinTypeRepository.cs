@@ -5,14 +5,14 @@ namespace CanonnApi.Web.Services.DataAccess
 {
 	public class RuinTypeRepository : BaseDataRepository<RuinType>, IRuinTypeRepository
 	{
-		public RuinTypeRepository(RuinsContext context)
+		public RuinTypeRepository(CanonnApiDatabaseContext context)
 			: base(context)
 		{
 		}
 
 		protected override DbSet<RuinType> DbSet()
 		{
-			return RuinsContext.RuinType;
+			return CanonnApiDatabaseContext.RuinType;
 		}
 
 		protected override void MapValues(RuinType source, RuinType target)

@@ -8,14 +8,14 @@ namespace CanonnApi.Web.Services.DataAccess
 {
 	public class ObeliskRepository : BaseDataRepository<Obelisk>, IObeliskRepository
 	{
-		public ObeliskRepository(RuinsContext context)
+		public ObeliskRepository(CanonnApiDatabaseContext context)
 			: base(context)
 		{
 		}
 
 		protected override DbSet<Obelisk> DbSet()
 		{
-			return RuinsContext.Obelisk;
+			return CanonnApiDatabaseContext.Obelisk;
 		}
 
 		protected override void MapValues(Obelisk source, Obelisk target)

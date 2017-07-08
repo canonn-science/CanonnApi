@@ -5,14 +5,14 @@ namespace CanonnApi.Web.Services.DataAccess
 {
 	public class CodexCategoryRepositoy : BaseDataRepository<CodexCategory>, ICodexCategoryRepository
 	{
-		public CodexCategoryRepositoy(RuinsContext context)
+		public CodexCategoryRepositoy(CanonnApiDatabaseContext context)
 			:base(context)
 		{
 		}
 
 		protected override DbSet<CodexCategory> DbSet()
 		{
-			return RuinsContext.CodexCategory;
+			return CanonnApiDatabaseContext.CodexCategory;
 		}
 
 		protected override void MapValues(CodexCategory source, CodexCategory target)

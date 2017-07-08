@@ -7,14 +7,14 @@ namespace CanonnApi.Web.Services.DataAccess
 {
 	public class BodyRepository : BaseDataRepository<Body>, IBodyRepository
 	{ 
-		public BodyRepository(RuinsContext context)
+		public BodyRepository(CanonnApiDatabaseContext context)
 			: base (context)
 		{
 		}
 
 		protected override DbSet<Body> DbSet()
 		{
-			return RuinsContext.Body;
+			return CanonnApiDatabaseContext.Body;
 		}
 
 		protected override void MapValues(Body source, Body target)
@@ -28,7 +28,7 @@ namespace CanonnApi.Web.Services.DataAccess
 
 		public async Task<IEnumerable<Body>> GetAllWithSystems()
 		{
-			return await RuinsContext.Body.Include(b => b.System).ToListAsync();
+			return await CanonnApiDatabaseContext.Body.Include(b => b.System).ToListAsync();
 		}
 	}
 }

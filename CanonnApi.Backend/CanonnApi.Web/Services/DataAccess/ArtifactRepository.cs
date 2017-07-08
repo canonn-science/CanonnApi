@@ -5,14 +5,14 @@ namespace CanonnApi.Web.Services.DataAccess
 {
 	public class ArtifactRepository : BaseDataRepository<Artifact>, IArtifactRepository
 	{ 
-		public ArtifactRepository(RuinsContext context)
+		public ArtifactRepository(CanonnApiDatabaseContext context)
 			: base (context)
 		{
 		}
 
 		protected override DbSet<Artifact> DbSet()
 		{
-			return RuinsContext.Artifact;
+			return CanonnApiDatabaseContext.Artifact;
 		}
 
 		protected override void MapValues(Artifact source, Artifact target)

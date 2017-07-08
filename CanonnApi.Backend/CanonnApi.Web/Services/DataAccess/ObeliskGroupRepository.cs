@@ -5,14 +5,14 @@ namespace CanonnApi.Web.Services.DataAccess
 {
 	public class ObeliskGroupRepository : BaseDataRepository<ObeliskGroup>, IObeliskGroupRepository
 	{
-		public ObeliskGroupRepository(RuinsContext context)
+		public ObeliskGroupRepository(CanonnApiDatabaseContext context)
 			: base(context)
 		{
 		}
 
 		protected override DbSet<ObeliskGroup> DbSet()
 		{
-			return RuinsContext.ObeliskGroup;
+			return CanonnApiDatabaseContext.ObeliskGroup;
 		}
 
 		protected override void MapValues(ObeliskGroup source, ObeliskGroup target)

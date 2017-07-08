@@ -5,14 +5,14 @@ namespace CanonnApi.Web.Services.DataAccess
 {
 	public class SystemRepository : BaseDataRepository<DatabaseModels.System>, ISystemRepository
 	{ 
-		public SystemRepository(RuinsContext context)
+		public SystemRepository(CanonnApiDatabaseContext context)
 			: base (context)
 		{
 		}
 
 		protected override DbSet<DatabaseModels.System> DbSet()
 		{
-			return RuinsContext.System;
+			return CanonnApiDatabaseContext.System;
 		}
 
 		protected override void MapValues(DatabaseModels.System source, DatabaseModels.System target)

@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CanonnApi.Web.DatabaseModels
 {
-	public partial class RuinsContext
+	public partial class CanonnApiDatabaseContext
 	{
-		public RuinsContext(DbContextOptions<RuinsContext> options)
+		public CanonnApiDatabaseContext(DbContextOptions<CanonnApiDatabaseContext> options)
 			: base(options)
 		{ }
 

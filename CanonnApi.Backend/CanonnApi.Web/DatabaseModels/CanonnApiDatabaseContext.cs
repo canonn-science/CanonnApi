@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CanonnApi.Web.DatabaseModels
 {
-    public partial class RuinsContext : DbContext
+    public partial class CanonnApiDatabaseContext : DbContext
     {
         public virtual DbSet<Artifact> Artifact { get; set; }
         public virtual DbSet<Body> Body { get; set; }

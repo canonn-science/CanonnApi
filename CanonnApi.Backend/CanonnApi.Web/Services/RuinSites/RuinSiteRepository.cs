@@ -10,14 +10,14 @@ namespace CanonnApi.Web.Services.RuinSites
 {
 	public class RuinSiteRepository : BaseDataRepository<RuinSite>, IRuinSiteRepository
 	{
-		public RuinSiteRepository(RuinsContext context)
+		public RuinSiteRepository(CanonnApiDatabaseContext context)
 			: base(context)
 		{
 		}
 
 		protected override DbSet<RuinSite> DbSet()
 		{
-			return RuinsContext.RuinSite;
+			return CanonnApiDatabaseContext.RuinSite;
 		}
 
 		protected override void MapValues(RuinSite source, RuinSite target)
@@ -28,21 +28,21 @@ namespace CanonnApi.Web.Services.RuinSites
 
 		public async Task<RuinSiteWithObeliskData> GetForSiteEditor(int siteId)
 		{
-			var siteTask = RuinsContext
+			var siteTask = CanonnApiDatabaseContext
 				.RuinSite
 				.AsNoTracking()
 				.Include(rs => rs.Location.Body)
 				.Include(rs => rs.Location.System)
 				.SingleAsync(s => s.Id == siteId);
 
-			var obeliskGroupTask = RuinsContext
+			var obeliskGroupTask = CanonnApiDatabaseContext
 				.RuinSite
 				.AsNoTracking()
 				.Where(rs => rs.Id == siteId)
 				.SelectMany(rs => rs.Ruintype.ObeliskGroup)
 				.ToListAsync().ConfigureAwait(false);
 
-			var obeliskTasks = RuinsContext
+			var obeliskTasks = CanonnApiDatabaseContext
 				.RuinSite
 				.AsNoTracking()
 				.Where(rs => rs.Id == siteId)
@@ -50,14 +50,14 @@ namespace CanonnApi.Web.Services.RuinSites
 				.SelectMany(og => og.Obelisk)
 				.ToListAsync().ConfigureAwait(false);
 
-			var availableObeliskGroupsTask = RuinsContext
+			var availableObeliskGroupsTask = CanonnApiDatabaseContext
 				.RuinsiteObeliskgroups
 				.AsNoTracking()
 				.Where(rsao => rsao.RuinsiteId == siteId)
 				.Select(rsao => rsao.ObeliskgroupId)
 				.ToListAsync().ConfigureAwait(false);
 
-			var activeObeliskTask = RuinsContext
+			var activeObeliskTask = CanonnApiDatabaseContext
 				.RuinsiteActiveobelisks
 				.AsNoTracking()
 				.Where(rsao => rsao.RuinsiteId == siteId)
@@ -92,7 +92,7 @@ namespace CanonnApi.Web.Services.RuinSites
 
 		public async Task<List<ObeliskGroupWithActiveState>> LoadActiveObeliskGroupsForSite(int siteId)
 		{
-			return await RuinsContext.ObeliskGroup
+			return await CanonnApiDatabaseContext.ObeliskGroup
 				.Include(og => og.RuinsiteObeliskgroups)
 				.Where(og => og.Ruintype.RuinSite.Any(rs => rs.Id == siteId))
 				.Select(og => new ObeliskGroupWithActiveState(og))
@@ -101,7 +101,7 @@ namespace CanonnApi.Web.Services.RuinSites
 
 		public async Task<List<Obelisk>> LoadActiveObelisksForSite(int siteId)
 		{
-			return await RuinsContext.RuinsiteActiveobelisks
+			return await CanonnApiDatabaseContext.RuinsiteActiveobelisks
 				.Include(e => e.Obelisk)
 				.Where(e => e.RuinsiteId == siteId)
 				.Select(e => e.Obelisk)
@@ -110,7 +110,7 @@ namespace CanonnApi.Web.Services.RuinSites
 
 		public async Task<bool> SaveObeliskGroupsForSite(int siteId, IEnumerable<ObeliskGroup> obeliskGroups)
 		{
-			var currentGroups = await RuinsContext.RuinsiteObeliskgroups
+			var currentGroups = await CanonnApiDatabaseContext.RuinsiteObeliskgroups
 				.Include(e => e.Obeliskgroup)
 				.Where(e => e.RuinsiteId == siteId)
 				.ToListAsync();
@@ -124,37 +124,37 @@ namespace CanonnApi.Web.Services.RuinSites
 			// first delete all groups
 			foreach (var group in groupsToDelete)
 			{
-				RuinsContext.RuinsiteObeliskgroups.Remove(group);
+				CanonnApiDatabaseContext.RuinsiteObeliskgroups.Remove(group);
 			}
 
 			// add all groups where we know the id of
 			foreach (var group in groupsToAdd.Where(g => g.Id > 0))
 			{
-				RuinsContext.RuinsiteObeliskgroups.Add(new RuinsiteObeliskgroups() { RuinsiteId = siteId, ObeliskgroupId = group.Id });
+				CanonnApiDatabaseContext.RuinsiteObeliskgroups.Add(new RuinsiteObeliskgroups() { RuinsiteId = siteId, ObeliskgroupId = group.Id });
 			}
 
 			var groupsToAddWithoutId = groupsToAdd.Where(g => g.Id == 0).Select(g => g.Name).ToArray();
 			if (groupsToAddWithoutId.Length > 0)
 			{
 				// for the groups only given by name (not id), we need to fetch the entities first
-				var allGroups = await RuinsContext.ObeliskGroup
+				var allGroups = await CanonnApiDatabaseContext.ObeliskGroup
 					.Where(g => g.Ruintype.RuinSite.Any(s => s.Id == siteId))
 					.ToListAsync();
 
 				foreach (var group in allGroups.Where(g => groupsToAddWithoutId.Contains(g.Name)))
 				{
-					RuinsContext.RuinsiteObeliskgroups.Add(new RuinsiteObeliskgroups() { RuinsiteId = siteId, ObeliskgroupId = group.Id });
+					CanonnApiDatabaseContext.RuinsiteObeliskgroups.Add(new RuinsiteObeliskgroups() { RuinsiteId = siteId, ObeliskgroupId = group.Id });
 				}
 			}
 
-			await RuinsContext.SaveChangesAsync();
+			await CanonnApiDatabaseContext.SaveChangesAsync();
 
 			return true;
 		}
 
 		public async Task<bool> SaveActiveObelisksForSite(int siteId, IEnumerable<Obelisk> obelisks)
 		{
-			var currentActiveObelisks = await RuinsContext.RuinsiteActiveobelisks
+			var currentActiveObelisks = await CanonnApiDatabaseContext.RuinsiteActiveobelisks
 				.Where(e => e.RuinsiteId == siteId)
 				.ToListAsync();
 
@@ -167,23 +167,23 @@ namespace CanonnApi.Web.Services.RuinSites
 			// first delete all groups
 			foreach (var obelisk in obelisksToDelete)
 			{
-				RuinsContext.RuinsiteActiveobelisks.Remove(obelisk);
+				CanonnApiDatabaseContext.RuinsiteActiveobelisks.Remove(obelisk);
 			}
 
 			// add all groups where we know the id of
 			foreach (var obelisk in obelisksToAdd)
 			{
-				RuinsContext.RuinsiteActiveobelisks.Add(new RuinsiteActiveobelisks() { RuinsiteId = siteId, ObeliskId = obelisk.Id });
+				CanonnApiDatabaseContext.RuinsiteActiveobelisks.Add(new RuinsiteActiveobelisks() { RuinsiteId = siteId, ObeliskId = obelisk.Id });
 			}
 
-			await RuinsContext.SaveChangesAsync();
+			await CanonnApiDatabaseContext.SaveChangesAsync();
 
 			return true;
 		}
 
 		public async Task<List<RuinSite>> SearchSitesForData(string categoryName, int entryNumber)
 		{
-			var siteIds = (IEnumerable<int>)await RuinsContext.Obelisk
+			var siteIds = (IEnumerable<int>)await CanonnApiDatabaseContext.Obelisk
 				.Where(o => o.Codexdata.Category.Name == categoryName && o.Codexdata.EntryNumber == entryNumber)
 				.SelectMany(o => o.RuinsiteActiveobelisks)
 				.Select(rsao => rsao.RuinsiteId)
@@ -193,7 +193,7 @@ namespace CanonnApi.Web.Services.RuinSites
 				.Where(id => id < 99997) // exclude reference sites
 				.ToImmutableHashSet();
 
-			return await RuinsContext.RuinSite
+			return await CanonnApiDatabaseContext.RuinSite
 				.Include(site => site.Location.Body)
 				.Include(site => site.Location.System)
 				.Include(site => site.Ruintype)
@@ -203,8 +203,8 @@ namespace CanonnApi.Web.Services.RuinSites
 
 		public override Task<bool> DeleteById(int id)
 		{
-			RuinsContext.RemoveRange(RuinsContext.RuinsiteObeliskgroups.Where(rsog => rsog.RuinsiteId == id));
-			RuinsContext.RemoveRange(RuinsContext.RuinsiteActiveobelisks.Where(rsao => rsao.RuinsiteId == id));
+			CanonnApiDatabaseContext.RemoveRange(CanonnApiDatabaseContext.RuinsiteObeliskgroups.Where(rsog => rsog.RuinsiteId == id));
+			CanonnApiDatabaseContext.RemoveRange(CanonnApiDatabaseContext.RuinsiteActiveobelisks.Where(rsao => rsao.RuinsiteId == id));
 
 			return base.DeleteById(id);
 		}

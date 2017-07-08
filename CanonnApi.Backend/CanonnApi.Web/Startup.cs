@@ -83,10 +83,10 @@ namespace CanonnApi.Web
 			services.AddLogging();
 			services.AddMemoryCache();
 			services.AddAuthorization(authorizationOptions => AddPolicies(authorizationOptions));
-			services.AddDbContext<RuinsContext>(ruinsDbOptions =>
+			services.AddDbContext<CanonnApiDatabaseContext>(canonnDbOptions =>
 			{
-				var connectionString = Configuration.GetSection("connectionStrings:ruinsDb").Value;
-				ruinsDbOptions.UseMySql(connectionString);
+				var connectionString = Configuration.GetSection("connectionStrings:canonnDb").Value;
+				canonnDbOptions.UseMySql(connectionString);
 			});
 
 			services.AddSwaggerGen(swaggerGenOptions =>

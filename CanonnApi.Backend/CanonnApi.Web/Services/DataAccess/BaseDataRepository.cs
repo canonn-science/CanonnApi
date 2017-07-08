@@ -11,11 +11,11 @@ namespace CanonnApi.Web.Services.DataAccess
 	public abstract class BaseDataRepository<T> : IBaseDataRepository<T>
 		 where T : class, IEntity, new()
 	{
-		protected readonly RuinsContext RuinsContext;
+		protected readonly CanonnApiDatabaseContext CanonnApiDatabaseContext;
 
-		protected BaseDataRepository(RuinsContext context)
+		protected BaseDataRepository(CanonnApiDatabaseContext context)
 		{
-			RuinsContext = context ?? throw new ArgumentNullException(nameof(context));
+			CanonnApiDatabaseContext = context ?? throw new ArgumentNullException(nameof(context));
 		}
 
 		protected abstract DbSet<T> DbSet();
@@ -55,7 +55,7 @@ namespace CanonnApi.Web.Services.DataAccess
 			MapValues(value, entry);
 
 			DbSet().Add(entry);
-			await RuinsContext.SaveChangesAsync();
+			await CanonnApiDatabaseContext.SaveChangesAsync();
 
 			return entry;
 		}
@@ -68,7 +68,7 @@ namespace CanonnApi.Web.Services.DataAccess
 			MapValues(value, entry);
 
 			DbSet().Add(entry);
-			await RuinsContext.SaveChangesAsync();
+			await CanonnApiDatabaseContext.SaveChangesAsync();
 
 			return entry;
 		}
@@ -81,7 +81,7 @@ namespace CanonnApi.Web.Services.DataAccess
 
 			MapValues(value, entry);
 
-			await RuinsContext.SaveChangesAsync();
+			await CanonnApiDatabaseContext.SaveChangesAsync();
 
 			return entry;
 		}
@@ -93,7 +93,7 @@ namespace CanonnApi.Web.Services.DataAccess
 
 			try
 			{
-				await RuinsContext.SaveChangesAsync();
+				await CanonnApiDatabaseContext.SaveChangesAsync();
 			}
 			catch (DbUpdateConcurrencyException)
 			{
@@ -105,7 +105,7 @@ namespace CanonnApi.Web.Services.DataAccess
 
 		public virtual async Task<int> SaveChanges()
 		{
-			return await RuinsContext.SaveChangesAsync();
+			return await CanonnApiDatabaseContext.SaveChangesAsync();
 		}
 	}
 }

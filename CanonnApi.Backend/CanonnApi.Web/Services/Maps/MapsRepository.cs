@@ -14,18 +14,18 @@ namespace CanonnApi.Web.Services.Maps
 	{
 		private readonly IConfiguration _configuration;
 		private readonly IMapper _mapper;
-		private readonly RuinsContext _ruinsContext;
+		private readonly CanonnApiDatabaseContext _canonnApiDatabaseContext;
 
-		public MapsRepository(IConfiguration configuration, IMapper mapper, RuinsContext ruinsContext)
+		public MapsRepository(IConfiguration configuration, IMapper mapper, CanonnApiDatabaseContext canonnApiDatabaseContext)
 		{
 			_configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-			_ruinsContext = ruinsContext ?? throw new ArgumentNullException(nameof(ruinsContext));
+			_canonnApiDatabaseContext = canonnApiDatabaseContext ?? throw new ArgumentNullException(nameof(canonnApiDatabaseContext));
 		}
 
 		public async Task<List<MapsSystem>> LoadSitesOverview()
 		{
-			var sitesGraph = await _ruinsContext.RuinSite.Include(rs => rs.Location.System).Include(rs => rs.Ruintype).ToListAsync();
+			var sitesGraph = await _canonnApiDatabaseContext.RuinSite.Include(rs => rs.Location.System).Include(rs => rs.Ruintype).ToListAsync();
 
 			// build resulting structure
 			Dictionary<int, MapsSystem> systems = new Dictionary<int, MapsSystem>();
@@ -54,7 +54,7 @@ namespace CanonnApi.Web.Services.Maps
 
 		public async Task<object> LoadScanData()
 		{
-			var dataGraph = await _ruinsContext.Obelisk
+			var dataGraph = await _canonnApiDatabaseContext.Obelisk
 				.Include(o => o.Codexdata.Artifact)
 				.Include(o => o.Codexdata.Category.Artifact)
 				.Include(o => o.Obeliskgroup.Ruintype)
@@ -159,7 +159,7 @@ namespace CanonnApi.Web.Services.Maps
 
 		private Task<RuinSite> LoadRuinSiteById(int id)
 		{
-			return _ruinsContext.RuinSite
+			return _canonnApiDatabaseContext.RuinSite
 				.Include(r => r.Location.Body)
 				.Include(r => r.Location.System)
 				.Include(r => r.Ruintype)
@@ -168,7 +168,7 @@ namespace CanonnApi.Web.Services.Maps
 
 		private Task<List<ObeliskGroup>> LoadObeliskGroupsForSiteId(int id)
 		{
-			return _ruinsContext.RuinsiteObeliskgroups
+			return _canonnApiDatabaseContext.RuinsiteObeliskgroups
 				.Where(rsog => rsog.RuinsiteId == id)
 				.Select(rsog => rsog.Obeliskgroup)
 				.OrderBy(og => og.Name)
@@ -177,7 +177,7 @@ namespace CanonnApi.Web.Services.Maps
 
 		private async Task<Dictionary<string, HashSet<int>>> LoadActiveObelisksForSite(int id)
 		{
-			var activeObelisks = await _ruinsContext.RuinsiteActiveobelisks
+			var activeObelisks = await _canonnApiDatabaseContext.RuinsiteActiveobelisks
 				.Where(rsao => rsao.RuinsiteId == id)
 				.Select(rsao => new
 				{
