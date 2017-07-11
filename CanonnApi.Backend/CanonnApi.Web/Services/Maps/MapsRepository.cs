@@ -25,7 +25,7 @@ namespace CanonnApi.Web.Services.Maps
 
 		public async Task<List<MapsSystem>> LoadSitesOverview()
 		{
-			var sitesGraph = await _canonnApiDatabaseContext.RuinSite.Include(rs => rs.Location.System).Include(rs => rs.Ruintype).ToListAsync();
+			var sitesGraph = await _canonnApiDatabaseContext.RuinSite.Include(rs => rs.Location.System.Body).Include(rs => rs.Ruintype).ToListAsync();
 
 			// build resulting structure
 			Dictionary<int, MapsSystem> systems = new Dictionary<int, MapsSystem>();
