@@ -37,11 +37,12 @@ namespace CanonnApi.Web.Automapper
 			config.CreateMap<Body, EdsmUpdatedBody>();
 
 			config.CreateMap<CodexCategory, CodexCategoryDto>().ReverseMap();
-
 			config.CreateMap<CodexData, CodexDataDto>().ReverseMap();
 
-			config.CreateMap<Obelisk, ObeliskDto>().ReverseMap();
+			config.CreateMap<Location, LocationDto>().ReverseMap();
+			config.CreateMap<LocationType, LocationTypeDto>().ReverseMap();
 
+			config.CreateMap<Obelisk, ObeliskDto>().ReverseMap();
 			config.CreateMap<ObeliskGroup, ObeliskGroupDto>().ReverseMap();
 
 			config.CreateMap<RuinType, RuinTypeDto>().ReverseMap();

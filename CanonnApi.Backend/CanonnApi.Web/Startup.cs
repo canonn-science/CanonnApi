@@ -152,6 +152,8 @@ namespace CanonnApi.Web
 			// System base data
 			builder.RegisterType<SystemRepository>().AsImplementedInterfaces();
 			builder.RegisterType<BodyRepository>().AsImplementedInterfaces();
+			builder.RegisterType<LocationTypeRepository>().AsImplementedInterfaces();
+			builder.RegisterType<LocationRepository>().AsImplementedInterfaces();
 			// Ruin site data
 			builder.RegisterType<RuinSiteRepository>().AsImplementedInterfaces();
 			builder.RegisterType<MapsRepository>().AsImplementedInterfaces();
