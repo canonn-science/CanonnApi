@@ -8,7 +8,7 @@ namespace CanonnApi.Web.DatabaseModels
 	public partial class CanonnApiDatabaseContext
 	{
 		public CanonnApiDatabaseContext(DbContextOptions<CanonnApiDatabaseContext> options)
-			: base(options)
+			 : base(options)
 		{ }
 
 		private void AmendModel(ModelBuilder modelBuilder)
@@ -38,13 +38,15 @@ namespace CanonnApi.Web.DatabaseModels
 		}
 	}
 
-	public partial class Artifact: IEntity { }
-	public partial class CodexCategory: IEntity { }
-	public partial class CodexData: IEntity { }
-	public partial class ObeliskGroup: IEntity { }
-	public partial class RuinType: IEntity { }
-	public partial class System: IEntity { }
-	public partial class Body: IEntity { }
-	public partial class Obelisk: IEntity { }
-	public partial class RuinSite: IEntity { }
+	public partial class Artifact : IEntity { }
+	public partial class CodexCategory : IEntity { }
+	public partial class CodexData : IEntity { }
+	public partial class Location : IEntity { }
+	public partial class LocationType : IEntity { }
+	public partial class ObeliskGroup : IEntity { }
+	public partial class RuinType : IEntity { }
+	public partial class System : IEntity { }
+	public partial class Body : IEntity { }
+	public partial class Obelisk : IEntity { }
+	public partial class RuinSite : IEntity { }
 }
