@@ -47,10 +47,11 @@ namespace CanonnApi.Web
 
 			Configuration = builder.Build();
 
-			// logging
 			Log.Logger = new LoggerConfiguration()
 				.ReadFrom.Configuration(Configuration)
 				.CreateLogger();
+
+			Log.Information("Starting up...");
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
