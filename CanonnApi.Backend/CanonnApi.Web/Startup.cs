@@ -57,7 +57,7 @@ namespace CanonnApi.Web
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
-			Log.Logger.Information("Configuring services...");
+			Log.Information("Configuring services...");
 
 			// Add framework services.
 			services.AddCors(corsOptions => corsOptions.AddPolicy("default", corsPolicyBuilder =>
@@ -175,7 +175,7 @@ namespace CanonnApi.Web
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime, IOptions<SecretConfiguration> settings)
 		{
 			loggerFactory.AddSerilog();
-			Log.Logger.Information("Configuring http request pipeline: {environment}", new { EnvironmentName = env.EnvironmentName, ApplicationName = env.ApplicationName });
+			Log.Information("Configuring http request pipeline: {environment}", new { EnvironmentName = env.EnvironmentName, ApplicationName = env.ApplicationName });
 
 			if (env.IsDevelopment())
 			{
