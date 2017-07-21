@@ -31,7 +31,8 @@ Please see the getruins.js file for the code, simply copy and paste it into the 
   - Change this URL to match the API URL, you can use the CanonnAPI Beta if you wish but note that the data may not be up to date with the live data.
     - https://api.canonn.technology:8001
 - ruinCoords
-  - If you wish to change the formatting of the Coords simply change the `(' // ')` to whatever you wish such as `(' , ')`
+  - If you wish to change the formatting of the Coords 
+    - Simply change the `(' // ')` to whatever you wish such as `(' , ')`
   
 It should also be noted you can setup a trigger in the script editor to automatically pull new information based on a time, we currently do not implement any rate limits.
 However please try and keep it to every 30 minutes or more to keep the load down and allow easy and fair access for everyone.
