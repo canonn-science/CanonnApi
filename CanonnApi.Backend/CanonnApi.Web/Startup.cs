@@ -26,6 +26,9 @@ using CanonnApi.Web.Services.DataAccess;
 using CanonnApi.Web.Services.Maps;
 using CanonnApi.Web.Services.RemoteApis;
 using CanonnApi.Web.Services.RuinSites;
+#if AUTOMATEDTESTS
+using Microsoft.IdentityModel.Tokens;
+#endif
 
 namespace CanonnApi.Web
 {
@@ -133,21 +136,6 @@ namespace CanonnApi.Web
 			return new AutofacServiceProvider(ApplicationContainer);
 		}
 
-		private void AddPolicies(AuthorizationOptions authorizationOptions)
-		{
-			// currently we rely on policies - one for each permission. More dynamically would be cool,
-			// but that's quite some magic or tons of effort required, so that'll do for now...
-			var permissions = GetPermissions();
-			foreach (var permission in permissions)
-			{
-				authorizationOptions.AddPolicy(permission, policyBuilder =>
-				{
-					policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
-					policyBuilder.AddRequirements(new HasPermissionRequirement(permission));
-				});
-			}
-		}
-
 		private void RegisterAutofacDependencies(ContainerBuilder builder)
 		{
 			builder.RegisterInstance(Configuration).AsImplementedInterfaces();
@@ -182,16 +170,12 @@ namespace CanonnApi.Web
 				app.UseDeveloperExceptionPage();
 			}
 
-			app.UseCors("default");
-
 			SecretConfiguration secretConfiguration = settings.Value;
-			app.UseJwtBearerAuthentication(new JwtBearerOptions()
-			{
-				Audience = secretConfiguration.Audience,
-				Authority = $"https://{secretConfiguration.ClientDomain}/",
-			});
+
+			app.UseJwtBearerAuthentication(GetBearerOptions(secretConfiguration));
 
 			app.UseMiddleware<HttpErrorHandleMiddleware>();
+			app.UseCors("default");
 			app.UseMvc();
 
 			app.UseSwagger(swaggerOptions =>
@@ -203,6 +187,7 @@ namespace CanonnApi.Web
 			{
 				swaggerUiOptions.RoutePrefix = "docs";
 				swaggerUiOptions.SwaggerEndpoint("swagger/v1/swagger.json", "Canonn API v1");
+
 				swaggerUiOptions.ConfigureOAuth2(secretConfiguration.ClientId, secretConfiguration.ClientSecret,
 					secretConfiguration.ClientDomain, "Canonn API",
 					additionalQueryStringParameters: new { audience = secretConfiguration.Audience });
@@ -212,6 +197,51 @@ namespace CanonnApi.Web
 			appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 			// Ensure container and dependencies are cleaned up accordingly
 			appLifetime.ApplicationStopped.Register(ApplicationContainer.Dispose);
+		}
+
+		private JwtBearerOptions GetBearerOptions(SecretConfiguration secretConfiguration)
+		{
+#if !AUTOMATEDTESTS
+			var options = new JwtBearerOptions()
+			{
+				Audience = secretConfiguration.Audience,
+				Authority = $"https://{secretConfiguration.ClientDomain}/",
+			};
+#else
+			// WARNING!!!! When this code is used, ANY token will be accepted without validation.
+
+			var options = new JwtBearerOptions()
+			{
+				Audience = secretConfiguration.Audience,
+				TokenValidationParameters = new TokenValidationParameters()
+				{
+					ValidateActor = false,
+					ValidateAudience = false,
+					ValidateIssuer = false,
+					ValidateIssuerSigningKey = false,
+					ValidateLifetime = false,
+				},
+			};
+
+			options.SecurityTokenValidators.Clear();
+			options.SecurityTokenValidators.Add(new NonValidationSecurityTokenValidator());
+#endif
+
+			return options;
+		}
+
+		private void AddPolicies(AuthorizationOptions authorizationOptions)
+		{
+			// currently we rely on policies - one for each permission. More dynamically would be cool,
+			// but that's quite some magic or tons of effort required, so that'll do for now...
+			foreach (var permission in GetPermissions())
+			{
+				authorizationOptions.AddPolicy(permission, policyBuilder =>
+				{
+					policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+					policyBuilder.AddRequirements(new HasPermissionRequirement(permission));
+				});
+			}
 		}
 
 		private IEnumerable<string> GetPermissions()
@@ -235,6 +265,6 @@ namespace CanonnApi.Web
 				"delete:systemdata",
 			};
 		}
-	}
 
+	}
 }
