@@ -1,0 +1,900 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Canonn API Tests",
+		"_postman_id": "c3b6977d-33b0-f981-0f73-14c1c304d115",
+		"description": "Collection containing test calls for the Canonn API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tests 000 ClientConfiguration",
+			"description": "",
+			"item": [
+				{
+					"name": "Get client configuration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"",
+									"tests['ClientConfiguration has \"clientId\"'] = typeof jsonData.clientId === 'string';",
+									"tests['ClientConfiguration has \"domain\"'] = typeof jsonData.domain === 'string';",
+									"tests['ClientConfiguration has \"apiVersion\"'] = typeof jsonData.apiVersion === 'string';",
+									"tests['ClientConfiguration has \"audience\"'] = typeof jsonData.audience === 'string';",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/clientconfiguration",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Fetches the client configuration from the API"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tests 010 Stellar/Systems",
+			"description": "",
+			"item": [
+				{
+					"name": "Get all systems",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"tests['Got at least one system'] = jsonData.length >= 1;",
+									"",
+									"for (var i = 0; i < jsonData.length; i++) {",
+									"    let data = jsonData[i];",
+									"    ",
+									"    // mandatory fields",
+									"    tests[`System ${i} has \"id\"`] = typeof data.id === 'number';",
+									"    tests[`System ${i} has \"name\"`] = typeof data.name === 'string';",
+									"    tests[`System ${i} has \"created\"`] = typeof data.created === 'string';",
+									"    tests[`System ${i} has \"updated\"`] = typeof data.updated === 'string';",
+									"",
+									"    // optional fields",
+									"    tests[`System ${i} has \"edsmExtId\"`] = typeof data.edsmExtId !== 'undefined';",
+									"    tests[`System ${i} has \"eddbExtId\"`] = typeof data.eddbExtId !== 'undefined';",
+									"    tests[`System ${i} has \"edsmCoordX\"`] = typeof data.edsmCoordX !== 'undefined';",
+									"    tests[`System ${i} has \"edsmCoordY\"`] = typeof data.edsmCoordY !== 'undefined';",
+									"    tests[`System ${i} has \"edsmCoordZ\"`] = typeof data.edsmCoordZ !== 'undefined';",
+									"    tests[`System ${i} has \"edsmCoordUpdated\"`] = typeof data.edsmCoordUpdated !== 'undefined';",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/stellar/systems",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get one system by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"tests['Id is id of requested object'] = jsonData.id === 1;",
+									"",
+									"// mandatory fields",
+									"tests['System \"Id\" is id of requested object'] = jsonData.id === 1;",
+									"tests[`System has \"name\"`] = typeof jsonData.name === 'string';",
+									"tests[`System has \"created\"`] = typeof jsonData.created === 'string';",
+									"tests[`System has \"updated\"`] = typeof jsonData.updated === 'string';",
+									"",
+									"// optional fields",
+									"tests[`System has \"edsmExtId\"`] = typeof jsonData.edsmExtId !== 'undefined';",
+									"tests[`System has \"eddbExtId\"`] = typeof jsonData.eddbExtId !== 'undefined';",
+									"tests[`System has \"edsmCoordX\"`] = typeof jsonData.edsmCoordX !== 'undefined';",
+									"tests[`System has \"edsmCoordY\"`] = typeof jsonData.edsmCoordY !== 'undefined';",
+									"tests[`System has \"edsmCoordZ\"`] = typeof jsonData.edsmCoordZ !== 'undefined';",
+									"tests[`System has \"edsmCoordUpdated\"`] = typeof jsonData.edsmCoordUpdated !== 'undefined';",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/stellar/systems/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new system",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"",
+									"// store ID",
+									"postman.setEnvironmentVariable('new_system_id', jsonData.id);",
+									"",
+									"tests[`Returned element has correct name`] = jsonData.name === 'My Test System';",
+									"",
+									"// mandatory fields",
+									"tests[`System has \"created\"`] = typeof jsonData.created === 'string';",
+									"tests[`System has \"updated\"`] = typeof jsonData.updated === 'string';",
+									"",
+									"// optional fields",
+									"tests[`System has \"edsmExtId\" with initial set value`] = jsonData.edsmExtId === 1;",
+									"tests[`System has \"eddbExtId\" with initial set value`] = jsonData.eddbExtId === null;",
+									"tests[`System has \"edsmCoordX\" with initial null value`] = jsonData.edsmCoordX === null;",
+									"tests[`System has \"edsmCoordY\" with initial null value`] = jsonData.edsmCoordY === null;",
+									"tests[`System has \"edsmCoordZ\" with initial null vale`] = jsonData.edsmCoordZ === null;",
+									"tests[`System has \"edsmCoordUpdated\" with initial null value`] = jsonData.edsmCoordUpdated === null;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/stellar/systems",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"My Test System\",\n\t\"edsmExtId\": 1,\n\t\"edsmCoordX\": 1,\n\t\"edsmCoordY\": 1,\n\t\"edsmCoordZ\": 1\n}\n"
+						},
+						"description": ""
+					},
+					"response": [
+						{
+							"id": "1c798931-f29d-4953-a756-c110e0be1d20",
+							"name": "response",
+							"originalRequest": {
+								"url": "http://localhost:52685/v1/ruinsites/searchdata/",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"enabled": true,
+										"description": "The mime type of this content"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Culture\": [1,2],\r\n  \"Technology\": [1, 2]\r\n}"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "Access-Control-Allow-Origin",
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"description": ""
+								},
+								{
+									"name": "Content-Type",
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"description": ""
+								},
+								{
+									"name": "Date",
+									"key": "Date",
+									"value": "Fri, 19 May 2017 17:22:24 GMT",
+									"description": ""
+								},
+								{
+									"name": "Server",
+									"key": "Server",
+									"value": "Kestrel",
+									"description": ""
+								},
+								{
+									"name": "Transfer-Encoding",
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"responseTime": "2201",
+							"body": "{\"Culture\":{\"1\":[{\"id\":3,\"bodyId\":3,\"latitude\":29.4200,\"longitude\":-59.5400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":7,\"bodyId\":6,\"latitude\":46.0700,\"longitude\":-171.3300,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":12,\"bodyId\":9,\"latitude\":-15.0842,\"longitude\":-102.9397,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":22,\"bodyId\":10,\"latitude\":0.6600,\"longitude\":-36.9200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":38,\"bodyId\":21,\"latitude\":-31.6400,\"longitude\":150.7600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":43,\"bodyId\":23,\"latitude\":-18.2300,\"longitude\":0.2700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":50,\"bodyId\":26,\"latitude\":-19.5500,\"longitude\":-1.9400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":52,\"bodyId\":28,\"latitude\":-18.4224,\"longitude\":65.5005,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":60,\"bodyId\":32,\"latitude\":19.0100,\"longitude\":-100.9600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":104,\"bodyId\":49,\"latitude\":-49.9900,\"longitude\":-129.9900,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":106,\"bodyId\":49,\"latitude\":-15.4300,\"longitude\":-175.0800,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":108,\"bodyId\":51,\"latitude\":46.1400,\"longitude\":57.7400,\"ruintypeId\":1,\"created\":\"2017-04-08T09:53:35\",\"updated\":\"2017-04-08T09:56:04\"},{\"id\":109,\"bodyId\":51,\"latitude\":-13.1500,\"longitude\":146.2600,\"ruintypeId\":1,\"created\":\"2017-04-08T09:54:40\",\"updated\":\"2017-04-08T09:56:06\"},{\"id\":111,\"bodyId\":52,\"latitude\":-22.2036,\"longitude\":-26.8074,\"ruintypeId\":1,\"created\":\"2017-04-08T09:56:43\",\"updated\":\"2017-04-08T09:56:43\"},{\"id\":122,\"bodyId\":67,\"latitude\":-72.5800,\"longitude\":120.7700,\"ruintypeId\":1,\"created\":\"2017-04-13T09:18:12\",\"updated\":\"2017-04-13T09:18:12\"},{\"id\":125,\"bodyId\":70,\"latitude\":34.7380,\"longitude\":17.8180,\"ruintypeId\":1,\"created\":\"2017-04-13T09:20:21\",\"updated\":\"2017-04-13T09:20:21\"},{\"id\":126,\"bodyId\":70,\"latitude\":25.6330,\"longitude\":21.5750,\"ruintypeId\":1,\"created\":\"2017-04-14T21:14:10\",\"updated\":\"2017-04-14T21:14:10\"},{\"id\":137,\"bodyId\":78,\"latitude\":20.5000,\"longitude\":-125.8600,\"ruintypeId\":1,\"created\":\"2017-04-17T08:24:42\",\"updated\":\"2017-04-17T08:24:42\"}],\"2\":[{\"id\":3,\"bodyId\":3,\"latitude\":29.4200,\"longitude\":-59.5400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":7,\"bodyId\":6,\"latitude\":46.0700,\"longitude\":-171.3300,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":13,\"bodyId\":10,\"latitude\":-30.5400,\"longitude\":-24.2000,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":35,\"bodyId\":20,\"latitude\":-6.3400,\"longitude\":130.6700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":43,\"bodyId\":23,\"latitude\":-18.2300,\"longitude\":0.2700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":44,\"bodyId\":24,\"latitude\":28.8065,\"longitude\":-51.8289,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":50,\"bodyId\":26,\"latitude\":-19.5500,\"longitude\":-1.9400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":51,\"bodyId\":26,\"latitude\":-36.7800,\"longitude\":20.0200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":52,\"bodyId\":28,\"latitude\":-18.4224,\"longitude\":65.5005,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":54,\"bodyId\":28,\"latitude\":-17.0825,\"longitude\":-54.7755,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":60,\"bodyId\":32,\"latitude\":19.0100,\"longitude\":-100.9600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":65,\"bodyId\":34,\"latitude\":44.5700,\"longitude\":-20.0600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":86,\"bodyId\":42,\"latitude\":11.3000,\"longitude\":-154.2000,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":90,\"bodyId\":44,\"latitude\":-26.7190,\"longitude\":-148.3720,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":101,\"bodyId\":47,\"latitude\":-41.8041,\"longitude\":-43.9197,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":112,\"bodyId\":52,\"latitude\":20.6142,\"longitude\":73.4632,\"ruintypeId\":1,\"created\":\"2017-04-08T02:57:06\",\"updated\":\"2017-04-08T09:57:10\"},{\"id\":125,\"bodyId\":70,\"latitude\":34.7380,\"longitude\":17.8180,\"ruintypeId\":1,\"created\":\"2017-04-13T09:20:21\",\"updated\":\"2017-04-13T09:20:21\"},{\"id\":126,\"bodyId\":70,\"latitude\":25.6330,\"longitude\":21.5750,\"ruintypeId\":1,\"created\":\"2017-04-14T21:14:10\",\"updated\":\"2017-04-14T21:14:10\"},{\"id\":137,\"bodyId\":78,\"latitude\":20.5000,\"longitude\":-125.8600,\"ruintypeId\":1,\"created\":\"2017-04-17T08:24:42\",\"updated\":\"2017-04-17T08:24:42\"}]},\"Technology\":{\"1\":[{\"id\":11,\"bodyId\":8,\"latitude\":31.8800,\"longitude\":-100.0500,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":12,\"bodyId\":9,\"latitude\":-15.0842,\"longitude\":-102.9397,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":23,\"bodyId\":14,\"latitude\":65.9181,\"longitude\":-128.5455,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":29,\"bodyId\":17,\"latitude\":-20.3200,\"longitude\":-133.6400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":35,\"bodyId\":20,\"latitude\":-6.3400,\"longitude\":130.6700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":38,\"bodyId\":21,\"latitude\":-31.6400,\"longitude\":150.7600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":43,\"bodyId\":23,\"latitude\":-18.2300,\"longitude\":0.2700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":44,\"bodyId\":24,\"latitude\":28.8065,\"longitude\":-51.8289,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":47,\"bodyId\":25,\"latitude\":9.2000,\"longitude\":-130.0600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":48,\"bodyId\":26,\"latitude\":-31.4700,\"longitude\":-44.5200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":50,\"bodyId\":26,\"latitude\":-19.5500,\"longitude\":-1.9400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":51,\"bodyId\":26,\"latitude\":-36.7800,\"longitude\":20.0200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":52,\"bodyId\":28,\"latitude\":-18.4224,\"longitude\":65.5005,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":54,\"bodyId\":28,\"latitude\":-17.0825,\"longitude\":-54.7755,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":63,\"bodyId\":33,\"latitude\":-18.9000,\"longitude\":105.0700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":66,\"bodyId\":34,\"latitude\":-30.5000,\"longitude\":-13.6000,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":73,\"bodyId\":37,\"latitude\":10.1834,\"longitude\":69.4547,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":88,\"bodyId\":43,\"latitude\":-28.9000,\"longitude\":163.1600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":98,\"bodyId\":46,\"latitude\":-2.7700,\"longitude\":-39.3600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":106,\"bodyId\":49,\"latitude\":-15.4300,\"longitude\":-175.0800,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":108,\"bodyId\":51,\"latitude\":46.1400,\"longitude\":57.7400,\"ruintypeId\":1,\"created\":\"2017-04-08T09:53:35\",\"updated\":\"2017-04-08T09:56:04\"},{\"id\":109,\"bodyId\":51,\"latitude\":-13.1500,\"longitude\":146.2600,\"ruintypeId\":1,\"created\":\"2017-04-08T09:54:40\",\"updated\":\"2017-04-08T09:56:06\"},{\"id\":112,\"bodyId\":52,\"latitude\":20.6142,\"longitude\":73.4632,\"ruintypeId\":1,\"created\":\"2017-04-08T02:57:06\",\"updated\":\"2017-04-08T09:57:10\"},{\"id\":125,\"bodyId\":70,\"latitude\":34.7380,\"longitude\":17.8180,\"ruintypeId\":1,\"created\":\"2017-04-13T09:20:21\",\"updated\":\"2017-04-13T09:20:21\"},{\"id\":126,\"bodyId\":70,\"latitude\":25.6330,\"longitude\":21.5750,\"ruintypeId\":1,\"created\":\"2017-04-14T21:14:10\",\"updated\":\"2017-04-14T21:14:10\"},{\"id\":133,\"bodyId\":77,\"latitude\":21.0057,\"longitude\":-173.5362,\"ruintypeId\":1,\"created\":\"2017-04-17T08:18:07\",\"updated\":\"2017-04-17T08:18:07\"},{\"id\":137,\"bodyId\":78,\"latitude\":20.5000,\"longitude\":-125.8600,\"ruintypeId\":1,\"created\":\"2017-04-17T08:24:42\",\"updated\":\"2017-04-17T08:24:42\"},{\"id\":144,\"bodyId\":89,\"latitude\":-7.5576,\"longitude\":-68.1405,\"ruintypeId\":1,\"created\":\"2017-04-27T11:49:14\",\"updated\":\"2017-05-01T13:21:11\"}],\"2\":[{\"id\":11,\"bodyId\":8,\"latitude\":31.8800,\"longitude\":-100.0500,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":12,\"bodyId\":9,\"latitude\":-15.0842,\"longitude\":-102.9397,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":29,\"bodyId\":17,\"latitude\":-20.3200,\"longitude\":-133.6400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":35,\"bodyId\":20,\"latitude\":-6.3400,\"longitude\":130.6700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":38,\"bodyId\":21,\"latitude\":-31.6400,\"longitude\":150.7600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":42,\"bodyId\":23,\"latitude\":-27.1500,\"longitude\":-7.2900,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":43,\"bodyId\":23,\"latitude\":-18.2300,\"longitude\":0.2700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":44,\"bodyId\":24,\"latitude\":28.8065,\"longitude\":-51.8289,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":48,\"bodyId\":26,\"latitude\":-31.4700,\"longitude\":-44.5200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":51,\"bodyId\":26,\"latitude\":-36.7800,\"longitude\":20.0200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":52,\"bodyId\":28,\"latitude\":-18.4224,\"longitude\":65.5005,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":54,\"bodyId\":28,\"latitude\":-17.0825,\"longitude\":-54.7755,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":63,\"bodyId\":33,\"latitude\":-18.9000,\"longitude\":105.0700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":88,\"bodyId\":43,\"latitude\":-28.9000,\"longitude\":163.1600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":97,\"bodyId\":46,\"latitude\":-14.1000,\"longitude\":42.5400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":98,\"bodyId\":46,\"latitude\":-2.7700,\"longitude\":-39.3600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":101,\"bodyId\":47,\"latitude\":-41.8041,\"longitude\":-43.9197,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":122,\"bodyId\":67,\"latitude\":-72.5800,\"longitude\":120.7700,\"ruintypeId\":1,\"created\":\"2017-04-13T09:18:12\",\"updated\":\"2017-04-13T09:18:12\"},{\"id\":126,\"bodyId\":70,\"latitude\":25.6330,\"longitude\":21.5750,\"ruintypeId\":1,\"created\":\"2017-04-14T21:14:10\",\"updated\":\"2017-04-14T21:14:10\"},{\"id\":137,\"bodyId\":78,\"latitude\":20.5000,\"longitude\":-125.8600,\"ruintypeId\":1,\"created\":\"2017-04-17T08:24:42\",\"updated\":\"2017-04-17T08:24:42\"},{\"id\":144,\"bodyId\":89,\"latitude\":-7.5576,\"longitude\":-68.1405,\"ruintypeId\":1,\"created\":\"2017-04-27T11:49:14\",\"updated\":\"2017-05-01T13:21:11\"}]}}"
+						}
+					]
+				},
+				{
+					"name": "Update system with PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"",
+									"tests['Returned element has updated name'] = jsonData.name === 'Brmpft';",
+									"tests['Returned element has updated eddb id'] = jsonData.eddbExtId === 2;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/stellar/systems/{{new_system_id}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Brmpft\",\n  \"eddbExtId\": 2\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update system with PATCH",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"",
+									"tests['Returned element has updated name'] = jsonData.name === 'Test2';",
+									"tests['Returned element has explicitely deleted edsmId'] = jsonData.edsmExtId === null;",
+									"tests['Returned element has implicitely deleted eddbId'] = jsonData.eddbExtId === null;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/stellar/systems/{{new_system_id}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test2\",\n  \"edsmExtId\": null\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete new system",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/stellar/systems/{{new_system_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete new system is not okay a second time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 404'] = responseCode.code === 404;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/stellar/systems/{{new_system_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete existing system is not okay when delete: is missing from token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 403'] = responseCode.code === 403;",
+									"",
+									"postman.setEnvironmentVariable(\"new_system_id\", null);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/stellar/systems/{{new_system_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token_noDeletePerms}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tests 020 Artifacts",
+			"description": "",
+			"item": [
+				{
+					"name": "Get all artifacts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"tests['Got at least one artifact'] = jsonData.length >= 1;",
+									"",
+									"for (var i = 0; i < jsonData.length; i++) {",
+									"    let data = jsonData[i];",
+									"    ",
+									"    // mandatory fields",
+									"    tests[`Artifact ${i} has \"id\"`] = typeof data.id === 'number';",
+									"    tests[`Artifact ${i} has \"name\"`] = typeof data.name === 'string';",
+									"    tests[`Artifact ${i} has \"created\"`] = typeof data.created === 'string';",
+									"    tests[`Artifact ${i} has \"updated\"`] = typeof data.updated === 'string';",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/artifacts",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get one artifact by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"",
+									"tests['Artifact \"Id\" is id of requested object'] = jsonData.id === 1;",
+									"tests[`Artifact has \"name\"`] = typeof jsonData.name === 'string';",
+									"tests[`Artifact has \"created\"`] = typeof jsonData.created === 'string';",
+									"tests[`Artifact has \"updated\"`] = typeof jsonData.updated === 'string';",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/artifacts/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new artifact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"tests['Returned element has correct name'] = jsonData.name === 'Test';",
+									"",
+									"postman.setEnvironmentVariable('new_artifact_id', jsonData.id);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/artifacts/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Test\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": [
+						{
+							"id": "95e5cc6d-ab08-4f12-9d64-f12d396bf0ae",
+							"name": "response",
+							"originalRequest": {
+								"url": "http://localhost:52685/v1/ruinsites/searchdata/",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"enabled": true,
+										"description": "The mime type of this content"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Culture\": [1,2],\r\n  \"Technology\": [1, 2]\r\n}"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "Access-Control-Allow-Origin",
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"description": ""
+								},
+								{
+									"name": "Content-Type",
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"description": ""
+								},
+								{
+									"name": "Date",
+									"key": "Date",
+									"value": "Fri, 19 May 2017 17:22:24 GMT",
+									"description": ""
+								},
+								{
+									"name": "Server",
+									"key": "Server",
+									"value": "Kestrel",
+									"description": ""
+								},
+								{
+									"name": "Transfer-Encoding",
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"responseTime": "2201",
+							"body": "{\"Culture\":{\"1\":[{\"id\":3,\"bodyId\":3,\"latitude\":29.4200,\"longitude\":-59.5400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":7,\"bodyId\":6,\"latitude\":46.0700,\"longitude\":-171.3300,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":12,\"bodyId\":9,\"latitude\":-15.0842,\"longitude\":-102.9397,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":22,\"bodyId\":10,\"latitude\":0.6600,\"longitude\":-36.9200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":38,\"bodyId\":21,\"latitude\":-31.6400,\"longitude\":150.7600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":43,\"bodyId\":23,\"latitude\":-18.2300,\"longitude\":0.2700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":50,\"bodyId\":26,\"latitude\":-19.5500,\"longitude\":-1.9400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":52,\"bodyId\":28,\"latitude\":-18.4224,\"longitude\":65.5005,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":60,\"bodyId\":32,\"latitude\":19.0100,\"longitude\":-100.9600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":104,\"bodyId\":49,\"latitude\":-49.9900,\"longitude\":-129.9900,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":106,\"bodyId\":49,\"latitude\":-15.4300,\"longitude\":-175.0800,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":108,\"bodyId\":51,\"latitude\":46.1400,\"longitude\":57.7400,\"ruintypeId\":1,\"created\":\"2017-04-08T09:53:35\",\"updated\":\"2017-04-08T09:56:04\"},{\"id\":109,\"bodyId\":51,\"latitude\":-13.1500,\"longitude\":146.2600,\"ruintypeId\":1,\"created\":\"2017-04-08T09:54:40\",\"updated\":\"2017-04-08T09:56:06\"},{\"id\":111,\"bodyId\":52,\"latitude\":-22.2036,\"longitude\":-26.8074,\"ruintypeId\":1,\"created\":\"2017-04-08T09:56:43\",\"updated\":\"2017-04-08T09:56:43\"},{\"id\":122,\"bodyId\":67,\"latitude\":-72.5800,\"longitude\":120.7700,\"ruintypeId\":1,\"created\":\"2017-04-13T09:18:12\",\"updated\":\"2017-04-13T09:18:12\"},{\"id\":125,\"bodyId\":70,\"latitude\":34.7380,\"longitude\":17.8180,\"ruintypeId\":1,\"created\":\"2017-04-13T09:20:21\",\"updated\":\"2017-04-13T09:20:21\"},{\"id\":126,\"bodyId\":70,\"latitude\":25.6330,\"longitude\":21.5750,\"ruintypeId\":1,\"created\":\"2017-04-14T21:14:10\",\"updated\":\"2017-04-14T21:14:10\"},{\"id\":137,\"bodyId\":78,\"latitude\":20.5000,\"longitude\":-125.8600,\"ruintypeId\":1,\"created\":\"2017-04-17T08:24:42\",\"updated\":\"2017-04-17T08:24:42\"}],\"2\":[{\"id\":3,\"bodyId\":3,\"latitude\":29.4200,\"longitude\":-59.5400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":7,\"bodyId\":6,\"latitude\":46.0700,\"longitude\":-171.3300,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":13,\"bodyId\":10,\"latitude\":-30.5400,\"longitude\":-24.2000,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":35,\"bodyId\":20,\"latitude\":-6.3400,\"longitude\":130.6700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":43,\"bodyId\":23,\"latitude\":-18.2300,\"longitude\":0.2700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":44,\"bodyId\":24,\"latitude\":28.8065,\"longitude\":-51.8289,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":50,\"bodyId\":26,\"latitude\":-19.5500,\"longitude\":-1.9400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":51,\"bodyId\":26,\"latitude\":-36.7800,\"longitude\":20.0200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":52,\"bodyId\":28,\"latitude\":-18.4224,\"longitude\":65.5005,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":54,\"bodyId\":28,\"latitude\":-17.0825,\"longitude\":-54.7755,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":60,\"bodyId\":32,\"latitude\":19.0100,\"longitude\":-100.9600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":65,\"bodyId\":34,\"latitude\":44.5700,\"longitude\":-20.0600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":86,\"bodyId\":42,\"latitude\":11.3000,\"longitude\":-154.2000,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":90,\"bodyId\":44,\"latitude\":-26.7190,\"longitude\":-148.3720,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":101,\"bodyId\":47,\"latitude\":-41.8041,\"longitude\":-43.9197,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":112,\"bodyId\":52,\"latitude\":20.6142,\"longitude\":73.4632,\"ruintypeId\":1,\"created\":\"2017-04-08T02:57:06\",\"updated\":\"2017-04-08T09:57:10\"},{\"id\":125,\"bodyId\":70,\"latitude\":34.7380,\"longitude\":17.8180,\"ruintypeId\":1,\"created\":\"2017-04-13T09:20:21\",\"updated\":\"2017-04-13T09:20:21\"},{\"id\":126,\"bodyId\":70,\"latitude\":25.6330,\"longitude\":21.5750,\"ruintypeId\":1,\"created\":\"2017-04-14T21:14:10\",\"updated\":\"2017-04-14T21:14:10\"},{\"id\":137,\"bodyId\":78,\"latitude\":20.5000,\"longitude\":-125.8600,\"ruintypeId\":1,\"created\":\"2017-04-17T08:24:42\",\"updated\":\"2017-04-17T08:24:42\"}]},\"Technology\":{\"1\":[{\"id\":11,\"bodyId\":8,\"latitude\":31.8800,\"longitude\":-100.0500,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":12,\"bodyId\":9,\"latitude\":-15.0842,\"longitude\":-102.9397,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":23,\"bodyId\":14,\"latitude\":65.9181,\"longitude\":-128.5455,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":29,\"bodyId\":17,\"latitude\":-20.3200,\"longitude\":-133.6400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":35,\"bodyId\":20,\"latitude\":-6.3400,\"longitude\":130.6700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":38,\"bodyId\":21,\"latitude\":-31.6400,\"longitude\":150.7600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":43,\"bodyId\":23,\"latitude\":-18.2300,\"longitude\":0.2700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":44,\"bodyId\":24,\"latitude\":28.8065,\"longitude\":-51.8289,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":47,\"bodyId\":25,\"latitude\":9.2000,\"longitude\":-130.0600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":48,\"bodyId\":26,\"latitude\":-31.4700,\"longitude\":-44.5200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":50,\"bodyId\":26,\"latitude\":-19.5500,\"longitude\":-1.9400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":51,\"bodyId\":26,\"latitude\":-36.7800,\"longitude\":20.0200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":52,\"bodyId\":28,\"latitude\":-18.4224,\"longitude\":65.5005,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":54,\"bodyId\":28,\"latitude\":-17.0825,\"longitude\":-54.7755,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":63,\"bodyId\":33,\"latitude\":-18.9000,\"longitude\":105.0700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":66,\"bodyId\":34,\"latitude\":-30.5000,\"longitude\":-13.6000,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":73,\"bodyId\":37,\"latitude\":10.1834,\"longitude\":69.4547,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":88,\"bodyId\":43,\"latitude\":-28.9000,\"longitude\":163.1600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":98,\"bodyId\":46,\"latitude\":-2.7700,\"longitude\":-39.3600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":106,\"bodyId\":49,\"latitude\":-15.4300,\"longitude\":-175.0800,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":108,\"bodyId\":51,\"latitude\":46.1400,\"longitude\":57.7400,\"ruintypeId\":1,\"created\":\"2017-04-08T09:53:35\",\"updated\":\"2017-04-08T09:56:04\"},{\"id\":109,\"bodyId\":51,\"latitude\":-13.1500,\"longitude\":146.2600,\"ruintypeId\":1,\"created\":\"2017-04-08T09:54:40\",\"updated\":\"2017-04-08T09:56:06\"},{\"id\":112,\"bodyId\":52,\"latitude\":20.6142,\"longitude\":73.4632,\"ruintypeId\":1,\"created\":\"2017-04-08T02:57:06\",\"updated\":\"2017-04-08T09:57:10\"},{\"id\":125,\"bodyId\":70,\"latitude\":34.7380,\"longitude\":17.8180,\"ruintypeId\":1,\"created\":\"2017-04-13T09:20:21\",\"updated\":\"2017-04-13T09:20:21\"},{\"id\":126,\"bodyId\":70,\"latitude\":25.6330,\"longitude\":21.5750,\"ruintypeId\":1,\"created\":\"2017-04-14T21:14:10\",\"updated\":\"2017-04-14T21:14:10\"},{\"id\":133,\"bodyId\":77,\"latitude\":21.0057,\"longitude\":-173.5362,\"ruintypeId\":1,\"created\":\"2017-04-17T08:18:07\",\"updated\":\"2017-04-17T08:18:07\"},{\"id\":137,\"bodyId\":78,\"latitude\":20.5000,\"longitude\":-125.8600,\"ruintypeId\":1,\"created\":\"2017-04-17T08:24:42\",\"updated\":\"2017-04-17T08:24:42\"},{\"id\":144,\"bodyId\":89,\"latitude\":-7.5576,\"longitude\":-68.1405,\"ruintypeId\":1,\"created\":\"2017-04-27T11:49:14\",\"updated\":\"2017-05-01T13:21:11\"}],\"2\":[{\"id\":11,\"bodyId\":8,\"latitude\":31.8800,\"longitude\":-100.0500,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":12,\"bodyId\":9,\"latitude\":-15.0842,\"longitude\":-102.9397,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":29,\"bodyId\":17,\"latitude\":-20.3200,\"longitude\":-133.6400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":35,\"bodyId\":20,\"latitude\":-6.3400,\"longitude\":130.6700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":38,\"bodyId\":21,\"latitude\":-31.6400,\"longitude\":150.7600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":42,\"bodyId\":23,\"latitude\":-27.1500,\"longitude\":-7.2900,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":43,\"bodyId\":23,\"latitude\":-18.2300,\"longitude\":0.2700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":44,\"bodyId\":24,\"latitude\":28.8065,\"longitude\":-51.8289,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":48,\"bodyId\":26,\"latitude\":-31.4700,\"longitude\":-44.5200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":51,\"bodyId\":26,\"latitude\":-36.7800,\"longitude\":20.0200,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":52,\"bodyId\":28,\"latitude\":-18.4224,\"longitude\":65.5005,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":54,\"bodyId\":28,\"latitude\":-17.0825,\"longitude\":-54.7755,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":63,\"bodyId\":33,\"latitude\":-18.9000,\"longitude\":105.0700,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":88,\"bodyId\":43,\"latitude\":-28.9000,\"longitude\":163.1600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":97,\"bodyId\":46,\"latitude\":-14.1000,\"longitude\":42.5400,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":98,\"bodyId\":46,\"latitude\":-2.7700,\"longitude\":-39.3600,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":101,\"bodyId\":47,\"latitude\":-41.8041,\"longitude\":-43.9197,\"ruintypeId\":1,\"created\":\"2017-03-19T20:59:31\",\"updated\":\"2017-03-19T20:59:31\"},{\"id\":122,\"bodyId\":67,\"latitude\":-72.5800,\"longitude\":120.7700,\"ruintypeId\":1,\"created\":\"2017-04-13T09:18:12\",\"updated\":\"2017-04-13T09:18:12\"},{\"id\":126,\"bodyId\":70,\"latitude\":25.6330,\"longitude\":21.5750,\"ruintypeId\":1,\"created\":\"2017-04-14T21:14:10\",\"updated\":\"2017-04-14T21:14:10\"},{\"id\":137,\"bodyId\":78,\"latitude\":20.5000,\"longitude\":-125.8600,\"ruintypeId\":1,\"created\":\"2017-04-17T08:24:42\",\"updated\":\"2017-04-17T08:24:42\"},{\"id\":144,\"bodyId\":89,\"latitude\":-7.5576,\"longitude\":-68.1405,\"ruintypeId\":1,\"created\":\"2017-04-27T11:49:14\",\"updated\":\"2017-05-01T13:21:11\"}]}}"
+						}
+					]
+				},
+				{
+					"name": "Update artifact with PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"tests['Returned element has updated name'] = jsonData.name === 'Brmpft';",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/artifacts/{{new_artifact_id}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Brmpft\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update artifact with PATCH",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"tests['Returned element has updated name'] = jsonData.name === 'Test2';",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/artifacts/{{new_artifact_id}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test2\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get new artifact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"tests['Entry has correct name'] = jsonData.name === 'Test2';",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/artifacts/{{new_artifact_id}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete new artifact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/artifacts/{{new_artifact_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete new artifact is not okay a second time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 404'] = responseCode.code === 404;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/artifacts/{{new_artifact_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete existing artifact is not okay when delete:codexdata is missing from token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 403'] = responseCode.code === 403;",
+									"",
+									"postman.setEnvironmentVariable(\"new_artifact_id\", null);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/artifacts/{{new_artifact_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token_noDeletePerms}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tests 100 Ruin maps",
+			"description": "",
+			"item": [
+				{
+					"name": "GET maps/systemoverview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"tests['Got at least one system'] = jsonData.length >= 1;",
+									"",
+									"for (var i = 0; i < jsonData.length; i++) {",
+									"    let data = jsonData[i];",
+									"    ",
+									"    // mandatory properties",
+									"    tests[`System ${i} has \"systemId\"`] = typeof data.systemId === 'number';",
+									"    tests[`System ${i} has \"systemName\"`] = typeof data.systemName === 'string';",
+									"    tests[`System ${i} has \"ruins\"`] = typeof data.ruins === 'object' && typeof data.ruins.length !== 'undefined';",
+									"    ",
+									"    for (var j = 0; j < data.ruins.length; j++) {",
+									"        let ruin = data.ruins[j];",
+									"    ",
+									"        // mandatory properties",
+									"        tests[`System ${i} ruin ${j} has \"ruinId\"`] = typeof ruin.ruinId === 'number';",
+									"        tests[`System ${i} ruin ${j} has \"bodyName\"`] = typeof ruin.bodyName === 'string';",
+									"        tests[`System ${i} ruin ${j} has \"ruinTypeName\"`] = typeof ruin.ruinTypeName === 'string';",
+									"        tests[`System ${i} ruin ${j} has \"coordinates\"`] = typeof ruin.coordinates === 'object';",
+									"        tests[`System ${i} ruin ${j} has \"coordinates[lat]\"`] = typeof ruin.coordinates[0] === 'number';",
+									"        tests[`System ${i} ruin ${j} has \"coordinates[long]\"`] = typeof ruin.coordinates[1] === 'number'; ",
+									"        ",
+									"        // optional properties",
+									"        tests[`System ${i} ruin ${j} has \"edsmBodyLink\"`] = typeof ruin.edsmBodyLink !== 'undefined';",
+									"    }",
+									"    ",
+									"    // optional properties",
+									"    tests[`System ${i} has \"edsmSystemLink\"`] = typeof data.edsmSystemLink !== 'undefined';",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/maps/systemoverview",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Retrieves the system overview for the ruin mal"
+					},
+					"response": []
+				},
+				{
+					"name": "GET maps/scandata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests['Status code is 200'] = responseCode.code === 200;",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"",
+									"for (var ruinTypeName in jsonData) {",
+									"    if (jsonData.hasOwnProperty(ruinTypeName)) {",
+									"        let ruinType = jsonData[ruinTypeName];",
+									"        ",
+									"        tests[`Ruintype '${ruinTypeName}' is available`] = typeof ruinType === 'object';",
+									"        ",
+									"    }",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:52685/v1/maps/scandata",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Fetches the scan data information (obelisks with data) for the ruins map "
+					},
+					"response": []
+				},
+				{
+					"name": "GET /maps/ruininfo/{id}",
+					"request": {
+						"url": "http://localhost:52685/v1/maps/ruininfo/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Fetches detail information for a ruin site"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
