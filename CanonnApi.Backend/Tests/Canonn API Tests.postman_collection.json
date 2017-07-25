@@ -187,7 +187,7 @@
 					},
 					"response": [
 						{
-							"id": "1c798931-f29d-4953-a756-c110e0be1d20",
+							"id": "f2899722-f0b0-4df5-b2ee-ee4db4d33b55",
 							"name": "response",
 							"originalRequest": {
 								"url": "http://localhost:52685/v1/ruinsites/searchdata/",
@@ -259,8 +259,8 @@
 									"",
 									"const jsonData = JSON.parse(responseBody);",
 									"",
-									"tests['Returned element has updated name'] = jsonData.name === 'Brmpft';",
-									"tests['Returned element has updated eddb id'] = jsonData.eddbExtId === 2;",
+									"tests['System has updated name'] = jsonData.name === 'Brmpft';",
+									"tests['System has updated eddb id'] = jsonData.eddbExtId === 2;",
 									""
 								]
 							}
@@ -301,9 +301,9 @@
 									"",
 									"const jsonData = JSON.parse(responseBody);",
 									"",
-									"tests['Returned element has updated name'] = jsonData.name === 'Test2';",
-									"tests['Returned element has explicitely deleted edsmId'] = jsonData.edsmExtId === null;",
-									"tests['Returned element has implicitely deleted eddbId'] = jsonData.eddbExtId === null;",
+									"tests['System has updated name'] = jsonData.name === 'Test2';",
+									"tests['System element has explicitely deleted edsmId'] = jsonData.edsmExtId === null;",
+									"tests['System element has implicitely deleted eddbId'] = jsonData.eddbExtId === null;",
 									""
 								]
 							}
@@ -504,7 +504,7 @@
 									"tests['Status code is 200'] = responseCode.code === 200;",
 									"",
 									"const jsonData = JSON.parse(responseBody);",
-									"tests['Returned element has correct name'] = jsonData.name === 'Test';",
+									"tests['Artifact has correct name'] = jsonData.name === 'Test';",
 									"",
 									"postman.setEnvironmentVariable('new_artifact_id', jsonData.id);",
 									""
@@ -535,7 +535,7 @@
 					},
 					"response": [
 						{
-							"id": "95e5cc6d-ab08-4f12-9d64-f12d396bf0ae",
+							"id": "1343be3e-d32b-4153-8e7c-3f02ae78d055",
 							"name": "response",
 							"originalRequest": {
 								"url": "http://localhost:52685/v1/ruinsites/searchdata/",
@@ -606,7 +606,7 @@
 									"tests['Status code is 200'] = responseCode.code === 200;",
 									"",
 									"const jsonData = JSON.parse(responseBody);",
-									"tests['Returned element has updated name'] = jsonData.name === 'Brmpft';",
+									"tests['Artifact has updated name'] = jsonData.name === 'Brmpft';",
 									""
 								]
 							}
@@ -646,7 +646,7 @@
 									"tests['Status code is 200'] = responseCode.code === 200;",
 									"",
 									"const jsonData = JSON.parse(responseBody);",
-									"tests['Returned element has updated name'] = jsonData.name === 'Test2';",
+									"tests['Artifact has updated name'] = jsonData.name === 'Test2';",
 									""
 								]
 							}
@@ -686,7 +686,7 @@
 									"tests['Status code is 200'] = responseCode.code === 200;",
 									"",
 									"const jsonData = JSON.parse(responseBody);",
-									"tests['Entry has correct name'] = jsonData.name === 'Test2';",
+									"tests['Artifact has correct name'] = jsonData.name === 'Test2';",
 									""
 								]
 							}
@@ -864,9 +864,7 @@
 									"for (var ruinTypeName in jsonData) {",
 									"    if (jsonData.hasOwnProperty(ruinTypeName)) {",
 									"        let ruinType = jsonData[ruinTypeName];",
-									"        ",
 									"        tests[`Ruintype '${ruinTypeName}' is available`] = typeof ruinType === 'object';",
-									"        ",
 									"    }",
 									"}",
 									""
