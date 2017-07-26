@@ -20,7 +20,7 @@ if ($buildCounter) {
 if ($branch -eq "master") {
 	$suffix = "";
 } else {
-	$suffix = "-$branch$buildCounter"
+	$suffix = "-$branch$buildCounter".replace('/','-')
 }
 
 $versionString = "$version$suffix";
